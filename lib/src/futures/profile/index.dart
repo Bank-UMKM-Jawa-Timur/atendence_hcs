@@ -7,47 +7,57 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  bool _isBiomatric = false;
+  var tes = true;
+  void onBiomatric() {
+    setState(() {
+      _isBiomatric = !_isBiomatric;
+    });
+  }
+
+  List listProfile = [
+    {
+      'title': "Profile Saya",
+      'icon': const Icon(
+        CommunityMaterialIcons.account_outline,
+        color: cGrey_900,
+        size: 23,
+      ),
+      'icon_left': null,
+      'route': RouteNames.profileSaya,
+    },
+    {
+      'title': "Ubah Password",
+      'icon': const Icon(
+        CommunityMaterialIcons.lock_reset,
+        color: cGrey_900,
+        size: 23,
+      ),
+      'icon_left': null,
+      'route': RouteNames.ubahPassword,
+    },
+    {
+      'title': "Autentikasi Biomatriks",
+      'icon': const Icon(
+        CommunityMaterialIcons.fingerprint,
+        color: cGrey_900,
+        size: 23,
+      ),
+      'icon_left': '1',
+      'route': null,
+    },
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    List listProfile = [
-      {
-        'title': "Profile Saya",
-        'icon': const Icon(
-          CommunityMaterialIcons.account_outline,
-          color: cGrey_900,
-          size: 23,
-        ),
-        'icon_left': null,
-        'route': RouteNames.profileSaya,
-      },
-      {
-        'title': "Ubah Password",
-        'icon': const Icon(
-          CommunityMaterialIcons.lock_reset,
-          color: cGrey_900,
-          size: 23,
-        ),
-        'icon_left': null,
-        'route': RouteNames.ubahPassword,
-      },
-      {
-        'title': "Autentikasi Biomatriks",
-        'icon': const Icon(
-          CommunityMaterialIcons.fingerprint,
-          color: cGrey_900,
-          size: 23,
-        ),
-        'icon_left': Switch(
-          activeColor: Colors.red[900],
-          value: true,
-          onChanged: (bool value) async {},
-        ),
-        'route': null,
-      },
-    ];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -145,7 +155,13 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
                 listProfile[index]!['icon_left'] != null
-                    ? listProfile[index]!['icon_left']
+                    ? Switch(
+                        activeColor: Colors.red[900],
+                        value: _isBiomatric,
+                        onChanged: (bool value) async {
+                          onBiomatric();
+                        },
+                      )
                     : const Icon(
                         CommunityMaterialIcons.chevron_right,
                         size: 29,

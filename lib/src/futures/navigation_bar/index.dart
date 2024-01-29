@@ -1,5 +1,6 @@
 import 'package:atendence_hcs/src/futures/incoming/index.dart';
 import 'package:atendence_hcs/src/futures/profile/index.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/index.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
     IncomingPage(),
     IncomingPage(),
     IncomingPage(),
-    Text(
-      'Laporan',
-      style: optionStyle,
-    ),
+    SlipGaji(),
     ProfilePage(),
   ];
 
@@ -67,7 +65,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
             ),
             BottomNavigationBarItem(
               icon: Icon(CommunityMaterialIcons.file_document_outline),
-              label: 'Laporan',
+              label: 'Slip Gaji',
             ),
             BottomNavigationBarItem(
               icon: Icon(CommunityMaterialIcons.account_outline, size: 25),

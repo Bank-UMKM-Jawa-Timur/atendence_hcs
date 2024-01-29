@@ -34,7 +34,6 @@ dependencies:
   get: ^4.6.5
   http: ^1.1.0
   intl: ^0.18.1
-  flutter_svg: ^2.0.9
   community_material_icon: ^5.9.55
 
 dev_dependencies:
