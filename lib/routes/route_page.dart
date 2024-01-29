@@ -1,3 +1,6 @@
+import 'package:atendence_hcs/src/futures/profile/profile_saya/index.dart';
+import 'package:atendence_hcs/src/futures/profile/ubah_password/index.dart';
+
 import '../src/futures/navigation_bar/index.dart';
 import '../routes/route_name.dart';
 import '../src/futures/home/index.dart';
@@ -12,5 +15,7 @@ class RoutePages {
       name: RouteNames.navigationBar,
       page: () => const BottomNavigationBarHome(),
     ),
+    GetPage(name: RouteNames.profileSaya, page: () => const ProfileSaya()),
+    GetPage(name: RouteNames.ubahPassword, page: () => const UbahPassword()),
   ];
 }

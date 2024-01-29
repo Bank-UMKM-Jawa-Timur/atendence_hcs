@@ -1,6 +1,8 @@
-import '../utils/components/colors.dart';
-import '../utils/components/space.dart';
-import '../utils/components/theme_status_bar.dart';
+import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/utils/components/alert.dart';
+import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ class ProfilePage extends StatelessWidget {
           size: 23,
         ),
         'icon_left': null,
+        'route': RouteNames.profileSaya,
       },
       {
         'title': "Ubah Password",
@@ -28,6 +31,7 @@ class ProfilePage extends StatelessWidget {
           size: 23,
         ),
         'icon_left': null,
+        'route': RouteNames.ubahPassword,
       },
       {
         'title': "Autentikasi Biomatriks",
@@ -38,9 +42,10 @@ class ProfilePage extends StatelessWidget {
         ),
         'icon_left': Switch(
           activeColor: Colors.red[900],
-          value: false,
+          value: true,
           onChanged: (bool value) async {},
         ),
+        'route': null,
       },
     ];
     return Scaffold(
@@ -80,7 +85,7 @@ class ProfilePage extends StatelessWidget {
               _bottomEditProfile(),
               spaceHeight(30),
               _listProfile(listProfile),
-              _logout()
+              _logout(context)
             ],
           ),
         ),
@@ -94,65 +99,76 @@ class ProfilePage extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return Container(
-          width: Get.width,
-          height: 70,
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: cGrey_400,
-                width: 1,
+        return InkWell(
+          highlightColor: Colors.white,
+          splashColor: cPrimary_100,
+          onTap: () {
+            var route = listProfile[index]['route'];
+            route != null ? Get.toNamed(route) : '';
+          },
+          child: Container(
+            width: Get.width,
+            height: 70,
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: cGrey_400,
+                  width: 1,
+                ),
               ),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: cGrey_300,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: cGrey_300,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(50),
+                        ),
+                      ),
+                      child: listProfile[index]['icon'],
+                    ),
+                    spaceWidth(10),
+                    Text(
+                      listProfile[index]['title'],
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
                       ),
                     ),
-                    child: listProfile[index]['icon'],
-                  ),
-                  spaceWidth(10),
-                  Text(
-                    listProfile[index]['title'],
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              listProfile[index]!['icon_left'] != null
-                  ? listProfile[index]!['icon_left']
-                  : const Icon(
-                      CommunityMaterialIcons.chevron_right,
-                      size: 29,
-                      color: cGrey_900,
-                    )
-            ],
+                  ],
+                ),
+                listProfile[index]!['icon_left'] != null
+                    ? listProfile[index]!['icon_left']
+                    : const Icon(
+                        CommunityMaterialIcons.chevron_right,
+                        size: 29,
+                        color: cGrey_900,
+                      )
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _logout() {
+  Widget _logout(context) {
     return SizedBox(
       width: Get.width,
       height: 70,
       child: InkWell(
         highlightColor: Colors.white,
-        onTap: () {},
+        onTap: () {
+          showAlertDialogIos(context);
+          // showAlertDialogAndroid(context);
+        },
         child: Row(
           children: [
             Container(
