@@ -1,10 +1,10 @@
-import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/home/index.dart';
+import 'package:atendence_hcs/http/controllers/auth/login_controller.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +14,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  LoginController loginController = Get.put(LoginController());
   bool _obscureText = true;
   void _toggle() {
     setState(() {
@@ -76,11 +77,11 @@ class _LoginState extends State<Login> {
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
                     ),
                     spaceHeight(30),
-                    InputEmail(),
+                    _inputEmail(),
                     spaceHeight(20),
-                    InputPassword(),
+                    _inputPassword(),
                     spaceHeight(20),
-                    ButtomLogin()
+                    _buttomLogin()
                   ],
                 ),
               ),
@@ -91,7 +92,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget ButtomLogin() {
+  Widget _buttomLogin() {
     return Row(
       children: [
         Expanded(
@@ -99,16 +100,19 @@ class _LoginState extends State<Login> {
           child: SizedBox(
             height: 50,
             child: ElevatedButton.icon(
-              onPressed: () {
-                Get.offAllNamed(RouteNames.navigationBar);
-                // Get.offAll(HomePage());
-              },
+              onPressed: loginController.isLoading.value
+                  ? null
+                  : () async {
+                      // loginController.login();
+                      // var sprefs = await SharedPreferences.getInstance();
+                      // sprefs.getString("nip");
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
               ),
-              label: const Text(
-                "Login",
-                style: TextStyle(
+              label: Text(
+                loginController.isLoading.value ? "Loading..." : "Login",
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
                 ),
@@ -151,7 +155,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget InputPassword() {
+  Widget _inputPassword() {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -168,6 +172,7 @@ class _LoginState extends State<Login> {
         autocorrect: false,
         maxLines: 1,
         obscureText: _obscureText,
+        controller: loginController.passwordController,
         enableSuggestions: false,
         decoration: InputDecoration(
           hintText: "Masukkan Password",
@@ -194,7 +199,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget InputEmail() {
+  Widget _inputEmail() {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -207,10 +212,11 @@ class _LoginState extends State<Login> {
           color: const Color(0xFFE3E2E2),
         ),
       ),
-      child: const TextField(
+      child: TextField(
         autocorrect: false,
         maxLines: 1,
-        decoration: InputDecoration(
+        controller: loginController.emailNipController,
+        decoration: const InputDecoration(
           hintText: "Masukkan Email atau Nip",
           hintStyle: TextStyle(color: cGrey_700),
           border: InputBorder.none,
