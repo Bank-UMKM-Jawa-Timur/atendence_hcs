@@ -1,8 +1,11 @@
+import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +56,200 @@ class _SlipGajiState extends State<SlipGaji> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: empty,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          children: [
+            spaceHeight(25),
+            _cardPersion(),
+            spaceHeight(25),
+            InkWell(
+              onTap: () {
+                Get.toNamed(RouteNames.rincianSlipGaji);
+              },
+              child: _cardSlipGaji(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _cardSlipGaji() {
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: cGrey_400, width: 2),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Gaji",
+                      style: textBoldDarkMedium,
+                    ),
+                    Icon(
+                      CommunityMaterialIcons.currency_usd_circle_outline,
+                      size: 22,
+                      color: cGreen_900,
+                    )
+                  ],
+                ),
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Bulan",
+                      style: textGreyMedium,
+                    ),
+                    Text(
+                      "Januari",
+                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Nominal",
+                      style: textGreyMedium,
+                    ),
+                    Text(
+                      "14.000.000",
+                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
+                const Text(
+                  "Total Potongan",
+                  style: textBoldDarkMedium,
+                ),
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Nominal",
+                      style: textGreyMedium,
+                    ),
+                    Text(
+                      "1.000.000",
+                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
+              ],
+            ),
+          ),
+          Container(width: Get.width, height: 2, color: cGrey_400),
+          Container(
+            width: Get.width,
+            decoration: const BoxDecoration(
+              color: cGrey_300,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(6),
+                bottomRight: Radius.circular(6),
+              ),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Gaji Bersih",
+                    style: textBoldGreyLarge,
+                  ),
+                  Text(
+                    "Rp 12.900.000",
+                    style: textBoldDarkLarge,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _cardPersion() {
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: cGrey_400, width: 2),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Dasha Taran",
+                      style: textBoldDarkLarge,
+                    ),
+                    spaceHeight(5),
+                    const Text(
+                      "Service Advisor",
+                      style: textBoldGreyMedium,
+                    ),
+                  ],
+                ),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/icon/female.jpg'),
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Container(
+                width: Get.width,
+                height: 2,
+                color: cGrey_400,
+              ),
+            ),
+            const Text(
+              "Slip Gaji Tahun 2024",
+              style: textBoldGreyMedium,
+            ),
+          ],
+        ),
+      ),
     );
   }
 

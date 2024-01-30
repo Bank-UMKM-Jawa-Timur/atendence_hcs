@@ -120,26 +120,29 @@ class _LoginState extends State<Login> {
         spaceWidth(5),
         Expanded(
           flex: 1,
-          child: Container(
-            height: 50,
-            decoration: const BoxDecoration(
-              color: cPrimary,
-              borderRadius: BorderRadius.all(
-                Radius.circular(4),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: cGrey_700,
-                  blurRadius: 2,
-                  offset: Offset(0, 1), // Shadow position
+          child: InkWell(
+            onTap: () {},
+            child: Container(
+              height: 50,
+              decoration: const BoxDecoration(
+                color: cPrimary,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
                 ),
-              ],
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.fingerprint,
-                color: Colors.white,
-                size: 35,
+                boxShadow: [
+                  BoxShadow(
+                    color: cGrey_700,
+                    blurRadius: 2,
+                    offset: Offset(0, 1), // Shadow position
+                  ),
+                ],
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.fingerprint,
+                  color: Colors.white,
+                  size: 35,
+                ),
               ),
             ),
           ),

@@ -156,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 listProfile[index]!['icon_left'] != null
                     ? Switch(
-                        activeColor: Colors.red[900],
+                        activeColor: cPrimary,
                         value: _isBiomatric,
                         onChanged: (bool value) async {
                           onBiomatric();

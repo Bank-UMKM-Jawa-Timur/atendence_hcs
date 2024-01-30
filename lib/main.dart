@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import '../src/auth/login.dart';
 import '../routes/route_page.dart';
 import '../src/futures/splash_screen/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await initializeDateFormatting('id_ID', null).then((_) {
+    // DepedencyInjection.init();
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -31,6 +36,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
       defaultTransition: Transition.size,
       debugShowCheckedModeBanner: false,
