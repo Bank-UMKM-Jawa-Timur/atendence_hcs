@@ -1,7 +1,7 @@
 import 'dart:async';
+import '../http/controllers/auth/login_check.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import '../src/auth/login.dart';
 import '../routes/route_page.dart';
 import '../src/futures/splash_screen/index.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
 
   void spash() {
     Timer(const Duration(seconds: 3), () {
-      Get.offAll(const Login());
+      LoginCheck().check();
     });
   }
 

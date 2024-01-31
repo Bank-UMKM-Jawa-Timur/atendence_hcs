@@ -3,12 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showAlertDialogIos(BuildContext context) {
+void showAlertDialogIos(
+  BuildContext context,
+  CupertinoDialogAction aksi,
+  String title,
+  String msg,
+) {
   showCupertinoModalPopup<void>(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text('Alert'),
-      content: const Text('Proceed with destructive action?'),
+      title: Text(title),
+      content: Text(msg),
       actions: <CupertinoDialogAction>[
         CupertinoDialogAction(
           isDefaultAction: true,
@@ -17,13 +22,7 @@ void showAlertDialogIos(BuildContext context) {
           },
           child: const Text('No'),
         ),
-        CupertinoDialogAction(
-          isDestructiveAction: true,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Yes'),
-        ),
+        aksi,
       ],
     ),
   );

@@ -1,3 +1,5 @@
+import 'package:atendence_hcs/src/auth/login.dart';
+
 import '../src/futures/profile/profile_saya/index.dart';
 import '../src/futures/profile/ubah_password/index.dart';
 import '../src/futures/slip_gaji/rincian.dart';
@@ -21,5 +23,6 @@ class RoutePages {
       name: RouteNames.rincianSlipGaji,
       page: () => const RincianSlipGaji(),
     ),
+    GetPage(name: RouteNames.login, page: () => const Login()),
   ];
 }

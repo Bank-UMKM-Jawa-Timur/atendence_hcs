@@ -7,7 +7,7 @@ Widget logoSplashScreen = const Column(
       padding: EdgeInsets.symmetric(horizontal: 40),
       child: SizedBox(
         child: Image(
-          image: AssetImage('assets/icon/splash.png'),
+          image: AssetImage('assets/images/splash.png'),
         ),
       ),
     ),

@@ -1,9 +1,11 @@
+import 'package:atendence_hcs/http/controllers/auth/login_controller.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/alert.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -182,8 +184,22 @@ class _ProfilePageState extends State<ProfilePage> {
       child: InkWell(
         highlightColor: Colors.white,
         onTap: () {
-          showAlertDialogIos(context);
-          // showAlertDialogAndroid(context);
+          if (GetPlatform.isAndroid) {
+            showAlertDialogAndroid(context);
+          } else if (GetPlatform.isIOS) {
+            showAlertDialogIos(
+              context,
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  LoginController().logout();
+                },
+                child: const Text('Yes'),
+              ),
+              "Warning!",
+              "Apakah Kamu ingin logout?",
+            );
+          }
         },
         child: Row(
           children: [

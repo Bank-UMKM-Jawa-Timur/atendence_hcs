@@ -5,6 +5,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -50,7 +51,7 @@ class _LoginState extends State<Login> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Image(
-                    image: AssetImage('assets/icon/login.png'),
+                    image: AssetImage('assets/images/login.png'),
                   ),
                 ),
               ],
@@ -103,9 +104,9 @@ class _LoginState extends State<Login> {
               onPressed: loginController.isLoading.value
                   ? null
                   : () async {
-                      // loginController.login();
-                      // var sprefs = await SharedPreferences.getInstance();
-                      // sprefs.getString("nip");
+                      loginController.login();
+                      var sprefs = await SharedPreferences.getInstance();
+                      print(sprefs.getString("nip"));
                     },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
