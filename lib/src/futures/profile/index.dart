@@ -1,4 +1,5 @@
 import 'package:atendence_hcs/http/controllers/auth/login_controller.dart';
+import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/alert.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -8,6 +9,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,12 +19,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  PrefsController prefsC = Get.put(PrefsController());
+  SharedPreferences? prefs;
   bool _isBiomatric = false;
   var tes = true;
   void onBiomatric() {
     setState(() {
       _isBiomatric = !_isBiomatric;
     });
+  }
+
+  @override
+  void initState() {
+    addPrefs();
+    super.initState();
+  }
+
+  addPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    prefsC.nip.value = "${prefs?.getString("nip")}";
+    prefsC.namaKaryawan.value = "${prefs?.getString("nama_karyawan")}";
+    prefsC.jenisKelamin.value = "${prefs?.getString("jenis_kelamin")}";
+    prefsC.entitasType.value = "${prefs?.getInt("entitas_type")}";
+    prefsC.displayJabatan.value = "${prefs?.getString("display_jabatan")}";
   }
 
   List listProfile = [
@@ -68,40 +87,40 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              spaceHeight(30),
-              _profileImage(),
-              spaceHeight(5),
-              const Text(
-                "Dasha Taran",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+      body: Obx(() => Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  spaceHeight(30),
+                  _profileImage(prefsC.jenisKelamin.value),
+                  spaceHeight(5),
+                  Text(
+                    prefsC.namaKaryawan.value,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  spaceHeight(4),
+                  Text(
+                    prefsC.displayJabatan.value,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: cGrey_700,
+                    ),
+                  ),
+                  spaceHeight(20),
+                  _bottomEditProfile(),
+                  spaceHeight(30),
+                  _listProfile(listProfile),
+                  _logout(context)
+                ],
               ),
-              spaceHeight(4),
-              const Text(
-                "Service Advisor",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: cGrey_700,
-                ),
-              ),
-              spaceHeight(20),
-              _bottomEditProfile(),
-              spaceHeight(30),
-              _listProfile(listProfile),
-              _logout(context)
-            ],
-          ),
-        ),
-      ),
+            ),
+          )),
     );
   }
 
@@ -253,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _profileImage() {
+  Widget _profileImage(String jenisKelamin) {
     return SizedBox(
       width: 120,
       height: 120,
@@ -263,13 +282,17 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               width: 100,
               height: 100,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.amber,
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(50),
                 ),
                 image: DecorationImage(
-                  image: AssetImage('assets/icon/female.jpg'),
+                  image: AssetImage(
+                    jenisKelamin != "Laki-laki"
+                        ? 'assets/icon/female.jpg'
+                        : 'assets/icon/male.jpg',
+                  ),
                 ),
               ),
             ),

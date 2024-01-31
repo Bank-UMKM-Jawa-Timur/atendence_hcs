@@ -1,8 +1,12 @@
+import 'package:atendence_hcs/http/controllers/slip_gaji/slip_gaji_controller.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
+import 'package:atendence_hcs/utils/components/list_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
+import 'package:atendence_hcs/utils/components/my_format_bulan.dart';
+import 'package:atendence_hcs/utils/components/slip_gaji/card_persion.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -17,6 +21,10 @@ class SlipGaji extends StatefulWidget {
 }
 
 class _SlipGajiState extends State<SlipGaji> {
+  ListBulan listBulanC = Get.put(ListBulan());
+  SlipGajiController slipGajiC = Get.put(SlipGajiController());
+  var valueBulan;
+  var dropdownValue;
   @override
   Widget build(BuildContext context) {
     var empty = emtyPage(
@@ -56,21 +64,42 @@ class _SlipGajiState extends State<SlipGaji> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          children: [
-            spaceHeight(25),
-            _cardPersion(),
-            spaceHeight(25),
-            InkWell(
-              onTap: () {
-                Get.toNamed(RouteNames.rincianSlipGaji);
-              },
-              child: _cardSlipGaji(),
-            ),
-          ],
-        ),
+      body: Obx(
+        () => slipGajiC.typeFilter.value
+            ? slipGajiC.isLoading.value
+                ? const Center(
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(
+                        backgroundColor: cPrimary_300,
+                        color: cPrimary,
+                        strokeWidth: 5,
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(
+                      children: [
+                        spaceHeight(25),
+                        cardPersion(
+                          "nama",
+                          "jabatan",
+                          slipGajiC.selectedTahun.value,
+                          "Laki-laki",
+                        ),
+                        spaceHeight(25),
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(RouteNames.rincianSlipGaji);
+                          },
+                          child: _cardSlipGaji(),
+                        ),
+                      ],
+                    ),
+                  )
+            : empty,
       ),
     );
   }
@@ -115,7 +144,8 @@ class _SlipGajiState extends State<SlipGaji> {
                       style: textGreyMedium,
                     ),
                     Text(
-                      "Januari",
+                      FormatBulan()
+                          .formatBulan(slipGajiC.listSlipGaji!.data[0].bulan),
                       style: customTextStyle(FontWeight.w700, 12, cGrey_700),
                     ),
                   ],
@@ -129,7 +159,7 @@ class _SlipGajiState extends State<SlipGaji> {
                       style: textGreyMedium,
                     ),
                     Text(
-                      "14.000.000",
+                      slipGajiC.listSlipGaji!.data[0].gaji.toString(),
                       style: customTextStyle(FontWeight.w700, 12, cGrey_700),
                     ),
                   ],
@@ -189,70 +219,6 @@ class _SlipGajiState extends State<SlipGaji> {
     );
   }
 
-  Widget _cardPersion() {
-    return Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: cGrey_400, width: 2),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Dasha Taran",
-                      style: textBoldDarkLarge,
-                    ),
-                    spaceHeight(5),
-                    const Text(
-                      "Service Advisor",
-                      style: textBoldGreyMedium,
-                    ),
-                  ],
-                ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/icon/female.jpg'),
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                width: Get.width,
-                height: 2,
-                color: cGrey_400,
-              ),
-            ),
-            const Text(
-              "Slip Gaji Tahun 2024",
-              style: textBoldGreyMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Future<dynamic> _showModalButton(BuildContext context, List<String> list) {
     return showModalBottomSheet(
       context: context,
@@ -296,8 +262,9 @@ class _SlipGajiState extends State<SlipGaji> {
                   ),
                 ),
                 spaceHeight(15),
-                selectKaryawan(list),
-                selectYear(list),
+                // selectKaryawan(list),
+                _selectBulan(),
+                selectYear(),
                 spaceHeight(15),
                 _buttonFilter(),
               ],
@@ -305,6 +272,41 @@ class _SlipGajiState extends State<SlipGaji> {
           ),
         );
       },
+    );
+  }
+
+  Padding _selectBulan() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7),
+      child: DropdownButtonFormField<String>(
+        hint: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text('Pilih Bulan'),
+        ),
+        isDense: true,
+        isExpanded: true,
+        value: valueBulan,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(8),
+          focusedBorder: focusedBorder,
+          enabledBorder: enabledBorder,
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+        onChanged: (String? newValue) {
+          setState(() {
+            valueBulan = newValue!;
+            slipGajiC.selectedBulan.value = newValue;
+          });
+        },
+        items: listBulanC.bulan.map<DropdownMenuItem<String>>((value) {
+          return DropdownMenuItem<String>(
+            value: value['type'],
+            child: Text(value['nama']),
+          );
+        }).toList(),
+      ),
     );
   }
 
@@ -344,8 +346,7 @@ class _SlipGajiState extends State<SlipGaji> {
     );
   }
 
-  Widget selectYear(List<String> list) {
-    String? dropdownValue;
+  Widget selectYear() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7),
       child: DropdownButtonFormField<String>(
@@ -367,6 +368,7 @@ class _SlipGajiState extends State<SlipGaji> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownValue = newValue!;
+            slipGajiC.selectedTahun.value = newValue;
           });
         },
         items: <String>['2024', '2025', '2026']
@@ -385,7 +387,11 @@ class _SlipGajiState extends State<SlipGaji> {
       height: 40,
       width: Get.width,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          // print(slipGajiC.selectedTahun.value);
+          // print(slipGajiC.selectedBulan.value);
+          slipGajiC.filter();
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: cPrimary,
         ),

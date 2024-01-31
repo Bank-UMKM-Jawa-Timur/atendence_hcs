@@ -9,7 +9,7 @@ Widget emtyPage(var title) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Image(
-            image: AssetImage('assets/icon/empty.png'),
+            image: AssetImage('assets/images/empty.png'),
           ),
           Text(
             title,

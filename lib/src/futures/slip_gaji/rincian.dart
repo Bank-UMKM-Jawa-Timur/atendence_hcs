@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/src/pdf/slip_gaji/index.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_shadow.dart';
@@ -54,6 +55,17 @@ class RincianSlipGaji extends StatelessWidget {
     );
   }
 
+  Widget line() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Container(
+        width: Get.width,
+        height: 1,
+        color: cGrey_400,
+      ),
+    );
+  }
+
   Widget _cardDetailKarywan() {
     return SizedBox(
       child: Container(
@@ -91,7 +103,15 @@ class RincianSlipGaji extends StatelessWidget {
                   ),
                 ],
               ),
-              spaceHeight(5),
+              spaceHeight(10),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 5),
+              //   child: Container(
+              //     width: Get.width,
+              //     height: 1,
+              //     color: cGrey_400,
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -113,7 +133,7 @@ class RincianSlipGaji extends StatelessWidget {
                   ),
                 ],
               ),
-              spaceHeight(5),
+              spaceHeight(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -135,7 +155,7 @@ class RincianSlipGaji extends StatelessWidget {
                   ),
                 ],
               ),
-              spaceHeight(5),
+              spaceHeight(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -157,7 +177,7 @@ class RincianSlipGaji extends StatelessWidget {
                   ),
                 ],
               ),
-              spaceHeight(5),
+              spaceHeight(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -179,7 +199,7 @@ class RincianSlipGaji extends StatelessWidget {
                   ),
                 ],
               ),
-              spaceHeight(5),
+              spaceHeight(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -234,7 +254,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -248,7 +268,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -262,7 +282,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -276,7 +296,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -290,7 +310,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -365,7 +385,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -379,7 +399,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -393,7 +413,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -468,7 +488,7 @@ class RincianSlipGaji extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -556,13 +576,15 @@ class RincianSlipGaji extends StatelessWidget {
               ],
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                SlipGajiPdf().downloadSlip();
+              },
               style: ElevatedButton.styleFrom(backgroundColor: cPrimary),
               icon: const Icon(
                 CommunityMaterialIcons.printer,
                 size: 20,
               ),
-              label: const Text("Cetak", style: textBoldLightMedium),
+              label: const Text("Download", style: textBoldLightMedium),
             ),
           ],
         ),
