@@ -9,65 +9,96 @@ Widget cardPersion(String nama, String jabatan, var tahun, var jk) {
     width: Get.width,
     decoration: BoxDecoration(
       color: Colors.white,
-      border: Border.all(color: cGrey_400, width: 2),
+      border: Border.all(color: cGrey_400, width: 1),
       borderRadius: const BorderRadius.all(
         Radius.circular(8),
       ),
     ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    child: Column(
+      children: [
+        Container(
+          width: Get.width,
+          decoration: const BoxDecoration(
+            color: cPrimary,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 10,
+            ),
+            child: Text(
+              "Data Diri",
+              style: customTextStyle(FontWeight.w700, 15, Colors.white),
+            ),
+          ),
+        ),
+        Container(
+          width: Get.width,
+          height: 1,
+          color: cGrey_400,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    nama,
-                    style: textBoldDarkLarge,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nama,
+                        style:
+                            customTextStyle(FontWeight.w600, 14, Colors.black),
+                      ),
+                      spaceHeight(5),
+                      Text(
+                        jabatan,
+                        style: customTextStyle(FontWeight.w600, 12, cGrey_700),
+                      ),
+                    ],
                   ),
-                  spaceHeight(5),
-                  Text(
-                    jabatan,
-                    style: textBoldGreyMedium,
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          jk != "Perempuan"
+                              ? 'assets/icon/male.jpg'
+                              : 'assets/icon/female.jpg',
+                        ),
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      jk != "Perempuan"
-                          ? 'assets/icon/male.jpg'
-                          : 'assets/icon/female.jpg',
-                    ),
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(30),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Container(
+                  width: Get.width,
+                  height: 1,
+                  color: cGrey_400,
                 ),
+              ),
+              Text(
+                "Slip Gaji Tahun $tahun",
+                style: customTextStyle(FontWeight.w600, 12, cGrey_700),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              width: Get.width,
-              height: 2,
-              color: cGrey_400,
-            ),
-          ),
-          Text(
-            "Slip Gaji Tahun $tahun",
-            style: textBoldGreyMedium,
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }

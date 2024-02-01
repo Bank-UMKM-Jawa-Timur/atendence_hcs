@@ -6,6 +6,7 @@ import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/list_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_format_bulan.dart';
+import 'package:atendence_hcs/utils/components/my_format_currency.dart';
 import 'package:atendence_hcs/utils/components/slip_gaji/card_persion.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
@@ -81,15 +82,17 @@ class _SlipGajiState extends State<SlipGaji> {
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         spaceHeight(25),
                         cardPersion(
-                          "nama",
-                          "jabatan",
+                          "Dasha Taran",
+                          "Staf Advisor",
                           slipGajiC.selectedTahun.value,
                           "Laki-laki",
                         ),
-                        spaceHeight(25),
+                        spaceHeight(15),
                         InkWell(
                           onTap: () {
                             Get.toNamed(RouteNames.rincianSlipGaji);
@@ -109,7 +112,7 @@ class _SlipGajiState extends State<SlipGaji> {
       width: Get.width,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: cGrey_400, width: 2),
+        border: Border.all(color: cGrey_400, width: 1),
         borderRadius: const BorderRadius.all(
           Radius.circular(8),
         ),
@@ -135,7 +138,7 @@ class _SlipGajiState extends State<SlipGaji> {
                     )
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -150,7 +153,7 @@ class _SlipGajiState extends State<SlipGaji> {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -164,12 +167,12 @@ class _SlipGajiState extends State<SlipGaji> {
                     ),
                   ],
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 const Text(
                   "Total Potongan",
                   style: textBoldDarkMedium,
                 ),
-                spaceHeight(5),
+                spaceHeight(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -183,31 +186,30 @@ class _SlipGajiState extends State<SlipGaji> {
                     ),
                   ],
                 ),
-                spaceHeight(5),
               ],
             ),
           ),
-          Container(width: Get.width, height: 2, color: cGrey_400),
+          Container(width: Get.width, height: 1, color: cGrey_400),
           Container(
             width: Get.width,
             decoration: const BoxDecoration(
-              color: cGrey_300,
+              color: cGrey_100,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(6),
                 bottomRight: Radius.circular(6),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Total Gaji Bersih",
-                    style: textBoldGreyLarge,
+                    style: customTextStyle(FontWeight.w700, 14, cGrey_700),
                   ),
                   Text(
-                    "Rp 12.900.000",
+                    FormatCurrency.convertToIdr(12900000, 0),
                     style: textBoldDarkLarge,
                   ),
                 ],
