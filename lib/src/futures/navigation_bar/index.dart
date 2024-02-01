@@ -17,10 +17,10 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    IncomingPage(),
-    IncomingPage(),
-    IncomingPage(),
+  static List<Widget> _widgetOptions = <Widget>[
+    commingSoon("Tampilan Home Masih\nDalam Proses Pengembangan!"),
+    commingSoon("Tampilan Jadwal Masih\nDalam Proses Pengembangan!"),
+    commingSoon("Tampilan Permohonan Masih\nDalam Proses Pengembangan!"),
     SlipGaji(),
     ProfilePage(),
   ];

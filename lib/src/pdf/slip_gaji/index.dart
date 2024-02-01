@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,6 +25,8 @@ class SlipGajiPdf {
             children: [
               _buildHeader(image1),
               pw.Divider(color: PdfColors.grey700),
+              pw.SizedBox(height: 10),
+              _rincinaUser(),
               pw.SizedBox(height: 10),
               pw.Divider(color: PdfColors.grey700),
               pw.SizedBox(height: 10),
@@ -86,6 +89,106 @@ class SlipGajiPdf {
     await OpenFile.open(file.path);
   }
 
+  pw.Widget _rincinaUser() {
+    return pw.Row(
+      children: [
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 80,
+                  child: pw.Text('Nip'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('Nip')
+              ],
+            ),
+            pw.SizedBox(height: 5),
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 80,
+                  child: pw.Text('Nama'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('Arshad Arthan Nurrohim')
+              ],
+            ),
+            pw.SizedBox(height: 5),
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 80,
+                  child: pw.Text('No Rekening'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('120398128390')
+              ],
+            ),
+          ],
+        ),
+        pw.SizedBox(width: 40),
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 115,
+                  child: pw.Text('Jabatan'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('Staf Advisor')
+              ],
+            ),
+            pw.SizedBox(height: 5),
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 115,
+                  child: pw.Text('Tanggal Bergabung'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('02 Jani 20220')
+              ],
+            ),
+            pw.SizedBox(height: 5),
+            pw.Row(
+              children: [
+                pw.SizedBox(
+                  width: 115,
+                  child: pw.Text('Lama Kerja'),
+                ),
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(right: 10),
+                  child: pw.Text(':'),
+                ),
+                pw.Text('3 Tahun 6 bulan')
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   pw.Widget _buildHeader(pw.Image image1) {
     return pw.Container(
       margin: const pw.EdgeInsets.only(bottom: 10),
@@ -120,12 +223,41 @@ class SlipGajiPdf {
   }
 
   pw.Widget _buildFooter() {
-    return pw.Container(
-      margin: pw.EdgeInsets.only(top: 10),
-      child: pw.Text(
-        'Terima kasih atas kerjasama Anda!',
-        style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-      ),
+    return pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+      children: [
+        pw.Text(""),
+        pw.Container(
+          padding: const pw.EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+          child: pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.center,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
+            children: [
+              pw.Text(
+                'Kediri, 29 Januari 2024',
+                style: const pw.TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                'Pemimpin Cabang',
+                style: const pw.TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              pw.SizedBox(height: 70),
+              pw.Text(
+                '(Nama Pemimpin Cabang)',
+                style: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 
