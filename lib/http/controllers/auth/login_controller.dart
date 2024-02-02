@@ -52,6 +52,11 @@ class LoginController extends GetxController {
                 'entitas_type', loginSucsess!.data.entitas.type);
             await prefs?.setString(
                 'display_jabatan', loginSucsess!.data.displayJabatan);
+            await prefs?.setString(
+                'tanggal_bergabung', loginSucsess!.data.tanggalBergabung);
+            await prefs?.setString('lama_kerja', loginSucsess!.data.lamaKerja);
+            await prefs?.setString(
+                'no_rekening', loginSucsess!.data.noRekening);
 
             // success
             emailNipController.clear();
@@ -95,6 +100,9 @@ class LoginController extends GetxController {
         prefs?.remove('jenis_kelamin');
         prefs?.remove('entitas_type');
         prefs?.remove('display_jabatan');
+        prefs?.remove('tanggal_bergabung');
+        prefs?.remove('lama_kerja');
+        prefs?.remove('no_rekening');
         prefs?.clear();
         LoginCheck().check();
         snackbarSuccess("Logout Berhasil");

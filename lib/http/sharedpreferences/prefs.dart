@@ -8,6 +8,9 @@ class PrefsController extends GetxController {
   var jenisKelamin = 'null'.obs;
   var entitasType = 'null'.obs;
   var displayJabatan = 'null'.obs;
+  var tanggalBergabung = 'null'.obs;
+  var lamaKerja = 'null'.obs;
+  var noRekening = 'null'.obs;
 
   addPrefs() async {
     prefs = await SharedPreferences.getInstance();
@@ -16,6 +19,8 @@ class PrefsController extends GetxController {
     jenisKelamin.value = "${prefs?.getString("jenis_kelamin")}";
     entitasType.value = "${prefs?.getInt("entitas_type")}";
     displayJabatan.value = "${prefs?.getString("display_jabatan")}";
-    print(nip.value);
+    tanggalBergabung.value = "${prefs?.getString("tanggal_bergabung")}";
+    lamaKerja.value = "${prefs?.getString("lama_kerja")}";
+    noRekening.value = "${prefs?.getString("no_rekening")}";
   }
 }

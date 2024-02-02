@@ -1,9 +1,11 @@
+import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/src/futures/incoming/index.dart';
 import 'package:atendence_hcs/src/futures/profile/index.dart';
 import 'package:atendence_hcs/src/futures/slip_gaji/index.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BottomNavigationBarHome extends StatefulWidget {
   const BottomNavigationBarHome({super.key});
@@ -14,6 +16,7 @@ class BottomNavigationBarHome extends StatefulWidget {
 }
 
 class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
+  PrefsController prefsC = Get.put(PrefsController());
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -26,6 +29,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
   ];
 
   void _onItemTapped(int index) {
+    prefsC.addPrefs();
     setState(() {
       _selectedIndex = index;
     });

@@ -21,7 +21,7 @@ class RoutePages {
     GetPage(name: RouteNames.ubahPassword, page: () => const UbahPassword()),
     GetPage(
       name: RouteNames.rincianSlipGaji,
-      page: () => const RincianSlipGaji(),
+      page: () => RincianSlipGaji(),
     ),
     GetPage(name: RouteNames.login, page: () => const Login()),
   ];

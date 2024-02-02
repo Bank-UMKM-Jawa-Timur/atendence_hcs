@@ -1,37 +1,37 @@
 import 'dart:convert';
 
-ListSlipGajiModel listSlipGajiModelFromJson(String str) =>
-    ListSlipGajiModel.fromJson(json.decode(str));
+RincianSlipGajiModel rincianSlipGajiModelFromJson(String str) =>
+    RincianSlipGajiModel.fromJson(json.decode(str));
 
-String listSlipGajiModelToJson(ListSlipGajiModel data) =>
+String rincianSlipGajiModelToJson(RincianSlipGajiModel data) =>
     json.encode(data.toJson());
 
-class ListSlipGajiModel {
+class RincianSlipGajiModel {
   int status;
   String message;
-  List<Datum> data;
+  Data data;
 
-  ListSlipGajiModel({
+  RincianSlipGajiModel({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory ListSlipGajiModel.fromJson(Map<String, dynamic> json) =>
-      ListSlipGajiModel(
+  factory RincianSlipGajiModel.fromJson(Map<String, dynamic> json) =>
+      RincianSlipGajiModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
       };
 }
 
-class Datum {
+class Data {
   int id;
   int batchId;
   DateTime tanggalInput;
@@ -67,14 +67,16 @@ class Datum {
   int gaji;
   int totalGaji;
   int totalTunjanganLainnya;
+  int tjKhusus;
   int jamsostek;
   int bpjsTk;
   int bpjsKesehatan;
   Potongan potongan;
   int totalDiterima;
   DataList dataList;
+  String terbilang;
 
-  Datum({
+  Data({
     required this.id,
     required this.batchId,
     required this.tanggalInput,
@@ -110,15 +112,17 @@ class Datum {
     required this.gaji,
     required this.totalGaji,
     required this.totalTunjanganLainnya,
+    required this.tjKhusus,
     required this.jamsostek,
     required this.bpjsTk,
     required this.bpjsKesehatan,
     required this.potongan,
     required this.totalDiterima,
     required this.dataList,
+    required this.terbilang,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         batchId: json["batch_id"],
         tanggalInput: DateTime.parse(json["tanggal_input"]),
@@ -154,12 +158,14 @@ class Datum {
         gaji: json["gaji"],
         totalGaji: json["total_gaji"],
         totalTunjanganLainnya: json["total_tunjangan_lainnya"],
+        tjKhusus: json["tj_khusus"],
         jamsostek: json["jamsostek"],
         bpjsTk: json["bpjs_tk"],
         bpjsKesehatan: json["bpjs_kesehatan"],
         potongan: Potongan.fromJson(json["potongan"]),
         totalDiterima: json["total_diterima"],
         dataList: DataList.fromJson(json["data_list"]),
+        terbilang: json["terbilang"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -202,12 +208,14 @@ class Datum {
         "gaji": gaji,
         "total_gaji": totalGaji,
         "total_tunjangan_lainnya": totalTunjanganLainnya,
+        "tj_khusus": tjKhusus,
         "jamsostek": jamsostek,
         "bpjs_tk": bpjsTk,
         "bpjs_kesehatan": bpjsKesehatan,
         "potongan": potongan.toJson(),
         "total_diterima": totalDiterima,
         "data_list": dataList.toJson(),
+        "terbilang": terbilang,
       };
 }
 
@@ -215,31 +223,23 @@ class DataList {
   int totalDiterima;
   int totalPotongan;
   int totalGaji;
-  int bulan;
-  int tahun;
 
   DataList({
     required this.totalDiterima,
     required this.totalPotongan,
     required this.totalGaji,
-    required this.bulan,
-    required this.tahun,
   });
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
         totalDiterima: json["total_diterima"],
         totalPotongan: json["total_potongan"],
         totalGaji: json["total_gaji"],
-        bulan: json["bulan"],
-        tahun: json["tahun"],
       );
 
   Map<String, dynamic> toJson() => {
         "total_diterima": totalDiterima,
         "total_potongan": totalPotongan,
         "total_gaji": totalGaji,
-        "bulan": bulan,
-        "tahun": tahun,
       };
 }
 

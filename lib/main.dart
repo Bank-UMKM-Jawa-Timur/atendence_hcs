@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
-
 import '../http/controllers/auth/login_check.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -31,7 +29,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void spash() {
-    // PrefsController().addPrefs();
     Timer(const Duration(seconds: 3), () {
       LoginCheck().check();
     });

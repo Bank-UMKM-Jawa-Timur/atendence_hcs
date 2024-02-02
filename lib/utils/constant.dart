@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 
 // Utilities
@@ -9,6 +7,7 @@ extension DateTimeExtension on DateTime {
   String dayName() => DateFormat("E", locale).format(this);
   String simpleDate() => DateFormat("yyyy-MM-dd", locale).format(this);
   String fullDate() => DateFormat("d MMM yyyy", locale).format(this);
+  String fullDateAll() => DateFormat("dd MMMM yyyy", locale).format(this);
   String fullDateTime() =>
       DateFormat("E, d MMM yyyy HH:mm", locale).format(this);
   String dateTime() => DateFormat("yyyy-MM-dd HH:mm:ss", locale).format(this);

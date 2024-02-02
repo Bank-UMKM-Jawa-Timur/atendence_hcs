@@ -1,18 +1,34 @@
 import 'dart:io';
+import '../../../src/pdf/slip_gaji/components/build_footer.dart';
+import '../../../http/controllers/slip_gaji/slip_gaji_controller.dart';
+import '../../../src/pdf/slip_gaji/components/build_header.dart';
+import '../../../src/pdf/slip_gaji/components/card_rincian_user.dart';
+import '../../../src/pdf/slip_gaji/components/table_pendapatan.dart';
+import '../../../src/pdf/slip_gaji/components/table_potongan.dart';
+import '../../../src/pdf/slip_gaji/components/table_total_gaji_diterima.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-class SlipGajiPdf {
-  void downloadSlip() async {
+class SlipGajiPdf extends GetxController {
+  SlipGajiController slipGajiC = Get.find<SlipGajiController>();
+
+  void downloadSlip(
+    nip,
+    nama,
+    norek,
+    jabatan,
+    tglGabung,
+    lamaKerja,
+  ) async {
     final img = await rootBundle.load('assets/images/logo.png');
     final imageBytes = img.buffer.asUint8List();
     pw.Image image1 = pw.Image(pw.MemoryImage(imageBytes));
     final pdf = pw.Document();
+    var date = DateTime.now();
 
     // Tambahkan halaman dengan build yang lebih kompleks
     pdf.addPage(
@@ -23,10 +39,10 @@ class SlipGajiPdf {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              _buildHeader(image1),
+              buildHeader(image1),
               pw.Divider(color: PdfColors.grey700),
               pw.SizedBox(height: 10),
-              _rincinaUser(),
+              cardRincinaUser(nip, nama, norek, jabatan, tglGabung, lamaKerja),
               pw.SizedBox(height: 10),
               pw.Divider(color: PdfColors.grey700),
               pw.SizedBox(height: 10),
@@ -36,12 +52,34 @@ class SlipGajiPdf {
                 children: [
                   pw.Expanded(
                     flex: 1,
-                    child: _tablePendapatan(),
+                    child: tablePendapatan(
+                      slipGajiC.rincianSlipGaji!.data.tjKeluarga,
+                      slipGajiC.rincianSlipGaji!.data.tjJabatan,
+                      slipGajiC.rincianSlipGaji!.data.gjPenyesuaian,
+                      slipGajiC.rincianSlipGaji!.data.tjPerumahan,
+                      slipGajiC.rincianSlipGaji!.data.tjTelepon,
+                      slipGajiC.rincianSlipGaji!.data.tjPelaksana,
+                      slipGajiC.rincianSlipGaji!.data.tjKemahalan,
+                      slipGajiC.rincianSlipGaji!.data.tjKesejahteraan,
+                      slipGajiC.rincianSlipGaji!.data.tjTeller,
+                      slipGajiC
+                          .rincianSlipGaji!.data.tjKhusus, // Gaji Pokok Belum
+                      slipGajiC.rincianSlipGaji!.data.gjPokok,
+                      slipGajiC.rincianSlipGaji!.data.dataList.totalGaji,
+                    ),
                   ),
                   pw.SizedBox(width: 20),
                   pw.Expanded(
                     flex: 1,
-                    child: _tablePotongan(),
+                    child: tablePotongan(
+                      slipGajiC.rincianSlipGaji!.data.bpjsTk,
+                      slipGajiC.rincianSlipGaji!.data.potongan.dpp,
+                      slipGajiC.rincianSlipGaji!.data.potongan.kreditKoperasi,
+                      slipGajiC.rincianSlipGaji!.data.potongan.iuranKoperasi,
+                      slipGajiC.rincianSlipGaji!.data.potongan.kreditKoperasi,
+                      slipGajiC.rincianSlipGaji!.data.iuranIk,
+                      slipGajiC.rincianSlipGaji!.data.potongan.totalPotongan,
+                    ),
                   ),
                 ],
               ),
@@ -70,12 +108,13 @@ class SlipGajiPdf {
                   ),
                 ),
               ),
-              _tableTotalGajiDiterima(),
-              // pw.SizedBox(
-              //   width: Get.width,
-              //   child: _tableTotalGajiDiterima(),
-              // ),
-              _buildFooter(),
+              tableTotalGajiDiterima(
+                slipGajiC.rincianSlipGaji!.data.dataList.totalDiterima,
+                slipGajiC.rincianSlipGaji!.data.terbilang,
+              ),
+              pw.SizedBox(height: 10),
+              pw.Text("*) Dicetak dengan HCS"),
+              buildFooter(date),
             ],
           );
         },
@@ -87,275 +126,5 @@ class SlipGajiPdf {
     final file = File(filePath1);
     await file.writeAsBytes(await pdf.save());
     await OpenFile.open(file.path);
-  }
-
-  pw.Widget _rincinaUser() {
-    return pw.Row(
-      children: [
-        pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 80,
-                  child: pw.Text('Nip'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('Nip')
-              ],
-            ),
-            pw.SizedBox(height: 5),
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 80,
-                  child: pw.Text('Nama'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('Arshad Arthan Nurrohim')
-              ],
-            ),
-            pw.SizedBox(height: 5),
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 80,
-                  child: pw.Text('No Rekening'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('120398128390')
-              ],
-            ),
-          ],
-        ),
-        pw.SizedBox(width: 40),
-        pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 115,
-                  child: pw.Text('Jabatan'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('Staf Advisor')
-              ],
-            ),
-            pw.SizedBox(height: 5),
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 115,
-                  child: pw.Text('Tanggal Bergabung'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('02 Jani 20220')
-              ],
-            ),
-            pw.SizedBox(height: 5),
-            pw.Row(
-              children: [
-                pw.SizedBox(
-                  width: 115,
-                  child: pw.Text('Lama Kerja'),
-                ),
-                pw.Padding(
-                  padding: const pw.EdgeInsets.only(right: 10),
-                  child: pw.Text(':'),
-                ),
-                pw.Text('3 Tahun 6 bulan')
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _buildHeader(pw.Image image1) {
-    return pw.Container(
-      margin: const pw.EdgeInsets.only(bottom: 10),
-      child: pw.Row(
-        crossAxisAlignment: pw.CrossAxisAlignment.center,
-        children: [
-          pw.SizedBox(width: 60, height: 60, child: image1),
-          pw.SizedBox(width: 10),
-          pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            mainAxisAlignment: pw.MainAxisAlignment.center,
-            children: [
-              pw.Text(
-                "Slip Gaji Pegawai".toUpperCase(),
-                style: const pw.TextStyle(color: PdfColors.black),
-              ),
-              pw.SizedBox(height: 3),
-              pw.Text(
-                "Periode 2024 Januari",
-                style: const pw.TextStyle(color: PdfColors.black),
-              ),
-              pw.SizedBox(height: 3),
-              pw.Text(
-                "Bank BPR Jatim",
-                style: const pw.TextStyle(color: PdfColors.black),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  pw.Widget _buildFooter() {
-    return pw.Row(
-      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-      children: [
-        pw.Text(""),
-        pw.Container(
-          padding: const pw.EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-          child: pw.Column(
-            mainAxisAlignment: pw.MainAxisAlignment.center,
-            crossAxisAlignment: pw.CrossAxisAlignment.center,
-            children: [
-              pw.Text(
-                'Kediri, 29 Januari 2024',
-                style: const pw.TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-              pw.SizedBox(height: 5),
-              pw.Text(
-                'Pemimpin Cabang',
-                style: const pw.TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-              pw.SizedBox(height: 70),
-              pw.Text(
-                '(Nama Pemimpin Cabang)',
-                style: pw.TextStyle(
-                  fontWeight: pw.FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  pw.Widget _tablePendapatan() {
-    return pw.SizedBox(
-      width: Get.width,
-      child: pw.Table.fromTextArray(
-        headers: ['Pendapatan', 'Jumlah'],
-        data: [
-          ['Gaji Pokok', 'Rp 5.000'],
-          ['Tj. Keluarga', 'Rp 4,500'],
-          ['Tj. Kemahalan', 'Rp 6,000'],
-          ['Tj. Kesejahteraan', 'Rp 6,000'],
-        ],
-        cellAlignment: pw.Alignment.centerLeft,
-        cellAlignments: {1: pw.Alignment.centerRight},
-        cellStyle: const pw.TextStyle(fontSize: 12),
-        headerAlignments: {1: pw.Alignment.center},
-        headerStyle: pw.TextStyle(
-          fontWeight: pw.FontWeight.bold,
-          fontSize: 12,
-          color: PdfColors.white,
-        ),
-        border: pw.TableBorder.all(width: 1, color: PdfColors.grey700),
-        headerDecoration: const pw.BoxDecoration(color: PdfColors.blue600),
-      ),
-    );
-  }
-
-  pw.Widget _tablePotongan() {
-    return pw.SizedBox(
-      width: Get.width,
-      child: pw.Table.fromTextArray(
-        headers: ['Pendapatan', 'Jumlah'],
-        data: [
-          ['JP BPJS TK 1%', 'Rp 5.000'],
-          ['DPP 5%', 'Rp 4,500'],
-          ['IURAN IK', 'Rp 6,000'],
-        ],
-        cellAlignment: pw.Alignment.centerLeft,
-        cellAlignments: {1: pw.Alignment.centerRight},
-        cellStyle: const pw.TextStyle(fontSize: 12),
-        headerAlignments: {1: pw.Alignment.center},
-        headerStyle: pw.TextStyle(
-          fontWeight: pw.FontWeight.bold,
-          fontSize: 12,
-          color: PdfColors.white,
-        ),
-        border: pw.TableBorder.all(width: 1, color: PdfColors.grey700),
-        headerDecoration: const pw.BoxDecoration(color: PdfColors.blue600),
-      ),
-    );
-  }
-
-  pw.Widget _tableTotalGajiDiterima() {
-    return pw.Table(
-      columnWidths: {
-        0: const pw.FlexColumnWidth(1),
-        1: const pw.FlexColumnWidth(4),
-      },
-      children: [
-        pw.TableRow(
-          children: [
-            pw.Padding(
-              padding: const pw.EdgeInsets.all(4),
-              child: pw.Text('JUMLAH', style: const pw.TextStyle(fontSize: 11)),
-            ),
-            pw.Padding(
-              padding: const pw.EdgeInsets.all(4),
-              child: pw.Text(
-                'Rp 5.000',
-                style: const pw.TextStyle(fontSize: 11),
-                textAlign: pw.TextAlign.right,
-              ),
-            ),
-          ],
-          decoration: const pw.BoxDecoration(color: PdfColors.white),
-        ),
-        pw.TableRow(
-          children: [
-            pw.Padding(
-              padding: const pw.EdgeInsets.all(4),
-              child:
-                  pw.Text('TERBILANG', style: const pw.TextStyle(fontSize: 11)),
-            ),
-            pw.Padding(
-              padding: const pw.EdgeInsets.all(4),
-              child: pw.Text(
-                'LIMA JUTA LIMA RATUS LIMA PULUH SEMBILAN',
-                style: const pw.TextStyle(fontSize: 11),
-                textAlign: pw.TextAlign.right,
-              ),
-            ),
-          ],
-          decoration: const pw.BoxDecoration(color: PdfColors.white),
-        ),
-      ],
-      border: pw.TableBorder.all(width: 1, color: PdfColors.grey700),
-    );
   }
 }

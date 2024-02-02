@@ -48,22 +48,29 @@ Widget cardPersion(String nama, String jabatan, var tahun, var jk) {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        nama,
-                        style:
-                            customTextStyle(FontWeight.w600, 14, Colors.black),
-                      ),
-                      spaceHeight(5),
-                      Text(
-                        jabatan,
-                        style: customTextStyle(FontWeight.w600, 12, cGrey_700),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 220,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nama,
+                          style: customTextStyle(
+                              FontWeight.w600, 14, Colors.black),
+                        ),
+                        spaceHeight(5),
+                        Text(
+                          jabatan,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              customTextStyle(FontWeight.w600, 12, cGrey_700),
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     width: 40,

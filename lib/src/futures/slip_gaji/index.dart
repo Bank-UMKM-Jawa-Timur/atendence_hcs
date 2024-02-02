@@ -1,4 +1,5 @@
 import 'package:atendence_hcs/http/controllers/slip_gaji/slip_gaji_controller.dart';
+import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -24,8 +25,9 @@ class SlipGaji extends StatefulWidget {
 class _SlipGajiState extends State<SlipGaji> {
   ListBulan listBulanC = Get.put(ListBulan());
   SlipGajiController slipGajiC = Get.put(SlipGajiController());
-  var valueBulan;
-  var dropdownValue;
+  var prefsC = Get.find<PrefsController>();
+  String? valueBulan;
+  String? dropdownValue;
   @override
   Widget build(BuildContext context) {
     var empty = emtyPage(
@@ -79,29 +81,33 @@ class _SlipGajiState extends State<SlipGaji> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        spaceHeight(25),
-                        cardPersion(
-                          "Dasha Taran",
-                          "Staf Advisor",
-                          slipGajiC.selectedTahun.value,
-                          "Laki-laki",
+                : slipGajiC.dataIsEmpty.value
+                    ? searchEmptyPage(
+                        "Filter Data, Kosong\nPada Bulan ${FormatBulan().formatBulan(slipGajiC.bulan.value)} ${slipGajiC.tahun.value} ")
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            spaceHeight(25),
+                            cardPersion(
+                              prefsC.namaKaryawan.value,
+                              prefsC.displayJabatan.value,
+                              slipGajiC.tahun.value,
+                              "Laki-laki",
+                            ),
+                            spaceHeight(15),
+                            InkWell(
+                              onTap: () {
+                                slipGajiC.getRincian(slipGajiC.id.value);
+                                Get.toNamed(RouteNames.rincianSlipGaji);
+                              },
+                              child: _cardSlipGaji(),
+                            ),
+                          ],
                         ),
-                        spaceHeight(15),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(RouteNames.rincianSlipGaji);
-                          },
-                          child: _cardSlipGaji(),
-                        ),
-                      ],
-                    ),
-                  )
+                      )
             : empty,
       ),
     );
@@ -147,8 +153,7 @@ class _SlipGajiState extends State<SlipGaji> {
                       style: textGreyMedium,
                     ),
                     Text(
-                      FormatBulan()
-                          .formatBulan(slipGajiC.listSlipGaji!.data[0].bulan),
+                      FormatBulan().formatBulan(slipGajiC.bulan.value),
                       style: customTextStyle(FontWeight.w700, 12, cGrey_700),
                     ),
                   ],
@@ -162,7 +167,7 @@ class _SlipGajiState extends State<SlipGaji> {
                       style: textGreyMedium,
                     ),
                     Text(
-                      slipGajiC.listSlipGaji!.data[0].gaji.toString(),
+                      FormatCurrency.convertToIdr(slipGajiC.totalGaji.value, 0),
                       style: customTextStyle(FontWeight.w700, 12, cGrey_700),
                     ),
                   ],
@@ -181,7 +186,8 @@ class _SlipGajiState extends State<SlipGaji> {
                       style: textGreyMedium,
                     ),
                     Text(
-                      "1.000.000",
+                      FormatCurrency.convertToIdr(
+                          slipGajiC.totalPotongan.value, 0),
                       style: customTextStyle(FontWeight.w700, 12, cGrey_700),
                     ),
                   ],
@@ -209,7 +215,8 @@ class _SlipGajiState extends State<SlipGaji> {
                     style: customTextStyle(FontWeight.w700, 14, cGrey_700),
                   ),
                   Text(
-                    FormatCurrency.convertToIdr(12900000, 0),
+                    FormatCurrency.convertToIdr(
+                        slipGajiC.totalGajiDiterima.value, 0),
                     style: textBoldDarkLarge,
                   ),
                 ],
@@ -287,7 +294,9 @@ class _SlipGajiState extends State<SlipGaji> {
         ),
         isDense: true,
         isExpanded: true,
-        value: valueBulan,
+        value: slipGajiC.selectedBulan.value == ""
+            ? valueBulan
+            : slipGajiC.selectedBulan.value,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(8),
           focusedBorder: focusedBorder,
@@ -358,7 +367,9 @@ class _SlipGajiState extends State<SlipGaji> {
         ),
         isDense: true,
         isExpanded: true,
-        value: dropdownValue,
+        value: slipGajiC.selectedTahun.value == ""
+            ? dropdownValue
+            : slipGajiC.selectedTahun.value,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(8),
           focusedBorder: focusedBorder,
@@ -390,8 +401,6 @@ class _SlipGajiState extends State<SlipGaji> {
       width: Get.width,
       child: ElevatedButton(
         onPressed: () {
-          // print(slipGajiC.selectedTahun.value);
-          // print(slipGajiC.selectedBulan.value);
           slipGajiC.filter();
         },
         style: ElevatedButton.styleFrom(
