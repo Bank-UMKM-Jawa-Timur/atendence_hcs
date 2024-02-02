@@ -15,6 +15,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class RincianSlipGaji extends StatelessWidget {
   RincianSlipGaji({super.key});
   SlipGajiController slipGajiC = Get.find<SlipGajiController>();
