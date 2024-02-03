@@ -204,7 +204,20 @@ class _ProfilePageState extends State<ProfilePage> {
         highlightColor: Colors.white,
         onTap: () {
           if (GetPlatform.isAndroid) {
-            showAlertDialogAndroid(context);
+            showAlertDialogAndroid(
+              context,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: cPrimary,
+                ),
+                onPressed: () {
+                  LoginController().logout();
+                },
+                child: const Text("Yes"),
+              ),
+              "Warning!",
+              "Apakah Kamu ingin logout?",
+            );
           } else if (GetPlatform.isIOS) {
             showAlertDialogIos(
               context,

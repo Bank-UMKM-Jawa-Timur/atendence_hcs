@@ -27,12 +27,10 @@ class _LoginState extends State<Login> {
     double heightStatusBar = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
       backgroundColor: cPrimary,
-      body: Stack(
-        children: [
-          Positioned(
-            top: 5,
-            child: SizedBox(
-              width: Get.width,
+      body: Obx(
+        () => Stack(
+          children: [
+            Positioned(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
@@ -61,44 +59,40 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: Get.width,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+            spaceHeight(45),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 27, vertical: 30),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Log In",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w900),
+                      ),
+                      spaceHeight(30),
+                      _inputEmail(),
+                      spaceHeight(20),
+                      _inputPassword(),
+                      spaceHeight(20),
+                      _buttomLogin()
+                    ],
+                  ),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 27,
-                  right: 27,
-                  top: 30,
-                  bottom: 80,
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Log In",
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
-                    ),
-                    spaceHeight(30),
-                    _inputEmail(),
-                    spaceHeight(20),
-                    _inputPassword(),
-                    spaceHeight(20),
-                    _buttomLogin()
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

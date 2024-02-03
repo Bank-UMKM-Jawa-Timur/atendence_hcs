@@ -28,15 +28,20 @@ void showAlertDialogIos(
   );
 }
 
-void showAlertDialogAndroid(BuildContext context) {
+void showAlertDialogAndroid(
+  BuildContext context,
+  ElevatedButton logout,
+  String title,
+  String msg,
+) {
   showCupertinoModalPopup<void>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      title: const Text(
-        'Alert',
-        style: TextStyle(fontWeight: FontWeight.w700),
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w700),
       ),
-      content: const Text('Proceed with destructive action?'),
+      content: Text(msg),
       actions: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -47,15 +52,7 @@ void showAlertDialogAndroid(BuildContext context) {
           },
           child: const Text("No"),
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: cPrimary,
-          ),
-          onPressed: () {
-            Get.back();
-          },
-          child: const Text("Yes"),
-        ),
+        logout,
       ],
     ),
   );
