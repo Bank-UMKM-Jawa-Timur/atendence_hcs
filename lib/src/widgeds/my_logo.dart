@@ -12,7 +12,7 @@ Widget logoSplashScreen = const Column(
       ),
     ),
     Text(
-      "ATENDENCE\nHUMAN CAPITAL SYSTEM",
+      "ATTENDANCE\nHUMAN CAPITAL SYSTEM",
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
     ),
