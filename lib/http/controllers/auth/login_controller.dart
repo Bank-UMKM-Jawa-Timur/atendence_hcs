@@ -48,8 +48,8 @@ class LoginController extends GetxController {
                 'nama_karyawan', loginSucsess!.data.namaKaryawan);
             await prefs?.setString(
                 'jenis_kelamin', loginSucsess!.data.jenisKelamin);
-            await prefs?.setInt(
-                'entitas_type', loginSucsess!.data.entitas.type);
+            // await prefs?.setInt(
+            //     'entitas_type', loginSucsess!.data.entitas.type);
             await prefs?.setString(
                 'display_jabatan', loginSucsess!.data.displayJabatan);
             await prefs?.setString(
@@ -98,7 +98,7 @@ class LoginController extends GetxController {
         prefs?.remove('nip');
         prefs?.remove('nama_karyawan');
         prefs?.remove('jenis_kelamin');
-        prefs?.remove('entitas_type');
+        // prefs?.remove('entitas_type');
         prefs?.remove('display_jabatan');
         prefs?.remove('tanggal_bergabung');
         prefs?.remove('lama_kerja');
