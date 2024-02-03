@@ -93,7 +93,7 @@ class _SlipGajiState extends State<SlipGaji> {
                             spaceHeight(25),
                             cardPersion(
                               prefsC.namaKaryawan.value,
-                              prefsC.displayJabatan.value,
+                              prefsC.displayJabatan.value.trim(),
                               slipGajiC.tahun.value,
                               "Laki-laki",
                             ),

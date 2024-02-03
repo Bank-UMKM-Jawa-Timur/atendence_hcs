@@ -40,6 +40,7 @@ class Data {
   DateTime tanggalFinal;
   String file;
   String status;
+  String entitasGaji;
   String nip;
   int bulan;
   int gjPokok;
@@ -75,6 +76,7 @@ class Data {
   int totalDiterima;
   DataList dataList;
   String terbilang;
+  TtdKaryawan ttdKaryawan;
 
   Data({
     required this.id,
@@ -85,6 +87,7 @@ class Data {
     required this.tanggalFinal,
     required this.file,
     required this.status,
+    required this.entitasGaji,
     required this.nip,
     required this.bulan,
     required this.gjPokok,
@@ -120,6 +123,7 @@ class Data {
     required this.totalDiterima,
     required this.dataList,
     required this.terbilang,
+    required this.ttdKaryawan,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -131,6 +135,7 @@ class Data {
         tanggalFinal: DateTime.parse(json["tanggal_final"]),
         file: json["file"],
         status: json["status"],
+        entitasGaji: json["entitas_gaji"],
         nip: json["nip"],
         bulan: json["bulan"],
         gjPokok: json["gj_pokok"],
@@ -166,6 +171,7 @@ class Data {
         totalDiterima: json["total_diterima"],
         dataList: DataList.fromJson(json["data_list"]),
         terbilang: json["terbilang"],
+        ttdKaryawan: TtdKaryawan.fromJson(json["ttd_karyawan"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -181,6 +187,7 @@ class Data {
             "${tanggalFinal.year.toString().padLeft(4, '0')}-${tanggalFinal.month.toString().padLeft(2, '0')}-${tanggalFinal.day.toString().padLeft(2, '0')}",
         "file": file,
         "status": status,
+        "entitas_gaji": entitasGaji,
         "nip": nip,
         "bulan": bulan,
         "gj_pokok": gjPokok,
@@ -216,6 +223,7 @@ class Data {
         "total_diterima": totalDiterima,
         "data_list": dataList.toJson(),
         "terbilang": terbilang,
+        "ttd_karyawan": ttdKaryawan.toJson(),
       };
 }
 
@@ -280,5 +288,29 @@ class Potongan {
         "kredit_pegawai": kreditPegawai,
         "iuran_ik": iuranIk,
         "total_potongan": totalPotongan,
+      };
+}
+
+class TtdKaryawan {
+  String kantorCabang;
+  String namaKaryawan;
+  String jabatan;
+
+  TtdKaryawan({
+    required this.kantorCabang,
+    required this.namaKaryawan,
+    required this.jabatan,
+  });
+
+  factory TtdKaryawan.fromJson(Map<String, dynamic> json) => TtdKaryawan(
+        kantorCabang: json["kantor_cabang"],
+        namaKaryawan: json["nama_karyawan"],
+        jabatan: json["jabatan"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "kantor_cabang": kantorCabang,
+        "nama_karyawan": namaKaryawan,
+        "jabatan": jabatan,
       };
 }

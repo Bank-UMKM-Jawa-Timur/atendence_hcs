@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   spaceHeight(4),
                   Text(
-                    prefsC.displayJabatan.value,
+                    prefsC.displayJabatan.value.trim(),
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

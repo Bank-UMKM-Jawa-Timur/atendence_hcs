@@ -114,7 +114,11 @@ class SlipGajiPdf extends GetxController {
               ),
               pw.SizedBox(height: 10),
               pw.Text("*) Dicetak dengan HCS"),
-              buildFooter(date),
+              buildFooter(
+                date,
+                slipGajiC.rincianSlipGaji!.data.ttdKaryawan.jabatan,
+                slipGajiC.rincianSlipGaji!.data.ttdKaryawan.namaKaryawan,
+              ),
             ],
           );
         },

@@ -75,7 +75,7 @@ pw.Widget cardRincinaUser(nip, nama, norek, jabatan, tglGabung, lamaKerja) {
               pw.Container(
                 width: 130,
                 // color: PdfColors.amber,
-                child: pw.Text(jabatan, textAlign: pw.TextAlign.start),
+                child: pw.Text(jabatan.trim(), textAlign: pw.TextAlign.start),
               )
             ],
           ),

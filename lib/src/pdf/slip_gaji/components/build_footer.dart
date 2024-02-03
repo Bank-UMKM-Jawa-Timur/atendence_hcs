@@ -1,7 +1,7 @@
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-pw.Widget buildFooter(DateTime date) {
+pw.Widget buildFooter(DateTime date, String jabatan, String namaTtd) {
   return pw.Row(
     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
     children: [
@@ -20,14 +20,14 @@ pw.Widget buildFooter(DateTime date) {
             ),
             pw.SizedBox(height: 5),
             pw.Text(
-              'Pemimpin Cabang',
+              jabatan.trim(),
               style: const pw.TextStyle(
                 fontSize: 12,
               ),
             ),
             pw.SizedBox(height: 70),
             pw.Text(
-              '(Nama Pemimpin Cabang)',
+              '($namaTtd)',
               style: pw.TextStyle(
                 fontWeight: pw.FontWeight.bold,
                 fontSize: 12,
