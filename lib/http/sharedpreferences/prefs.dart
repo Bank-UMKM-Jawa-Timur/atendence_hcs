@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsController extends GetxController {
   SharedPreferences? prefs;
+  var biometric = false.obs;
   var nip = 'null'.obs;
   var namaKaryawan = 'null'.obs;
   var jenisKelamin = 'null'.obs;
@@ -14,6 +15,7 @@ class PrefsController extends GetxController {
 
   addPrefs() async {
     prefs = await SharedPreferences.getInstance();
+    biometric.value = prefs?.getBool("biometric") == null ? false : true;
     nip.value = "${prefs?.getString("nip")}";
     namaKaryawan.value = "${prefs?.getString("nama_karyawan")}";
     jenisKelamin.value = "${prefs?.getString("jenis_kelamin")}";

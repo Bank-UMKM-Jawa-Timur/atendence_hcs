@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/profile/components/logout.dart';
 import 'package:atendence_hcs/src/futures/profile/components/profile_image.dart';
+import 'package:atendence_hcs/utils/components/alert.dart';
+import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -21,15 +28,78 @@ class _ProfilePageState extends State<ProfilePage> {
   PrefsController prefsC = Get.put(PrefsController());
   SharedPreferences? prefs;
   bool _isBiomatric = false;
+  bool _supportState = false;
+  late final LocalAuthentication auth;
   var tes = true;
   void onBiomatric() {
     setState(() {
       _isBiomatric = !_isBiomatric;
     });
+    if (prefsC.biometric.value) {
+      showCupertinoModalPopup<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text("Waring!"),
+          content: const Text("Apakah anda ingin nonaktifkan Biomatrik?"),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('No'),
+            ),
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                prefs?.remove("biometric");
+                prefsC.addPrefs();
+                Navigator.pop(context);
+                alertSuccess(context);
+                Timer(const Duration(seconds: 2), () {
+                  Get.back();
+                });
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      showCupertinoModalPopup<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text("Waring!"),
+          content: const Text("Apakah anda ingin mengaktifkan Biomatrik?"),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('No'),
+            ),
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                authenticate();
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
   void initState() {
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then((bool isSupported) => setState(() {
+          _supportState = isSupported;
+        }));
     addPrefs();
     super.initState();
   }
@@ -92,7 +162,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   spaceHeight(50),
-                  profileImage(prefsC.jenisKelamin.value),
+                  InkWell(
+                      onTap: () {},
+                      child: profileImage(prefsC.jenisKelamin.value)),
                   spaceHeight(10),
                   Text(
                     prefsC.namaKaryawan.value,
@@ -116,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   spaceHeight(30),
                   // _bottomEditProfile(),
                   spaceHeight(30),
-                  _listProfile(listProfile),
+                  _listProfile(listProfile, prefsC.biometric.value),
                   logout(context)
                 ],
               ),
@@ -125,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _listProfile(List<dynamic> listProfile) {
+  Widget _listProfile(List<dynamic> listProfile, bool biomatrik) {
     return ListView.builder(
       itemCount: listProfile.length,
       shrinkWrap: true,
@@ -136,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
           splashColor: cPrimary_100,
           onTap: () {
             var route = listProfile[index]['route'];
-            route != null ? Get.toNamed(route) : '';
+            route != null ? Get.toNamed(route) : onBiomatric();
           },
           child: Container(
             width: Get.width,
@@ -179,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 listProfile[index]!['icon_left'] != null
                     ? Switch(
                         activeColor: cPrimary,
-                        value: _isBiomatric,
+                        value: biomatrik,
                         onChanged: (bool value) async {
                           onBiomatric();
                         },
@@ -197,23 +269,51 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _bottomEditProfile() {
-    return SizedBox(
-      height: 40,
-      width: Get.width,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: cPrimary,
+  // Widget _bottomEditProfile() {
+  //   return SizedBox(
+  //     height: 40,
+  //     width: Get.width,
+  //     child: ElevatedButton(
+  //       onPressed: () {},
+  //       style: ElevatedButton.styleFrom(
+  //         backgroundColor: cPrimary,
+  //       ),
+  //       child: const Text(
+  //         "Edit Profile",
+  //         style: TextStyle(
+  //           fontSize: 14,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Future<void> authenticate() async {
+    prefs = await SharedPreferences.getInstance();
+    try {
+      bool authenticated = await auth.authenticate(
+        localizedReason: "Use your Finger or Face",
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: false,
         ),
-        child: const Text(
-          "Edit Profile",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
+      );
+      if (!mounted) {
+        return;
+      }
+      if (authenticated) {
+        prefs?.remove("biometric");
+        prefs?.setBool("biometric", true);
+        prefsC.addPrefs();
+        Get.back();
+        alertSuccess(context);
+        Timer(const Duration(seconds: 2), () {
+          Get.back();
+        });
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 }
