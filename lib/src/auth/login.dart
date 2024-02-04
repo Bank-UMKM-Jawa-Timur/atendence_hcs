@@ -62,38 +62,40 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: Get.width,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+          Obx(
+            () => Positioned(
+              bottom: 0,
+              child: Container(
+                width: Get.width,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 27,
-                  right: 27,
-                  top: 30,
-                  bottom: 80,
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Log In",
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
-                    ),
-                    spaceHeight(30),
-                    _inputEmail(),
-                    spaceHeight(20),
-                    _inputPassword(),
-                    spaceHeight(20),
-                    _buttomLogin()
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 27,
+                    right: 27,
+                    top: 30,
+                    bottom: 80,
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Log In",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.w900),
+                      ),
+                      spaceHeight(30),
+                      _inputEmail(),
+                      spaceHeight(20),
+                      _inputPassword(),
+                      spaceHeight(20),
+                      _buttomLogin()
+                    ],
+                  ),
                 ),
               ),
             ),

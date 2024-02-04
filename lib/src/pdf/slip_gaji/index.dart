@@ -114,11 +114,11 @@ class SlipGajiPdf extends GetxController {
               ),
               pw.SizedBox(height: 10),
               pw.Text("*) Dicetak dengan HCS"),
-              buildFooter(
-                date,
-                slipGajiC.rincianSlipGaji!.data.ttdKaryawan.jabatan,
-                slipGajiC.rincianSlipGaji!.data.ttdKaryawan.namaKaryawan,
-              ),
+              // buildFooter(
+              //   date,
+              //   slipGajiC.rincianSlipGaji!.data.ttdKaryawan.jabatan,
+              //   slipGajiC.rincianSlipGaji!.data.ttdKaryawan.namaKaryawan,
+              // ),
             ],
           );
         },
@@ -126,7 +126,7 @@ class SlipGajiPdf extends GetxController {
     );
 
     final output = await getTemporaryDirectory();
-    final filePath1 = '${output.path}/Kategori berdasarkan.pdf';
+    final filePath1 = '${output.path}/${slipGajiC.rincianSlipGaji!.data.file}';
     final file = File(filePath1);
     await file.writeAsBytes(await pdf.save());
     await OpenFile.open(file.path);

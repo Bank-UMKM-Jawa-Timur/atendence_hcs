@@ -28,6 +28,13 @@ class _SlipGajiState extends State<SlipGaji> {
   var prefsC = Get.find<PrefsController>();
   String? valueBulan;
   String? dropdownValue;
+
+  @override
+  void initState() {
+    slipGajiC.filter(false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var empty = emtyPage(
@@ -83,7 +90,7 @@ class _SlipGajiState extends State<SlipGaji> {
                   )
                 : slipGajiC.dataIsEmpty.value
                     ? searchEmptyPage(
-                        "Filter Data, Kosong\nPada Bulan ${FormatBulan().formatBulan(slipGajiC.bulan.value)} ${slipGajiC.tahun.value} ")
+                        "Filter Data, Kosong.\nPada Bulan ${FormatBulan().formatBulan(int.parse(slipGajiC.selectedBulan.value))} ${slipGajiC.selectedTahun.value} ")
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: Column(
@@ -94,137 +101,170 @@ class _SlipGajiState extends State<SlipGaji> {
                             cardPersion(
                               prefsC.namaKaryawan.value,
                               prefsC.displayJabatan.value.trim(),
-                              slipGajiC.tahun.value,
+                              slipGajiC.selectedTahun.value,
                               "Laki-laki",
                             ),
-                            spaceHeight(15),
-                            InkWell(
-                              onTap: () {
-                                slipGajiC.getRincian(slipGajiC.id.value);
-                                Get.toNamed(RouteNames.rincianSlipGaji);
-                              },
-                              child: _cardSlipGaji(),
-                            ),
+                            spaceHeight(10),
+                            _cardSlipGaji(),
                           ],
                         ),
                       )
-            : empty,
+            : const Center(
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(
+                    backgroundColor: cPrimary_300,
+                    color: cPrimary,
+                    strokeWidth: 5,
+                  ),
+                ),
+              ),
       ),
     );
   }
 
   Widget _cardSlipGaji() {
-    return Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: cGrey_400, width: 1),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+    return ListView.builder(
+      itemCount: slipGajiC.listSlipGaji!.data.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () async {
+            slipGajiC.getRincian(slipGajiC.listSlipGaji!.data[index].id);
+            await Get.toNamed(RouteNames.rincianSlipGaji);
+          },
+          child: Container(
+            margin: const EdgeInsets.only(top: 5, bottom: 5),
+            width: Get.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: cGrey_400, width: 1),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Gaji",
-                      style: textBoldDarkMedium,
-                    ),
-                    Icon(
-                      CommunityMaterialIcons.currency_usd_circle_outline,
-                      size: 22,
-                      color: cGreen_900,
-                    )
-                  ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Gaji",
+                            style: textBoldDarkMedium,
+                          ),
+                          Icon(
+                            CommunityMaterialIcons.currency_usd_circle_outline,
+                            size: 22,
+                            color: cGreen_900,
+                          )
+                        ],
+                      ),
+                      spaceHeight(10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Bulan",
+                            style: textGreyMedium,
+                          ),
+                          Text(
+                            FormatBulan().formatBulan(
+                              slipGajiC
+                                  .listSlipGaji!.data[index].dataList.bulan,
+                            ),
+                            style:
+                                customTextStyle(FontWeight.w700, 12, cGrey_700),
+                          ),
+                        ],
+                      ),
+                      spaceHeight(10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Nominal",
+                            style: textGreyMedium,
+                          ),
+                          Text(
+                            FormatCurrency.convertToIdr(
+                                slipGajiC.listSlipGaji!.data[index].dataList
+                                    .totalGaji,
+                                0),
+                            style:
+                                customTextStyle(FontWeight.w700, 12, cGrey_700),
+                          ),
+                        ],
+                      ),
+                      spaceHeight(10),
+                      const Text(
+                        "Total Potongan",
+                        style: textBoldDarkMedium,
+                      ),
+                      spaceHeight(10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Nominal",
+                            style: textGreyMedium,
+                          ),
+                          Text(
+                            FormatCurrency.convertToIdr(
+                                slipGajiC.listSlipGaji!.data[index].dataList
+                                    .totalPotongan,
+                                0),
+                            style:
+                                customTextStyle(FontWeight.w700, 12, cGrey_700),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                spaceHeight(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Bulan",
-                      style: textGreyMedium,
+                Container(width: Get.width, height: 1, color: cGrey_400),
+                Container(
+                  width: Get.width,
+                  decoration: const BoxDecoration(
+                    color: cGrey_100,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(6),
+                      bottomRight: Radius.circular(6),
                     ),
-                    Text(
-                      FormatBulan().formatBulan(slipGajiC.bulan.value),
-                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total Gaji Bersih",
+                          style:
+                              customTextStyle(FontWeight.w700, 14, cGrey_700),
+                        ),
+                        Text(
+                          FormatCurrency.convertToIdr(
+                              slipGajiC.listSlipGaji!.data[index].dataList
+                                  .totalDiterima,
+                              0),
+                          style: textBoldDarkLarge,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                spaceHeight(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Nominal",
-                      style: textGreyMedium,
-                    ),
-                    Text(
-                      FormatCurrency.convertToIdr(slipGajiC.totalGaji.value, 0),
-                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
-                    ),
-                  ],
-                ),
-                spaceHeight(10),
-                const Text(
-                  "Total Potongan",
-                  style: textBoldDarkMedium,
-                ),
-                spaceHeight(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Nominal",
-                      style: textGreyMedium,
-                    ),
-                    Text(
-                      FormatCurrency.convertToIdr(
-                          slipGajiC.totalPotongan.value, 0),
-                      style: customTextStyle(FontWeight.w700, 12, cGrey_700),
-                    ),
-                  ],
-                ),
+                  ),
+                )
               ],
             ),
           ),
-          Container(width: Get.width, height: 1, color: cGrey_400),
-          Container(
-            width: Get.width,
-            decoration: const BoxDecoration(
-              color: cGrey_100,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(6),
-                bottomRight: Radius.circular(6),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total Gaji Bersih",
-                    style: customTextStyle(FontWeight.w700, 14, cGrey_700),
-                  ),
-                  Text(
-                    FormatCurrency.convertToIdr(
-                        slipGajiC.totalGajiDiterima.value, 0),
-                    style: textBoldDarkLarge,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -401,7 +441,7 @@ class _SlipGajiState extends State<SlipGaji> {
       width: Get.width,
       child: ElevatedButton(
         onPressed: () {
-          slipGajiC.filter();
+          slipGajiC.filter(true);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: cPrimary,

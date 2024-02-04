@@ -40,7 +40,7 @@ class Data {
   DateTime tanggalFinal;
   String file;
   String status;
-  String entitasGaji;
+  String? entitasGaji;
   String nip;
   int bulan;
   int gjPokok;
