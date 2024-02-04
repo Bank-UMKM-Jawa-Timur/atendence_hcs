@@ -92,18 +92,19 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  spaceHeight(30),
+                  spaceHeight(50),
                   _profileImage(prefsC.jenisKelamin.value),
-                  spaceHeight(5),
+                  spaceHeight(10),
                   Text(
                     prefsC.namaKaryawan.value,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
                   ),
-                  spaceHeight(4),
+                  spaceHeight(8),
                   Text(
                     prefsC.displayJabatan.value.trim(),
                     style: const TextStyle(
@@ -111,9 +112,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.w600,
                       color: cGrey_700,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  spaceHeight(20),
-                  _bottomEditProfile(),
+                  spaceHeight(30),
+                  // _bottomEditProfile(),
                   spaceHeight(30),
                   _listProfile(listProfile),
                   _logout(context)
