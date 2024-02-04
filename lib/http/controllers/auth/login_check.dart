@@ -7,10 +7,11 @@ class LoginCheck extends GetxController {
   check() async {
     prefs = await SharedPreferences.getInstance();
     var nip = prefs?.getString("nip");
-    if (nip != null) {
-      Get.offAllNamed(RouteNames.navigationBar);
-    } else {
-      Get.offAllNamed(RouteNames.login);
-    }
+    Get.offAllNamed(RouteNames.login);
+    // if (nip != null) {
+    //   Get.offAllNamed(RouteNames.navigationBar);
+    // } else {
+    //   Get.offAllNamed(RouteNames.login);
+    // }
   }
 }

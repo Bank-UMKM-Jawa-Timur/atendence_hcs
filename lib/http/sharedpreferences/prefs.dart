@@ -12,6 +12,7 @@ class PrefsController extends GetxController {
   var tanggalBergabung = 'null'.obs;
   var lamaKerja = 'null'.obs;
   var noRekening = 'null'.obs;
+  var pswd = 'null'.obs;
 
   addPrefs() async {
     prefs = await SharedPreferences.getInstance();
@@ -24,5 +25,6 @@ class PrefsController extends GetxController {
     tanggalBergabung.value = "${prefs?.getString("tanggal_bergabung")}";
     lamaKerja.value = "${prefs?.getString("lama_kerja")}";
     noRekening.value = "${prefs?.getString("no_rekening")}";
+    pswd.value = "${prefs?.getString("pswd")}";
   }
 }

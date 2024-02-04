@@ -57,6 +57,7 @@ class LoginController extends GetxController {
             await prefs?.setString('lama_kerja', loginSucsess!.data.lamaKerja);
             await prefs?.setString(
                 'no_rekening', loginSucsess!.data.noRekening);
+            await prefs?.setString('pswd', passwordController.text);
 
             // success
             emailNipController.clear();
@@ -103,6 +104,8 @@ class LoginController extends GetxController {
         prefs?.remove('tanggal_bergabung');
         prefs?.remove('lama_kerja');
         prefs?.remove('no_rekening');
+        prefs?.remove("biometric");
+        prefs?.remove("pswd");
         prefs?.clear();
         LoginCheck().check();
         snackbarSuccess("Logout Berhasil");
@@ -111,6 +114,24 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       snackbarfailed(e.toString());
+    }
+  }
+
+  checkAlreadyLogin() async {
+    prefs = await SharedPreferences.getInstance();
+
+    if (emailNipController.text == "" || passwordController.text == "") {
+      snackbarfailed("Email(nip) atau password tidak boleh kosong.");
+    } else {
+      if (emailNipController.text != prefs?.getString("nip") ||
+          passwordController.text != prefs?.getString("pswd")) {
+        snackbarfailed("Email(nip) atau password tidak sesuai");
+      } else {
+        emailNipController.clear();
+        passwordController.clear();
+        Get.offAllNamed(RouteNames.navigationBar);
+        snackbarSuccess("Login Berhasil");
+      }
     }
   }
 }
