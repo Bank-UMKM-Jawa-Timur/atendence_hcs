@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:atendence_hcs/http/controllers/profile/biodata_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/profile/components/logout.dart';
 import 'package:atendence_hcs/src/futures/profile/components/profile_image.dart';
 import 'package:atendence_hcs/utils/components/alert.dart';
-import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
@@ -26,6 +26,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   PrefsController prefsC = Get.put(PrefsController());
+  BiodataController biodataC = Get.put(BiodataController());
   SharedPreferences? prefs;
   bool _isBiomatric = false;
   bool _supportState = false;
@@ -212,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
               if (index == 1) {
                 Get.toNamed(route, arguments: false);
               } else {
-                Get.toNamed(route);
+                Get.toNamed(route, arguments: prefsC.nip.value);
               }
             } else {
               onBiomatric();
