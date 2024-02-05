@@ -60,10 +60,17 @@ class LoginController extends GetxController {
             await prefs?.setString('pswd', passwordController.text);
 
             // success
+            if (emailNipController.text == passwordController.text) {
+              Get.offAllNamed(RouteNames.ubahPassword, arguments: true);
+              snackbarSuccess(
+                "Login Berhasil, Silahkan Ubah Password anda untuk keamanan akun anda.",
+              );
+            } else {
+              Get.offAllNamed(RouteNames.navigationBar);
+              snackbarSuccess("Login Berhasil");
+            }
             emailNipController.clear();
             passwordController.clear();
-            Get.offAllNamed(RouteNames.navigationBar);
-            snackbarSuccess("Login Berhasil");
           } else {
             // if response failed
             loginFailed = LoginFailedModel.fromJson(json);

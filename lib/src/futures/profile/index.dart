@@ -208,7 +208,15 @@ class _ProfilePageState extends State<ProfilePage> {
           splashColor: cPrimary_100,
           onTap: () {
             var route = listProfile[index]['route'];
-            route != null ? Get.toNamed(route) : onBiomatric();
+            if (route != null) {
+              if (index == 1) {
+                Get.toNamed(route, arguments: false);
+              } else {
+                Get.toNamed(route);
+              }
+            } else {
+              onBiomatric();
+            }
           },
           child: Container(
             width: Get.width,

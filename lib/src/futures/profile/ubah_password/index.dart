@@ -1,3 +1,5 @@
+import 'package:atendence_hcs/http/controllers/profile/ubah_password_controller.dart';
+import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -12,14 +14,10 @@ class UbahPassword extends StatefulWidget {
 }
 
 class _UbahPasswordState extends State<UbahPassword> {
-  bool _showPassLama = true;
+  UbahPasswordController ubahPasswordC = Get.put(UbahPasswordController());
+  PrefsController prefsC = Get.put(PrefsController());
   bool _showPassBaru = true;
   bool _showPassConfirm = true;
-  void _toggle() {
-    setState(() {
-      _showPassLama = !_showPassLama;
-    });
-  }
 
   void _toggle2() {
     setState(() {
@@ -58,12 +56,15 @@ class _UbahPasswordState extends State<UbahPassword> {
             height: 45,
             width: Get.width,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                prefsC.addPrefs();
+                ubahPasswordC.changePassword(Get.arguments!);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
               ),
               child: const Text(
-                "Edit Profile",
+                "Ubah Password",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -77,7 +78,7 @@ class _UbahPasswordState extends State<UbahPassword> {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 35),
         child: Column(
           children: [
-            _passwordLama(),
+            _formNip(),
             _passwordBaru(),
             _passwordConfirm(),
           ],
@@ -86,7 +87,7 @@ class _UbahPasswordState extends State<UbahPassword> {
     );
   }
 
-  Widget _passwordLama() {
+  Widget _formNip() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7),
       child: Container(
@@ -105,31 +106,31 @@ class _UbahPasswordState extends State<UbahPassword> {
           child: TextField(
             autocorrect: false,
             maxLines: 1,
-            obscureText: _showPassLama,
+            controller: ubahPasswordC.nipC,
             enableSuggestions: false,
-            decoration: InputDecoration(
-              label: const Text(
-                "Password Lama",
+            decoration: const InputDecoration(
+              label: Text(
+                "Nip",
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: cPrimary,
                 ),
               ),
-              hintStyle: const TextStyle(color: cGrey_700),
+              hintStyle: TextStyle(color: cGrey_700),
               border: InputBorder.none,
-              suffixIcon: InkWell(
-                child: Icon(
-                  _showPassLama
-                      ? CommunityMaterialIcons.eye_off_outline
-                      : CommunityMaterialIcons.eye_outline,
-                  size: 26,
-                  color: cGrey_700,
-                ),
-                onTap: () {
-                  _toggle();
-                },
-              ),
+              // suffixIcon: InkWell(
+              //   child: Icon(
+              //     _showPassLama
+              //         ? CommunityMaterialIcons.eye_off_outline
+              //         : CommunityMaterialIcons.eye_outline,
+              //     size: 26,
+              //     color: cGrey_700,
+              //   ),
+              //   onTap: () {
+              //     _toggle();
+              //   },
+              // ),
             ),
           ),
         ),
@@ -156,6 +157,7 @@ class _UbahPasswordState extends State<UbahPassword> {
           child: TextField(
             autocorrect: false,
             maxLines: 1,
+            controller: ubahPasswordC.newPasswordC,
             obscureText: _showPassBaru,
             enableSuggestions: false,
             decoration: InputDecoration(
@@ -207,6 +209,7 @@ class _UbahPasswordState extends State<UbahPassword> {
           child: TextField(
             autocorrect: false,
             maxLines: 1,
+            controller: ubahPasswordC.confirmPasswordC,
             obscureText: _showPassConfirm,
             enableSuggestions: false,
             decoration: InputDecoration(
