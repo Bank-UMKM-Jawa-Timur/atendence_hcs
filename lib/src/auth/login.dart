@@ -135,10 +135,10 @@ class _LoginState extends State<Login> {
                   ? null
                   : () async {
                       if (prefsC.nip.value != "null") {
-                        print("Check Login Dijalankan");
+                        print("check");
                         loginController.checkAlreadyLogin();
                       } else {
-                        print("Login Dijalankan");
+                        print("login");
                         loginController.login();
                       }
                     },

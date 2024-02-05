@@ -56,7 +56,7 @@ class LoginController extends GetxController {
                 'tanggal_bergabung', loginSucsess!.data.tanggalBergabung);
             await prefs?.setString('lama_kerja', loginSucsess!.data.lamaKerja);
             await prefs?.setString(
-                'no_rekening', loginSucsess!.data.noRekening);
+                'no_rekening', loginSucsess!.data.noRekening ?? '-');
             await prefs?.setString('pswd', passwordController.text);
 
             // success

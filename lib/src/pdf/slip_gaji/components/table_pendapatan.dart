@@ -39,7 +39,10 @@ pw.Widget tablePendapatan(
             ? ['Tj. Perumahan', FormatCurrency.convertToIdr(tjPerumahan, 0)]
             : [],
         tjTelepon > 0
-            ? ['Tj. Telepon', FormatCurrency.convertToIdr(tjTelepon, 0)]
+            ? [
+                'Tj. Telepon, Listrik & Air',
+                FormatCurrency.convertToIdr(tjTelepon, 0)
+              ]
             : [],
         tjPelaksana > 0
             ? ['Tj. Pelaksana', FormatCurrency.convertToIdr(tjPelaksana, 0)]

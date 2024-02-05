@@ -38,7 +38,7 @@ class _SlipGajiState extends State<SlipGaji> {
   @override
   Widget build(BuildContext context) {
     var empty = emtyPage(
-      "Slip Gaji Masih Kosong!\nSilahkan Melakukan Filter\nData Terlebih Dahulu.",
+      "Slip Gaji Masih Kosong!",
     );
     const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
     return Scaffold(
@@ -75,41 +75,8 @@ class _SlipGajiState extends State<SlipGaji> {
         elevation: 1,
       ),
       body: Obx(
-        () => slipGajiC.typeFilter.value
-            ? slipGajiC.isLoading.value
-                ? const Center(
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: CircularProgressIndicator(
-                        backgroundColor: cPrimary_300,
-                        color: cPrimary,
-                        strokeWidth: 5,
-                      ),
-                    ),
-                  )
-                : slipGajiC.dataIsEmpty.value
-                    ? searchEmptyPage(
-                        "Filter Data, Kosong.\nPada Bulan ${FormatBulan().formatBulan(int.parse(slipGajiC.selectedBulan.value))} ${slipGajiC.selectedTahun.value} ")
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            spaceHeight(25),
-                            cardPersion(
-                              prefsC.namaKaryawan.value,
-                              prefsC.displayJabatan.value.trim(),
-                              slipGajiC.selectedTahun.value,
-                              "Laki-laki",
-                            ),
-                            spaceHeight(10),
-                            _cardSlipGaji(),
-                          ],
-                        ),
-                      )
-            : const Center(
+        () => slipGajiC.isLoading.value
+            ? const Center(
                 child: SizedBox(
                   width: 40,
                   height: 40,
@@ -119,7 +86,64 @@ class _SlipGajiState extends State<SlipGaji> {
                     strokeWidth: 5,
                   ),
                 ),
-              ),
+              )
+            : slipGajiC.dataIsEmpty.value
+                ? searchEmptyPage(
+                    "Data slip gaji, Periode ${slipGajiC.selectedBulan.value != '' ? 'Bulan ' + FormatBulan().formatBulan(int.parse(slipGajiC.selectedBulan.value)) : ''} ${slipGajiC.selectedTahun.value}\nMasih Kosong.")
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        spaceHeight(25),
+                        cardPersion(
+                          prefsC.namaKaryawan.value,
+                          prefsC.displayJabatan.value.trim(),
+                          slipGajiC.selectedTahun.value,
+                          "Laki-laki",
+                        ),
+                        spaceHeight(10),
+                        _cardSlipGaji(),
+                      ],
+                    ),
+                  ),
+        // body: Obx(
+        //   () => slipGajiC.typeFilter.value
+        //       ? slipGajiC.isLoading.value
+        //           ? const Center(
+        //               child: SizedBox(
+        //                 width: 40,
+        //                 height: 40,
+        //                 child: CircularProgressIndicator(
+        //                   backgroundColor: cPrimary_300,
+        //                   color: cPrimary,
+        //                   strokeWidth: 5,
+        //                 ),
+        //               ),
+        //             )
+        //           : slipGajiC.dataIsEmpty.value
+        //               ? searchEmptyPage(
+        //                   "Filter Data, Kosong.\nPada Bulan ${FormatBulan().formatBulan(int.parse(slipGajiC.selectedBulan.value))} ${slipGajiC.selectedTahun.value} ")
+        //               : Padding(
+        //                   padding: const EdgeInsets.symmetric(horizontal: 25),
+        //                   child: Column(
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     mainAxisAlignment: MainAxisAlignment.start,
+        //                     children: [
+        //                       spaceHeight(25),
+        //                       cardPersion(
+        //                         prefsC.namaKaryawan.value,
+        //                         prefsC.displayJabatan.value.trim(),
+        //                         slipGajiC.selectedTahun.value,
+        //                         "Laki-laki",
+        //                       ),
+        //                       spaceHeight(10),
+        //                       _cardSlipGaji(),
+        //                     ],
+        //                   ),
+        //                 )
+        //       : empty,
       ),
     );
   }

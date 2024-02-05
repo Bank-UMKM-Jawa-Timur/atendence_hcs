@@ -35,7 +35,7 @@ class Data {
   String jenisKelamin;
   String tanggalBergabung;
   String lamaKerja;
-  String noRekening;
+  String? noRekening;
   String displayJabatan;
 
   Data({

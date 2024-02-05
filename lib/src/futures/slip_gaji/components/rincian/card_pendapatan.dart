@@ -150,7 +150,7 @@ Widget cardPendapatan(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              "Tj. Telepon",
+                              "Tj. Telepon, Listrik & Air",
                               style: textGreyMedium,
                             ),
                             Text(
