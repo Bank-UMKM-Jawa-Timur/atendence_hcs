@@ -19,7 +19,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  LoginController loginController = Get.put(LoginController());
+  LoginController loginController = Get.find<LoginController>();
   PrefsController prefsC = Get.put(PrefsController());
   late final LocalAuthentication auth;
   bool _supportState = false;
