@@ -54,17 +54,17 @@ class Data {
 }
 
 class Biodata {
-  String nip;
-  String nik;
-  String namaKaryawan;
-  String ttl;
-  String umur;
-  String agama;
-  String statusPernikahan;
-  String kewarganegaraan;
-  String alamatKtp;
+  String? nip;
+  String? nik;
+  String? namaKaryawan;
+  String? ttl;
+  String? umur;
+  String? agama;
+  String? statusPernikahan;
+  String? kewarganegaraan;
+  String? alamatKtp;
   String? alamatSek;
-  String jenisKelamin;
+  String? jenisKelamin;
 
   Biodata({
     required this.nip,
@@ -110,17 +110,17 @@ class Biodata {
 }
 
 class DataJabatan {
-  String tanggalBergabung;
-  String lamaKerja;
-  String pangkat;
-  String golongan;
-  String statusKaryawan;
-  String statusJabatan;
+  String? tanggalBergabung;
+  String? lamaKerja;
+  String? pangkat;
+  String? golongan;
+  String? statusKaryawan;
+  String? statusJabatan;
   String? keteranganJabatan;
-  String tanggalMulai;
-  String pendidikanTerakhir;
+  String? tanggalMulai;
+  String? pendidikanTerakhir;
   String? pendidikanMajor;
-  String skPengangkatan;
+  String? skPengangkatan;
   DateTime tanggalPengangkatan;
   String displayJabatan;
 
