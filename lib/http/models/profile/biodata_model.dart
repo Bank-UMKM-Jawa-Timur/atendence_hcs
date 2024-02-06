@@ -122,7 +122,7 @@ class DataJabatan {
   String? pendidikanMajor;
   String? skPengangkatan;
   DateTime tanggalPengangkatan;
-  String displayJabatan;
+  String? displayJabatan;
 
   DataJabatan({
     required this.tanggalBergabung,
@@ -176,7 +176,7 @@ class DataJabatan {
 
 class NorekNpwp {
   String? noRek;
-  String npwp;
+  String? npwp;
 
   NorekNpwp({
     required this.noRek,
