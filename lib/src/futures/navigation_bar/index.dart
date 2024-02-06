@@ -35,11 +35,18 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
     });
   }
 
+  Future<bool> _onPop() async {
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: WillPopScope(
+        onWillPop: () => _onPop(),
+        child: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
