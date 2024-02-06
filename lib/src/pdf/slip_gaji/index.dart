@@ -1,6 +1,5 @@
 import 'dart:io';
-import '../../../src/pdf/slip_gaji/components/build_footer.dart';
-import '../../../http/controllers/slip_gaji/slip_gaji_controller.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/controllers/slip_gaji_controller.dart';
 import '../../../src/pdf/slip_gaji/components/build_header.dart';
 import '../../../src/pdf/slip_gaji/components/card_rincian_user.dart';
 import '../../../src/pdf/slip_gaji/components/table_pendapatan.dart';

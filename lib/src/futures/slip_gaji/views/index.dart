@@ -1,6 +1,6 @@
-import 'package:atendence_hcs/http/controllers/slip_gaji/slip_gaji_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/controllers/slip_gaji_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';

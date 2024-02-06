@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:atendence_hcs/http/controllers/profile/biodata_controller.dart';
+import 'package:atendence_hcs/src/futures/profile/controllers/biodata_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/profile/components/logout.dart';

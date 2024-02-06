@@ -1,9 +1,14 @@
-import 'package:atendence_hcs/http/controllers/auth/login_controller.dart';
+import 'package:atendence_hcs/src/auth/controllers/login_controller.dart';
+import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -15,6 +20,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   LoginController loginController = Get.put(LoginController());
+  PrefsController prefsC = Get.put(PrefsController());
+  late final LocalAuthentication auth;
+  bool _supportState = false;
   bool _obscureText = true;
   void _toggle() {
     setState(() {
@@ -23,14 +31,26 @@ class _LoginState extends State<Login> {
   }
 
   @override
+  void initState() {
+    prefsC.addPrefs();
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then((bool isSupported) => setState(() {
+          _supportState = isSupported;
+        }));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double heightStatusBar = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
       backgroundColor: cPrimary,
-      body: Obx(
-        () => Stack(
-          children: [
-            Positioned(
+      body: Stack(
+        children: [
+          Positioned(
+            top: 5,
+            child: SizedBox(
+              width: Get.width,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
@@ -59,10 +79,12 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            spaceHeight(45),
-            Positioned(
+          ),
+          Obx(
+            () => Positioned(
               bottom: 0,
               child: Container(
+                width: Get.width,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -71,8 +93,12 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 27, vertical: 30),
+                  padding: const EdgeInsets.only(
+                    left: 27,
+                    right: 27,
+                    top: 30,
+                    bottom: 80,
+                  ),
                   child: Column(
                     children: [
                       const Text(
@@ -85,19 +111,19 @@ class _LoginState extends State<Login> {
                       spaceHeight(20),
                       _inputPassword(),
                       spaceHeight(20),
-                      _buttomLogin()
+                      _buttomLogin(prefsC.biometric.value)
                     ],
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _buttomLogin() {
+  Widget _buttomLogin(bool biomatrik) {
     return Row(
       children: [
         Expanded(
@@ -108,7 +134,13 @@ class _LoginState extends State<Login> {
               onPressed: loginController.isLoading.value
                   ? null
                   : () async {
-                      loginController.login();
+                      if (prefsC.nip.value != "null") {
+                        print("check");
+                        loginController.checkAlreadyLogin();
+                      } else {
+                        print("login");
+                        loginController.login();
+                      }
                     },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
@@ -124,36 +156,40 @@ class _LoginState extends State<Login> {
             ),
           ),
         ),
-        spaceWidth(5),
-        Expanded(
-          flex: 1,
-          child: InkWell(
-            onTap: () {},
-            child: Container(
-              height: 50,
-              decoration: const BoxDecoration(
-                color: cPrimary,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(4),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: cGrey_700,
-                    blurRadius: 2,
-                    offset: Offset(0, 1), // Shadow position
+        biomatrik ? spaceWidth(5) : Container(),
+        biomatrik
+            ? Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () {
+                    authenticate();
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      color: cPrimary,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: cGrey_700,
+                          blurRadius: 2,
+                          offset: Offset(0, 1), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.fingerprint,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.fingerprint,
-                  color: Colors.white,
-                  size: 35,
                 ),
-              ),
-            ),
-          ),
-        )
+              )
+            : Container(),
       ],
     );
   }
@@ -230,5 +266,26 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> authenticate() async {
+    try {
+      bool authenticated = await auth.authenticate(
+        localizedReason: "Use your Finger or Face",
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: false,
+        ),
+      );
+      if (!mounted) {
+        return;
+      }
+      if (authenticated) {
+        Get.offAllNamed(RouteNames.navigationBar);
+        snackbarSuccess("Login Berhasil");
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 }

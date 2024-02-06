@@ -1,8 +1,8 @@
-import 'package:atendence_hcs/src/auth/login.dart';
+import 'package:atendence_hcs/src/auth/views/login.dart';
 
-import '../src/futures/profile/profile_saya/index.dart';
-import '../src/futures/profile/ubah_password/index.dart';
-import '../src/futures/slip_gaji/rincian.dart';
+import '../src/futures/profile/views/profile_saya/index.dart';
+import '../src/futures/profile/views/ubah_password/index.dart';
+import '../src/futures/slip_gaji/views/rincian.dart';
 import '../src/futures/navigation_bar/index.dart';
 import '../routes/route_name.dart';
 import '../src/futures/home/index.dart';

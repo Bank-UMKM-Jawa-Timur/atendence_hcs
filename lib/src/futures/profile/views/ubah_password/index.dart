@@ -1,4 +1,4 @@
-import 'package:atendence_hcs/http/controllers/profile/ubah_password_controller.dart';
+import 'package:atendence_hcs/src/futures/profile/controllers/ubah_password_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';

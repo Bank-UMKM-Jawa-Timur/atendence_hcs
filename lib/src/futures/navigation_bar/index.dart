@@ -1,7 +1,7 @@
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/src/futures/incoming/index.dart';
-import 'package:atendence_hcs/src/futures/profile/index.dart';
-import 'package:atendence_hcs/src/futures/slip_gaji/index.dart';
+import 'package:atendence_hcs/src/futures/profile/views/index.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/index.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';

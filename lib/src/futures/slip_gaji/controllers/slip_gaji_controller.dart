@@ -14,13 +14,7 @@ class SlipGajiController extends GetxController {
   var selectedTahun = "".obs;
   var isLoading = false.obs;
   var isLoadingRincian = false.obs;
-  // var totalGaji = 0.obs;
-  // var totalPotongan = 0.obs;
-  // var totalGajiDiterima = 0.obs;
-  // var bulan = 0.obs;
-  // var tahun = 0.obs;
   var dataIsEmpty = true.obs;
-  // var id = 0.obs;
   var dateNow = DateTime.now();
   SharedPreferences? prefs;
   ListSlipGajiModel? listSlipGaji;

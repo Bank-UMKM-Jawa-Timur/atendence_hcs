@@ -1,4 +1,4 @@
-import 'package:atendence_hcs/http/controllers/profile/biodata_controller.dart';
+import 'package:atendence_hcs/src/futures/profile/controllers/biodata_controller.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';

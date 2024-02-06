@@ -1,9 +1,9 @@
-import 'package:atendence_hcs/http/controllers/slip_gaji/slip_gaji_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
-import 'package:atendence_hcs/src/futures/slip_gaji/components/rincian/card_detail_karyawan.dart';
-import 'package:atendence_hcs/src/futures/slip_gaji/components/rincian/card_pendapatan.dart';
-import 'package:atendence_hcs/src/futures/slip_gaji/components/rincian/card_potongan.dart';
-import 'package:atendence_hcs/src/futures/slip_gaji/components/rincian/card_total_gaji_diterima.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/controllers/slip_gaji_controller.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/components/rincian/card_detail_karyawan.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/components/rincian/card_pendapatan.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/components/rincian/card_potongan.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/components/rincian/card_total_gaji_diterima.dart';
 import 'package:atendence_hcs/src/pdf/slip_gaji/index.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';

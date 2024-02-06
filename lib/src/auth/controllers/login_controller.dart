@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:atendence_hcs/http/controllers/auth/login_check.dart';
+import 'package:atendence_hcs/src/auth/controllers/login_check.dart';
 import 'package:atendence_hcs/http/models/auth/login_failed_model.dart';
 import 'package:atendence_hcs/http/models/auth/login_model.dart';
 import 'package:atendence_hcs/routes/route_name.dart';

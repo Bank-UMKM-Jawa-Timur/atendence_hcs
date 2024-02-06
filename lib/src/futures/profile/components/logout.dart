@@ -1,4 +1,4 @@
-import 'package:atendence_hcs/http/controllers/auth/login_controller.dart';
+import 'package:atendence_hcs/src/auth/controllers/login_controller.dart';
 import 'package:atendence_hcs/utils/components/alert.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';

@@ -1,5 +1,5 @@
 import 'dart:async';
-import '../http/controllers/auth/login_check.dart';
+import 'src/auth/controllers/login_check.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../routes/route_page.dart';
