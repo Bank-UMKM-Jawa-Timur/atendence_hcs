@@ -1,8 +1,10 @@
+import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
+
 import '../src/auth/bindings/login_binding.dart';
 import '../src/auth/views/login.dart';
-import '../src/futures/slip_gaji/bindings/slip_gaji_binding.dart';
 import '../src/futures/profile/views/profile_saya/index.dart';
 import '../src/futures/profile/views/ubah_password/index.dart';
+import '../src/futures/profile/bindings/ubah_password_binding.dart';
 import '../src/futures/slip_gaji/views/rincian.dart';
 import '../src/futures/navigation_bar/index.dart';
 import '../routes/route_name.dart';
@@ -27,10 +29,12 @@ class RoutePages {
     GetPage(
       name: RouteNames.profileSaya,
       page: () => const ProfileSaya(),
+      binding: BiodataBinding(),
     ),
     GetPage(
       name: RouteNames.ubahPassword,
       page: () => const UbahPassword(),
+      binding: UbahPasswordBinding(),
     ),
     GetPage(
       name: RouteNames.rincianSlipGaji,

@@ -1,14 +1,12 @@
 import 'dart:async';
-
-import 'package:atendence_hcs/src/futures/profile/controllers/biodata_controller.dart';
-import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
-import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/profile/components/logout.dart';
-import 'package:atendence_hcs/src/futures/profile/components/profile_image.dart';
-import 'package:atendence_hcs/utils/components/alert.dart';
-import 'package:atendence_hcs/utils/components/colors.dart';
-import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
+import '../../../../http/sharedpreferences/prefs.dart';
+import '../../../../routes/route_name.dart';
+import '../../../futures/profile/components/logout.dart';
+import '../../../futures/profile/components/profile_image.dart';
+import '../../../../utils/components/alert.dart';
+import '../../../../utils/components/colors.dart';
+import '../../../../utils/components/space.dart';
+import '../../../../utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +23,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  PrefsController prefsC = Get.put(PrefsController());
-  BiodataController biodataC = Get.put(BiodataController());
+  PrefsController prefsC = Get.find<PrefsController>();
   SharedPreferences? prefs;
   bool _isBiomatric = false;
   bool _supportState = false;
