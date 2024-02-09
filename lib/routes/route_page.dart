@@ -8,7 +8,7 @@ import '../src/futures/profile/bindings/ubah_password_binding.dart';
 import '../src/futures/slip_gaji/views/rincian.dart';
 import '../src/futures/navigation_bar/index.dart';
 import '../routes/route_name.dart';
-import '../src/futures/home/index.dart';
+import '../src/futures/home/home_user/index.dart';
 import '../src/futures/splash_screen/index.dart';
 import 'package:get/get.dart';
 

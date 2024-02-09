@@ -1,4 +1,5 @@
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
+import 'package:atendence_hcs/src/futures/home/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/incoming/index.dart';
 import 'package:atendence_hcs/src/futures/profile/views/index.dart';
 import 'package:atendence_hcs/src/futures/slip_gaji/views/index.dart';
@@ -24,6 +25,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     commingSoon("Tampilan Home Masih\nDalam Proses Pengembangan!"),
+    // HomeSdm(),
     commingSoon("Tampilan Jadwal Masih\nDalam Proses Pengembangan!"),
     commingSoon("Tampilan Permohonan Masih\nDalam Proses Pengembangan!"),
     SlipGaji(),
