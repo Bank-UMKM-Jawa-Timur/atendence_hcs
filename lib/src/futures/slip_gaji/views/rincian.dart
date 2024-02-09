@@ -8,9 +8,9 @@ import 'package:atendence_hcs/src/pdf/slip_gaji/index.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_radius.dart';
 import 'package:atendence_hcs/utils/components/my_shadow.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,25 +25,25 @@ class RincianSlipGaji extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        systemOverlayStyle: themeStatusBar,
         centerTitle: true,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: const Text(
           "Rincian Slip Gaji",
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 17,
             fontWeight: FontWeight.w700,
           ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: cPrimary,
+        elevation: 5,
       ),
       body: Obx(
         () => slipGajiC.isLoadingRincian.value
             ? loadingPage()
             : Column(
                 children: [
+                  spaceHeight(15),
                   headerSlip(),
                   Expanded(
                     child: Padding(
@@ -175,10 +175,14 @@ class RincianSlipGaji extends StatelessWidget {
                   prefsC.lamaKerja.value,
                 );
               },
-              style: ElevatedButton.styleFrom(backgroundColor: cPrimary),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: cPrimary,
+                shape: radiusElevetedBtn,
+              ),
               icon: const Icon(
                 CommunityMaterialIcons.printer,
                 size: 20,
+                color: Colors.white,
               ),
               label: const Text("Download", style: textBoldLightMedium),
             ),

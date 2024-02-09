@@ -38,18 +38,17 @@ class _ProfileSayaState extends State<ProfileSaya> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          systemOverlayStyle: themeStatusBar,
           centerTitle: true,
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           title: const Text(
             "Profile Saya",
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 17,
               fontWeight: FontWeight.w700,
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: cPrimary,
           elevation: 1,
         ),
         body: Obx(
@@ -66,7 +65,7 @@ class _ProfileSayaState extends State<ProfileSaya> {
                         decoration: const BoxDecoration(
                           color: cGrey_300,
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(10),
                           ),
                         ),
                         child: ListView.builder(
@@ -113,7 +112,7 @@ class _ProfileSayaState extends State<ProfileSaya> {
                                       ? cPrimary
                                       : cGrey_300,
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(15),
+                                    Radius.circular(10),
                                   ),
                                 ),
                                 child: Center(

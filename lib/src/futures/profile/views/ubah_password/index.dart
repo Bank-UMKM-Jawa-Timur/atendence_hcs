@@ -1,6 +1,7 @@
 import 'package:atendence_hcs/src/futures/profile/controllers/ubah_password_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_radius.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -34,19 +35,19 @@ class _UbahPasswordState extends State<UbahPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        systemOverlayStyle: themeStatusBar,
         centerTitle: true,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: const Text(
           "Ubah Password",
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 17,
             fontWeight: FontWeight.w700,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: cPrimary,
         elevation: 1,
       ),
       bottomNavigationBar: SizedBox(
@@ -62,12 +63,14 @@ class _UbahPasswordState extends State<UbahPassword> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
+                shape: radiusElevetedBtn,
               ),
               child: const Text(
                 "Ubah Password",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:atendence_hcs/src/auth/controllers/login_controller.dart';
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_radius.dart';
 import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -144,15 +145,21 @@ class _LoginState extends State<Login> {
                     },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cPrimary,
+                shape: radiusElevetedBtn,
               ),
               label: Text(
                 loginController.isLoading.value ? "Loading..." : "Login",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
+                  color: Colors.white,
                 ),
               ),
-              icon: const Icon(Icons.login_outlined, size: 30),
+              icon: const Icon(
+                Icons.login_outlined,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

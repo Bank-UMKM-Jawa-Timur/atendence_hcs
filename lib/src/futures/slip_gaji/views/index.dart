@@ -8,6 +8,7 @@ import 'package:atendence_hcs/utils/components/list_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_format_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_format_currency.dart';
+import 'package:atendence_hcs/utils/components/my_radius.dart';
 import 'package:atendence_hcs/utils/components/slip_gaji/card_persion.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
@@ -44,20 +45,22 @@ class _SlipGajiState extends State<SlipGaji> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        systemOverlayStyle: themeStatusBar,
         centerTitle: false,
-        foregroundColor: Colors.black,
-        title: const Text(
-          "Slip Gaji",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
+        foregroundColor: Colors.white,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 2),
+          child: Text(
+            "Slip Gaji",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         actions: [
           InkWell(
-            splashColor: Colors.white,
+            splashColor: cPrimary,
             onTap: () {
               _showModalButton(context, list);
             },
@@ -71,7 +74,7 @@ class _SlipGajiState extends State<SlipGaji> {
           ),
           const SizedBox(width: 15)
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: cPrimary,
         elevation: 1,
       ),
       body: Obx(
@@ -91,7 +94,7 @@ class _SlipGajiState extends State<SlipGaji> {
                 ? searchEmptyPage(
                     "Data slip gaji, Periode ${slipGajiC.selectedBulan.value != '' ? 'Bulan ' + FormatBulan().formatBulan(int.parse(slipGajiC.selectedBulan.value)) : ''} ${slipGajiC.selectedTahun.value}\nMasih Kosong.")
                 : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -469,12 +472,14 @@ class _SlipGajiState extends State<SlipGaji> {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: cPrimary,
+          shape: radiusElevetedBtn,
         ),
         child: const Text(
           "Filter",
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
         ),
       ),
