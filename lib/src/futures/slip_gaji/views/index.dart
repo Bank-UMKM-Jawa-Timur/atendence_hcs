@@ -11,7 +11,6 @@ import 'package:atendence_hcs/utils/components/my_format_currency.dart';
 import 'package:atendence_hcs/utils/components/my_radius.dart';
 import 'package:atendence_hcs/utils/components/slip_gaji/card_persion.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:atendence_hcs/utils/components/theme_status_bar.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

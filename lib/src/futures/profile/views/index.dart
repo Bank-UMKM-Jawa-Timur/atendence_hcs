@@ -150,8 +150,8 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         systemOverlayStyle: themeStatusBar,
-        toolbarHeight: 0,
         backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 0,
       ),
       body: Obx(() => Center(
@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
-                  spaceHeight(50),
+                  spaceHeight(0),
                   InkWell(
                       onTap: () {},
                       child: profileImage(prefsC.jenisKelamin.value)),
@@ -205,16 +205,19 @@ class _ProfilePageState extends State<ProfilePage> {
           highlightColor: Colors.white,
           splashColor: cPrimary_100,
           onTap: () {
-            var route = listProfile[index]['route'];
-            if (route != null) {
-              if (index == 1) {
-                Get.toNamed(route, arguments: false);
-              } else {
-                Get.toNamed(route, arguments: prefsC.nip.value);
-              }
-            } else {
-              onBiomatric();
-            }
+            print(prefsC.tipe.value);
+            // var route = listProfile[index]['route'];
+            // if (route != null) {
+            //   if (prefsC.tipe.value != "User") {
+            //     if (index == 1) {
+            //       Get.toNamed(route, arguments: false);
+            //     } else {
+            //       Get.toNamed(route, arguments: prefsC.nip.value);
+            //     }
+            //   }
+            // } else {
+            //   onBiomatric();
+            // }
           },
           child: Container(
             width: Get.width,

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -137,6 +138,9 @@ class _LoginState extends State<Login> {
                   : () async {
                       if (prefsC.nip.value != "null") {
                         print("check");
+                        loginController.checkAlreadyLogin();
+                      } else if (prefsC.tipe.value == "User") {
+                        print("check sdm");
                         loginController.checkAlreadyLogin();
                       } else {
                         print("login");
@@ -288,7 +292,11 @@ class _LoginState extends State<Login> {
         return;
       }
       if (authenticated) {
-        Get.offAllNamed(RouteNames.navigationBar);
+        if (prefsC.tipe.value == "User") {
+          Get.offAllNamed(RouteNames.homeSdm);
+        } else {
+          Get.offAllNamed(RouteNames.navigationBar);
+        }
         snackbarSuccess("Login Berhasil");
       }
     } on PlatformException catch (e) {

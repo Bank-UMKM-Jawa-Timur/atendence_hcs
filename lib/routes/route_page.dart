@@ -1,4 +1,8 @@
+import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
+import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
+import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
 import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
+import 'package:atendence_hcs/src/futures/profile/views/index.dart';
 
 import '../src/auth/bindings/login_binding.dart';
 import '../src/auth/views/login.dart';
@@ -8,7 +12,6 @@ import '../src/futures/profile/bindings/ubah_password_binding.dart';
 import '../src/futures/slip_gaji/views/rincian.dart';
 import '../src/futures/navigation_bar/index.dart';
 import '../routes/route_name.dart';
-import '../src/futures/home/home_user/index.dart';
 import '../src/futures/splash_screen/index.dart';
 import 'package:get/get.dart';
 
@@ -44,6 +47,16 @@ class RoutePages {
       name: RouteNames.login,
       page: () => const Login(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: RouteNames.homeSdm,
+      page: () => HomeSdm(),
+      binding: PrefsBinding(),
+    ),
+    GetPage(
+      name: RouteNames.profile,
+      page: () => const ProfilePage(),
+      // binding: PrefsBinding(),
     ),
   ];
 }

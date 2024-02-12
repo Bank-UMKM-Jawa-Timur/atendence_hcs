@@ -43,21 +43,26 @@ class LoginController extends GetxController {
             loginSucsess = LoginModel.fromJson(json);
             // save to local storage
             prefs = await SharedPreferences.getInstance();
-            await prefs?.setString('nip', loginSucsess!.data.nip);
+            await prefs?.setString('nip', loginSucsess!.data.nip ?? 'null');
             await prefs?.setString(
-                'nama_karyawan', loginSucsess!.data.namaKaryawan);
+                'nama_karyawan', loginSucsess!.data.namaKaryawan ?? 'null');
             await prefs?.setString(
-                'jenis_kelamin', loginSucsess!.data.jenisKelamin);
+                'jenis_kelamin', loginSucsess!.data.jenisKelamin ?? 'null');
             // await prefs?.setInt(
             //     'entitas_type', loginSucsess!.data.entitas.type);
             await prefs?.setString(
-                'display_jabatan', loginSucsess!.data.displayJabatan);
+                'display_jabatan', loginSucsess!.data.displayJabatan ?? 'null');
+            await prefs?.setString('tanggal_bergabung',
+                loginSucsess!.data.tanggalBergabung ?? 'null');
             await prefs?.setString(
-                'tanggal_bergabung', loginSucsess!.data.tanggalBergabung);
-            await prefs?.setString('lama_kerja', loginSucsess!.data.lamaKerja);
+                'lama_kerja', loginSucsess!.data.lamaKerja ?? 'null');
             await prefs?.setString(
                 'no_rekening', loginSucsess!.data.noRekening ?? '-');
+            await prefs?.setString('tipe', loginSucsess!.data.tipe ?? 'null');
             await prefs?.setString('pswd', passwordController.text);
+            if (loginSucsess?.data.tipe == "User") {
+              await prefs?.setString('email', emailNipController.text);
+            }
 
             // success
             if (emailNipController.text == passwordController.text) {
@@ -66,8 +71,13 @@ class LoginController extends GetxController {
                 "Login Berhasil, Silahkan Ubah Password anda untuk keamanan akun anda.",
               );
             } else {
-              Get.offAllNamed(RouteNames.navigationBar);
-              snackbarSuccess("Login Berhasil");
+              if (loginSucsess?.data.tipe == "User") {
+                Get.offAllNamed(RouteNames.homeSdm);
+                snackbarSuccess("Login Berhasil");
+              } else {
+                Get.offAllNamed(RouteNames.navigationBar);
+                snackbarSuccess("Login Berhasil");
+              }
             }
             emailNipController.clear();
             passwordController.clear();
@@ -92,8 +102,11 @@ class LoginController extends GetxController {
     var headers = {'Content-Type': 'application/json'};
     try {
       var nip = prefs?.getString("nip");
+      var tipe = prefs?.getString("tipe");
+      var email = prefs?.getString("email");
+
       Map body = {
-        "nip": nip,
+        "nip": tipe == "User" ? email : nip,
       };
       // http
       http.Response response = await http.post(
@@ -113,6 +126,8 @@ class LoginController extends GetxController {
         prefs?.remove('no_rekening');
         prefs?.remove("biometric");
         prefs?.remove("pswd");
+        prefs?.remove("tipe");
+        prefs?.remove("email");
         prefs?.clear();
         LoginCheck().check();
         snackbarSuccess("Logout Berhasil");
@@ -126,17 +141,23 @@ class LoginController extends GetxController {
 
   checkAlreadyLogin() async {
     prefs = await SharedPreferences.getInstance();
-
+    var emailNip = prefs?.getString("tipe") == "User"
+        ? prefs?.getString("email")
+        : prefs?.getString("nip");
     if (emailNipController.text == "" || passwordController.text == "") {
       snackbarfailed("Email(nip) atau password tidak boleh kosong.");
     } else {
-      if (emailNipController.text != prefs?.getString("nip") ||
+      if (emailNipController.text != emailNip ||
           passwordController.text != prefs?.getString("pswd")) {
         snackbarfailed("Email(nip) atau password tidak sesuai");
       } else {
         emailNipController.clear();
         passwordController.clear();
-        Get.offAllNamed(RouteNames.navigationBar);
+        if (prefs?.getString("tipe") == "User") {
+          Get.offAllNamed(RouteNames.homeSdm);
+        } else {
+          Get.offAllNamed(RouteNames.navigationBar);
+        }
         snackbarSuccess("Login Berhasil");
       }
     }

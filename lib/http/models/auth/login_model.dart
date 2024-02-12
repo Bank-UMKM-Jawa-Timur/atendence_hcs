@@ -30,13 +30,14 @@ class LoginModel {
 }
 
 class Data {
-  String nip;
-  String namaKaryawan;
-  String jenisKelamin;
-  String tanggalBergabung;
-  String lamaKerja;
+  String? nip;
+  String? namaKaryawan;
+  String? jenisKelamin;
+  String? tanggalBergabung;
+  String? lamaKerja;
   String? noRekening;
-  String displayJabatan;
+  String? displayJabatan;
+  String? tipe;
 
   Data({
     required this.nip,
@@ -46,6 +47,7 @@ class Data {
     required this.lamaKerja,
     required this.noRekening,
     required this.displayJabatan,
+    required this.tipe,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -56,6 +58,7 @@ class Data {
         lamaKerja: json["lama_kerja"],
         noRekening: json["no_rekening"],
         displayJabatan: json["display_jabatan"],
+        tipe: json["tipe"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -66,5 +69,6 @@ class Data {
         "lama_kerja": lamaKerja,
         "no_rekening": noRekening,
         "display_jabatan": displayJabatan,
+        "tipe": tipe,
       };
 }
