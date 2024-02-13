@@ -1,7 +1,9 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
+import 'package:atendence_hcs/src/futures/karyawan/bindings/search_binding.dart';
 import 'package:atendence_hcs/src/futures/karyawan/views/index.dart';
+import 'package:atendence_hcs/src/futures/karyawan/views/search_karyawan_page.dart';
 import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
 import 'package:atendence_hcs/src/futures/profile/views/index.dart';
 
@@ -61,8 +63,13 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.karyawanList,
-      page: () => KaryawanPage(),
-      // binding: PrefsBinding(),
+      page: () => const KaryawanPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.searchKaryawan,
+      page: () => const SearchKaryawanPage(),
+      binding: SearchBinding(),
     ),
   ];
 }

@@ -9,4 +9,5 @@ abstract class RouteNames {
   static const homeSdm = '/home-sdm';
   static const profile = '/profile';
   static const karyawanList = '/karyawan-list';
+  static const searchKaryawan = '/search-karyawan';
 }
