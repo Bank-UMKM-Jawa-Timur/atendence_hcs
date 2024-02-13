@@ -1,6 +1,7 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
+import 'package:atendence_hcs/src/futures/karyawan/views/index.dart';
 import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
 import 'package:atendence_hcs/src/futures/profile/views/index.dart';
 
@@ -56,6 +57,11 @@ class RoutePages {
     GetPage(
       name: RouteNames.profile,
       page: () => const ProfilePage(),
+      // binding: PrefsBinding(),
+    ),
+    GetPage(
+      name: RouteNames.karyawanList,
+      page: () => KaryawanPage(),
       // binding: PrefsBinding(),
     ),
   ];

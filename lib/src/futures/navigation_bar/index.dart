@@ -23,8 +23,8 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    // commingSoon("Tampilan Home Masih\nDalam Proses Pengembangan!"),
-    HomeSdm(),
+    commingSoon("Tampilan Home Masih\nDalam Proses Pengembangan!"),
+    // HomeSdm(),
     commingSoon("Tampilan Jadwal Masih\nDalam Proses Pengembangan!"),
     commingSoon("Tampilan Permohonan Masih\nDalam Proses Pengembangan!"),
     SlipGaji(),

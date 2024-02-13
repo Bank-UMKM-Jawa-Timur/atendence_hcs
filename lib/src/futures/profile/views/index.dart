@@ -205,19 +205,19 @@ class _ProfilePageState extends State<ProfilePage> {
           highlightColor: Colors.white,
           splashColor: cPrimary_100,
           onTap: () {
-            print(prefsC.tipe.value);
-            // var route = listProfile[index]['route'];
-            // if (route != null) {
-            //   if (prefsC.tipe.value != "User") {
-            //     if (index == 1) {
-            //       Get.toNamed(route, arguments: false);
-            //     } else {
-            //       Get.toNamed(route, arguments: prefsC.nip.value);
-            //     }
-            //   }
-            // } else {
-            //   onBiomatric();
-            // }
+            // print(prefsC.tipe.value);
+            var route = listProfile[index]['route'];
+            if (route != null) {
+              if (prefsC.tipe.value != "User") {
+                if (index == 1) {
+                  Get.toNamed(route, arguments: false);
+                } else {
+                  Get.toNamed(route, arguments: prefsC.nip.value);
+                }
+              }
+            } else {
+              onBiomatric();
+            }
           },
           child: Container(
             width: Get.width,

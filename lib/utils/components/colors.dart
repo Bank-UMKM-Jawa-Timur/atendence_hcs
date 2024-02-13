@@ -7,6 +7,7 @@ const cPrimary_400 = Color(0xFFABCDFF);
 const cPrimary_500 = Color(0xFF76BEFD);
 const cPrimary_700 = Color(0xFF359FFD);
 const cGrey_100 = Color(0xFFF8F8F8);
+const cGrey_200 = Color(0xFFE8F2FD);
 const cGrey_300 = Color(0xFFF2F2F2);
 const cGrey_400 = Color(0xFFDCDCDC);
 const cGrey_500 = Color(0xFFC2C2C2);

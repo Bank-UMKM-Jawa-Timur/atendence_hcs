@@ -1,7 +1,10 @@
+import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/routes/route_page.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<dynamic> showModalButton(BuildContext context, String name) {
   return showModalBottomSheet(
@@ -46,8 +49,69 @@ Future<dynamic> showModalButton(BuildContext context, String name) {
                 ),
               ),
               spaceHeight(15),
-              // selectKaryawan(list),
-              spaceHeight(15),
+              InkWell(
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(RouteNames.karyawanList);
+                },
+                child: Container(
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: cGrey_500,
+                      width: 1,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(7),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.line_style_sharp,
+                          size: 17,
+                        ),
+                        spaceWidth(10),
+                        const Text("Karyawan"),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              spaceHeight(10),
+              Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: cGrey_500,
+                    width: 1,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(7),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.line_style_sharp,
+                        size: 17,
+                      ),
+                      spaceWidth(10),
+                      const Text("Pengkinian Data"),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
