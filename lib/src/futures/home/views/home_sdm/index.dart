@@ -93,42 +93,7 @@ class HomeSdm extends StatelessWidget {
                   prefsC.displayJabatan.value,
                 ),
                 spaceHeight(25),
-                InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(30),
-                          ),
-                        ),
-                        builder: (context) {
-                          return StatefulBuilder(
-                            builder:
-                                (BuildContext context, StateSetter setState) {
-                              return Container(
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            ubah = !ubah;
-                                          });
-                                        },
-                                        child: Text("Ubag"),
-                                      ),
-                                      Text(ubah ? "Ubah" : "TESS"),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                    child: cardPayment()),
+                cardPayment(),
                 spaceHeight(25),
                 listCardItems(listIcon),
                 spaceHeight(25),
