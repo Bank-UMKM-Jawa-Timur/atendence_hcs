@@ -1,6 +1,8 @@
 import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/src/futures/karyawan/controllers/list_karyawan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +16,16 @@ class KaryawanPage extends StatefulWidget {
 }
 
 class _KaryawanPageState extends State<KaryawanPage> {
+  ListKaryawanController listKaryawanC = Get.find<ListKaryawanController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
   @override
   void initState() {
     super.initState();
     print("refresh");
+    if (nip != "") {
+      listKaryawanC.getListKaryawan(nip);
+    }
   }
 
   @override
@@ -95,17 +101,54 @@ class _KaryawanPageState extends State<KaryawanPage> {
               ),
             ),
           ),
-          // emptyData(),
-          spaceHeight(25),
-          cardListData()
+          nip == ""
+              ? emptyData()
+              : Obx(
+                  () => listKaryawanC.isLoading.value
+                      ? loadingPage()
+                      : Column(
+                          children: [
+                            spaceHeight(25),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemCount:
+                                  listKaryawanC.listKaryawanM?.data.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return cardListData(
+                                  listKaryawanC.listKaryawanM?.data[index]
+                                          .namaKaryawan ??
+                                      '-',
+                                  listKaryawanC.listKaryawanM?.data[index]
+                                          .displayJabatan
+                                          .toString()
+                                          .trim() ??
+                                      '-',
+                                  listKaryawanC
+                                          .listKaryawanM?.data[index].nik ??
+                                      '-',
+                                  listKaryawanC.listKaryawanM?.data[index]
+                                          .namaCabang ??
+                                      '-',
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                )
         ],
       ),
     );
   }
 
-  Padding cardListData() {
+  Padding cardListData(
+    String nama,
+    String jabatan,
+    String nik,
+    String kantor,
+  ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
         onTap: () {
           Get.toNamed(
@@ -162,26 +205,30 @@ class _KaryawanPageState extends State<KaryawanPage> {
                           ),
                         ),
                         spaceWidth(10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Dasha Taran",
-                              style: customTextStyle(
-                                FontWeight.w700,
-                                16,
-                                Colors.black,
+                        SizedBox(
+                          width: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                nama,
+                                style: customTextStyle(
+                                  FontWeight.w700,
+                                  14,
+                                  Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text(
-                              "Staf Advisor",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
+                              Text(
+                                jabatan,
+                                style: customTextStyle(
+                                  FontWeight.w600,
+                                  12,
+                                  cGrey_700,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -196,7 +243,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: SizedBox(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,10 +257,10 @@ class _KaryawanPageState extends State<KaryawanPage> {
                               ),
                             ),
                             Text(
-                              "127635176237",
+                              nik,
                               style: customTextStyle(
                                 FontWeight.w800,
-                                14,
+                                13,
                                 cGrey_600,
                               ),
                             ),
@@ -236,10 +283,10 @@ class _KaryawanPageState extends State<KaryawanPage> {
                               ),
                             ),
                             Text(
-                              "Surabaya",
+                              kantor,
                               style: customTextStyle(
                                 FontWeight.w800,
-                                14,
+                                13,
                                 cGrey_600,
                               ),
                             ),

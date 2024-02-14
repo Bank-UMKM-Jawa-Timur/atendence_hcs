@@ -1,6 +1,7 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
+import 'package:atendence_hcs/src/futures/karyawan/bindings/list_karyawan_binding.dart';
 import 'package:atendence_hcs/src/futures/karyawan/bindings/search_binding.dart';
 import 'package:atendence_hcs/src/futures/karyawan/views/detail_karyawan.dart';
 import 'package:atendence_hcs/src/futures/karyawan/views/index.dart';
@@ -65,7 +66,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.karyawanList,
       page: () => const KaryawanPage(),
-      // binding: SearchBinding(),
+      binding: ListKaryawanBinding(),
     ),
     GetPage(
       name: RouteNames.searchKaryawan,
