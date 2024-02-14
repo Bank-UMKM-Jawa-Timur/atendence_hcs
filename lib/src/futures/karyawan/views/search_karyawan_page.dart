@@ -143,10 +143,17 @@ class _SearchKaryawanPageState extends State<SearchKaryawanPage> {
                               Get.offNamedUntil(
                                 RouteNames.karyawanList,
                                 ModalRoute.withName(RouteNames.homeSdm),
-                                arguments: {
-                                  'nip': searchC
-                                      .searchKaryawanModel!.data[index].nip
-                                },
+                                arguments: [
+                                  {
+                                    'nip': searchC
+                                        .searchKaryawanModel!.data[index].nip
+                                        .toString(),
+                                  },
+                                  {
+                                    'nama': searchC.searchKaryawanModel!
+                                        .data[index].namaKaryawan,
+                                  },
+                                ],
                               );
                             },
                             child: Container(

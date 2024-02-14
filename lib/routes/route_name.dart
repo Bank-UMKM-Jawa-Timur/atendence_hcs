@@ -10,4 +10,5 @@ abstract class RouteNames {
   static const profile = '/profile';
   static const karyawanList = '/karyawan-list';
   static const searchKaryawan = '/search-karyawan';
+  static const detailKaryawan = '/detail-karyawan';
 }

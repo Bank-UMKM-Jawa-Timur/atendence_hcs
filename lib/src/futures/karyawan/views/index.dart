@@ -2,6 +2,7 @@ import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,11 +14,12 @@ class KaryawanPage extends StatefulWidget {
 }
 
 class _KaryawanPageState extends State<KaryawanPage> {
+  var nip = Get.arguments[0]['nip'];
+  var nama = Get.arguments[1]['nama'];
   @override
   void initState() {
     super.initState();
     print("refresh");
-    print(Get.arguments['nip']);
   }
 
   @override
@@ -71,11 +73,15 @@ class _KaryawanPageState extends State<KaryawanPage> {
                           ),
                         ),
                         spaceWidth(8),
-                        const Expanded(
+                        Expanded(
                           flex: 10,
                           child: Text(
-                            "Cari Karyawan",
-                            style: TextStyle(color: cGrey_700, fontSize: 15),
+                            nip == "" ? nama : "$nip - $nama",
+                            style: const TextStyle(
+                              color: cGrey_900,
+                              fontSize: 15,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                         const Expanded(
@@ -89,8 +95,164 @@ class _KaryawanPageState extends State<KaryawanPage> {
               ),
             ),
           ),
-          emptyData(),
+          // emptyData(),
+          spaceHeight(25),
+          cardListData()
         ],
+      ),
+    );
+  }
+
+  Padding cardListData() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(
+            RouteNames.detailKaryawan,
+            arguments: Get.arguments[0]['nip'],
+          );
+        },
+        child: Container(
+          width: Get.width,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: cGrey_400,
+                blurRadius: 4,
+                offset: Offset(0, 1),
+              )
+            ],
+            borderRadius: BorderRadius.all(
+              Radius.circular(7),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 42,
+                          height: 42,
+                          decoration: const BoxDecoration(
+                            color: cPrimary_300,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "DS",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                15,
+                                cPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        spaceWidth(10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Dasha Taran",
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                16,
+                                Colors.black,
+                              ),
+                            ),
+                            Text(
+                              "Staf Advisor",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Icon(
+                      CommunityMaterialIcons.card_account_details_outline,
+                      color: cGrey_700,
+                    )
+                  ],
+                ),
+                spaceHeight(15),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Nik",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              "127635176237",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                14,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kantor",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              "Surabaya",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                14,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

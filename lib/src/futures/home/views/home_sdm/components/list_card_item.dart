@@ -52,7 +52,17 @@ Future<dynamic> showModalButton(BuildContext context, String name) {
               InkWell(
                 onTap: () {
                   Get.back();
-                  Get.toNamed(RouteNames.karyawanList);
+                  Get.toNamed(
+                    RouteNames.karyawanList,
+                    arguments: [
+                      {
+                        'nip': '',
+                      },
+                      {
+                        'nama': 'Cari Karyawan',
+                      },
+                    ],
+                  );
                 },
                 child: Container(
                   width: Get.width,
