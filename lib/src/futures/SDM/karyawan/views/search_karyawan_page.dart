@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/karyawan/controllers/search_karyawan_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/karyawan/controllers/search_karyawan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
