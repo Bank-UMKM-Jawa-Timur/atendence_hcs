@@ -1,4 +1,5 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/bindings/list_masa_pensiun_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
@@ -90,8 +91,8 @@ class RoutePages {
     // SDM
     GetPage(
       name: RouteNames.dataMasaPensiun,
-      page: () => const DataMasaPensiunPage(),
-      // binding: SearchBinding(),
+      page: () => DataMasaPensiunPage(),
+      // binding: ListMasaPensiunBinding(),
     ),
     GetPage(
       name: RouteNames.pengkinianData,
