@@ -1,5 +1,6 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ListMenuItems {
   // Manajemen Karyawan
@@ -8,31 +9,37 @@ class ListMenuItems {
       'icon': Icons.line_style_sharp,
       'name': "Karyawan",
       'route': RouteNames.karyawanList,
+      'arguments': ''
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Data Masa Pensiun",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.dataMasaPensiun,
+      'arguments': '',
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Pengkinian Data",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.pengkinianData,
+      'arguments': '',
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Pergerakan Karir",
       'route': 'null',
+      'arguments': '',
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Pejabat Sementara",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.pejabatSementara,
+      'arguments': '',
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Reward & Punishment",
       'route': 'null',
+      'arguments': '',
     },
   ];
 

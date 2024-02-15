@@ -71,6 +71,7 @@ class HomeSdm extends StatelessWidget {
     double heightStatusBar = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
       primary: false,
+      backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 2)),
         backgroundColor: cPrimary,

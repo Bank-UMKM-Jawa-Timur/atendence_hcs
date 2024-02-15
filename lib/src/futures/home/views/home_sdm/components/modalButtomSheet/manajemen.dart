@@ -73,7 +73,23 @@ class ModalButtonManajements {
                                 ? dropDownMenuPergerakanKarir(setState, index)
                                 : InkWell(
                                     onTap: () {
-                                      // Get.back();
+                                      Get.back();
+                                      Get.toNamed(
+                                        ListMenuItems.menuManagementList[index]
+                                            ['route'],
+                                        arguments: index == 0
+                                            ? [
+                                                {
+                                                  'nip': '',
+                                                },
+                                                {
+                                                  'nama': 'Cari Karyawan',
+                                                },
+                                              ]
+                                            : ListMenuItems
+                                                    .menuManagementList[index]
+                                                ['arguments'],
+                                      );
                                       // Get.toNamed(
                                       //   RouteNames.karyawanList,
                                       //   arguments: [
