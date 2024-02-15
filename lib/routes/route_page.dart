@@ -1,4 +1,12 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/demosi.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/mutasi.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/penonaktifan.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/promosi.dart';
+import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/bindings/list_karyawan_binding.dart';
@@ -76,6 +84,48 @@ class RoutePages {
     GetPage(
       name: RouteNames.detailKaryawan,
       page: () => const DetailKaryawan(),
+      // binding: SearchBinding(),
+    ),
+
+    // SDM
+    GetPage(
+      name: RouteNames.dataMasaPensiun,
+      page: () => const DataMasaPensiunPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.pengkinianData,
+      page: () => const PengkinianDataPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.mutasi,
+      page: () => const MutasiPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.demosi,
+      page: () => const DemosiPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.promosi,
+      page: () => const PromosiPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.penonaktifan,
+      page: () => const PenonaktifanPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.pejabatSementara,
+      page: () => const PejabatSementaraPage(),
+      // binding: SearchBinding(),
+    ),
+    GetPage(
+      name: RouteNames.suratPeringatan,
+      page: () => const SuratPeringatan(),
       // binding: SearchBinding(),
     ),
   ];
