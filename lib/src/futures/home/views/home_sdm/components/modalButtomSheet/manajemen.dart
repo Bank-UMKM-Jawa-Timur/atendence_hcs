@@ -74,22 +74,36 @@ class ModalButtonManajements {
                                 : InkWell(
                                     onTap: () {
                                       Get.back();
-                                      Get.toNamed(
-                                        ListMenuItems.menuManagementList[index]
-                                            ['route'],
-                                        arguments: index == 0
-                                            ? [
-                                                {
-                                                  'nip': '',
-                                                },
-                                                {
-                                                  'nama': 'Cari Karyawan',
-                                                },
-                                              ]
-                                            : ListMenuItems
-                                                    .menuManagementList[index]
-                                                ['arguments'],
-                                      );
+                                      if (index == 0) {
+                                        Get.toNamed(
+                                          ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['route'],
+                                          arguments: [
+                                            {'nip': ''},
+                                            {'nama': 'Cari Karyawan'},
+                                          ],
+                                        );
+                                      } else if (index == 2) {
+                                        Get.toNamed(
+                                          ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['route'],
+                                          arguments: [
+                                            {'nip': ''},
+                                            {'nama': 'Cari Karyawan'},
+                                          ],
+                                        );
+                                      } else {
+                                        Get.toNamed(
+                                          ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['route'],
+                                          arguments: ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['arguments'],
+                                        );
+                                      }
                                       // Get.toNamed(
                                       //   RouteNames.karyawanList,
                                       //   arguments: [

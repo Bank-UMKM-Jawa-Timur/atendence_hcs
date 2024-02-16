@@ -1,4 +1,5 @@
 import 'package:atendence_hcs/http/sharedpreferences/prefs.dart';
+import 'package:atendence_hcs/src/futures/home/controllers/home_sdm_controller.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/card_payments.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/header_profile_sdm.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/list_card_item.dart';
@@ -14,6 +15,7 @@ import 'package:get/get.dart';
 class HomeSdm extends StatelessWidget {
   HomeSdm({super.key});
   PrefsController prefsC = Get.find<PrefsController>();
+  HomeSdmController homeSdmC = Get.find<HomeSdmController>();
 
   List listIcon = [
     {
@@ -34,35 +36,6 @@ class HomeSdm extends StatelessWidget {
     },
   ];
 
-  List listRician = [
-    {
-      'title': 'Karyawan',
-      'icon': 'assets/icon/karyawan.png',
-      'total': '1830',
-      'date': 'Sabtu, 12 Feb 2024',
-    },
-    {
-      'title': 'Karyawan Masuk',
-      'icon': 'assets/icon/karyawan_masuk.png',
-      'total': '30',
-      'date': 'Sabtu, 12 Feb 2024',
-    },
-    {
-      'title': 'Karyawan Keluar',
-      'icon': 'assets/icon/karyawan_keluar.png',
-      'total': '10',
-      'date': 'Sabtu, 12 Feb 2024',
-    },
-    {
-      'title': 'Karyawan Pensiun',
-      'icon': 'assets/icon/karyawan_pensiun.png',
-      'total': '2',
-      'date': 'Sabtu, 12 Feb 2024',
-    },
-  ];
-
-  bool ubah = false;
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -73,7 +46,12 @@ class HomeSdm extends StatelessWidget {
       primary: false,
       backgroundColor: Colors.white,
       body: RefreshIndicator(
-        onRefresh: () => Future.delayed(const Duration(seconds: 2)),
+        onRefresh: () {
+          return Future.delayed(
+            const Duration(seconds: 2),
+            () => homeSdmC.getDataHome(),
+          );
+        },
         backgroundColor: cPrimary,
         color: Colors.white,
         child: Padding(
@@ -94,7 +72,11 @@ class HomeSdm extends StatelessWidget {
                   prefsC.displayJabatan.value,
                 ),
                 spaceHeight(25),
-                cardPayment(),
+                homeSdmC.isLoading.value
+                    ? shimmerCardPayment()
+                    : cardPayment(
+                        homeSdmC.homeSdmM!.data.totalGaji.replaceAll('.', ','),
+                      ),
                 spaceHeight(25),
                 listCardItems(listIcon),
                 spaceHeight(25),
@@ -109,7 +91,9 @@ class HomeSdm extends StatelessWidget {
                   style: customTextStyle(FontWeight.w600, 16, Colors.black),
                 ),
                 spaceHeight(20),
-                listRincianData(listRician)
+                homeSdmC.isLoading.value
+                    ? shimmerListRincianData()
+                    : listRincianData(homeSdmC.listRincian)
               ],
             ),
           ),

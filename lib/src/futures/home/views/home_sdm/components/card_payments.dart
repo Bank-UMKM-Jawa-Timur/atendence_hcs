@@ -3,8 +3,9 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
-Widget cardPayment() {
+Widget cardPayment(String value) {
   return Container(
     width: Get.width,
     height: 150,
@@ -61,7 +62,7 @@ Widget cardPayment() {
                 ),
               ),
               Text(
-                "Rp 450,000,000",
+                "Rp $value",
                 style: customTextStyle(
                   FontWeight.w800,
                   24,
@@ -72,6 +73,26 @@ Widget cardPayment() {
           ),
         )
       ],
+    ),
+  );
+}
+
+Widget shimmerCardPayment() {
+  return Shimmer.fromColors(
+    baseColor: cGrey_200,
+    highlightColor: cPrimary_300,
+    child: Container(
+      width: Get.width,
+      height: 150,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(17),
+        ),
+        image: DecorationImage(
+          image: AssetImage('assets/images/card.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
     ),
   );
 }

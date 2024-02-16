@@ -82,7 +82,8 @@ class _KaryawanPageState extends State<KaryawanPage> {
                         Expanded(
                           flex: 10,
                           child: Text(
-                            nip == "" ? nama : "$nip - $nama",
+                            // nip == "" ? nama : "$nip - $nama",
+                            "Cari Karyawan",
                             style: const TextStyle(
                               color: cGrey_900,
                               fontSize: 15,

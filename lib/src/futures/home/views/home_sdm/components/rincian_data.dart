@@ -3,6 +3,7 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 Expanded listRincianData(
   // String title,
@@ -107,5 +108,71 @@ Expanded listRincianData(
         );
       },
     ),
+  );
+}
+
+Widget shimmerListRincianData() {
+  return Column(
+    children: [
+      Shimmer.fromColors(
+        baseColor: cGrey_200,
+        highlightColor: cPrimary_300,
+        child: Container(
+          width: Get.width,
+          height: 65,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/card.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+      spaceHeight(5),
+      Shimmer.fromColors(
+        baseColor: cGrey_200,
+        highlightColor: cPrimary_300,
+        child: Container(
+          width: Get.width,
+          height: 65,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/card.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+      spaceHeight(5),
+      Shimmer.fromColors(
+        baseColor: cGrey_200,
+        highlightColor: cPrimary_300,
+        child: Container(
+          width: Get.width,
+          height: 65,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/card.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+      spaceHeight(5),
+      Shimmer.fromColors(
+        baseColor: cGrey_200,
+        highlightColor: cPrimary_300,
+        child: Container(
+          width: Get.width,
+          height: 65,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/card.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    ],
   );
 }
