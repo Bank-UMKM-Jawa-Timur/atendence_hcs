@@ -141,7 +141,7 @@ class _SearchKaryawanPageState extends State<SearchKaryawanPage> {
                           return InkWell(
                             onTap: () {
                               Get.offNamedUntil(
-                                RouteNames.karyawanList,
+                                Get.arguments,
                                 ModalRoute.withName(RouteNames.homeSdm),
                                 arguments: [
                                   {

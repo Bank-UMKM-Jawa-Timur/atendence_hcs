@@ -3,6 +3,7 @@ import 'package:atendence_hcs/src/futures/SDM/karyawan/controllers/list_karyawan
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,10 @@ class _KaryawanPageState extends State<KaryawanPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed(RouteNames.searchKaryawan);
+                  Get.toNamed(
+                    RouteNames.searchKaryawan,
+                    arguments: RouteNames.karyawanList,
+                  );
                 },
                 child: Container(
                   width: Get.width,
@@ -196,7 +200,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
                           ),
                           child: Center(
                             child: Text(
-                              "DS",
+                              shortTwoCaracterName(nama),
                               style: customTextStyle(
                                 FontWeight.w800,
                                 15,
