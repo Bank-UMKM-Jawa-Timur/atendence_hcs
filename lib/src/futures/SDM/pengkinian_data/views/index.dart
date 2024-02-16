@@ -108,7 +108,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
             ),
           ),
           nip == ""
-              ? emptyDataPengkinian()
+              ? emptyData("Pengkinian")
               : Obx(
                   () => listPengkinianC.isLoading.value
                       ? loadingPage()

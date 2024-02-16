@@ -26,7 +26,13 @@ class MenuManajements {
           return InkWell(
             onTap: () {
               Get.back();
-              Get.toNamed(subMenuPK[index]['route']);
+              Get.toNamed(
+                subMenuPK[index]['route'],
+                arguments: [
+                  {'nip': ''},
+                  {'nama': 'Cari Karyawan'},
+                ],
+              );
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),

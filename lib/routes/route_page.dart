@@ -4,6 +4,7 @@ import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/mutasi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/demosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/mutasi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/penonaktifan.dart';
@@ -93,18 +94,18 @@ class RoutePages {
     // SDM
     GetPage(
       name: RouteNames.dataMasaPensiun,
-      page: () => DataMasaPensiunPage(),
+      page: () => const DataMasaPensiunPage(),
       // binding: ListMasaPensiunBinding(),
     ),
     GetPage(
       name: RouteNames.pengkinianData,
-      page: () => PengkinianDataPage(),
+      page: () => const PengkinianDataPage(),
       binding: ListPengkinianBinding(),
     ),
     GetPage(
       name: RouteNames.mutasi,
-      page: () => const MutasiPage(),
-      // binding: SearchBinding(),
+      page: () => MutasiPage(),
+      binding: MutasiBinding(),
     ),
     GetPage(
       name: RouteNames.demosi,

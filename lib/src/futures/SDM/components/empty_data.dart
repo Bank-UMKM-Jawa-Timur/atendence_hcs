@@ -2,7 +2,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 
-Column emptyDataPengkinian() {
+Column emptyData(String title) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -15,7 +15,7 @@ Column emptyDataPengkinian() {
         ),
       ),
       Text(
-        "Silahkan cari data karyawan untuk\nmenampilkan pengkinian data",
+        "Silahkan cari data karyawan untuk\nmenampilkan data $title",
         textAlign: TextAlign.center,
         style: customTextStyle(FontWeight.w500, 15, Colors.black),
       )
