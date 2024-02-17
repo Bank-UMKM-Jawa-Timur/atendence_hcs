@@ -229,7 +229,7 @@ class _MutasiPageState extends State<MutasiPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                "Jabatan Blom",
+                                nip,
                                 style: customTextStyle(
                                   FontWeight.w600,
                                   12,

@@ -237,7 +237,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                "Jabatan Blom",
+                                nip,
                                 style: customTextStyle(
                                   FontWeight.w600,
                                   12,

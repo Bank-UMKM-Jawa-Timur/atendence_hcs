@@ -227,7 +227,7 @@ class _DemosiPageState extends State<DemosiPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                "Jabatan Blom",
+                                nip,
                                 style: customTextStyle(
                                   FontWeight.w600,
                                   12,

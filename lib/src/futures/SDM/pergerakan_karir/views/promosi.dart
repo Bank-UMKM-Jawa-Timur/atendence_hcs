@@ -230,7 +230,7 @@ class _PromosiPageState extends State<PromosiPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                "Jabatan Blom",
+                                nip,
                                 style: customTextStyle(
                                   FontWeight.w600,
                                   12,
