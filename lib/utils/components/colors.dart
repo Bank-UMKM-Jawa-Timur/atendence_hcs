@@ -15,5 +15,6 @@ const cGrey_600 = Color(0xFF6C848F);
 const cGrey_700 = Color(0xFFA6A6A6);
 const cGrey_900 = Color(0xFF4E4E4E);
 const cGreen_300 = Color(0xFFDFFFE7);
+const cGreen_500 = Color(0xFF69F38C);
 const cGreen_900 = Color(0xFF00B22C);
 const cRed_900 = Color(0xFFDA251D);
