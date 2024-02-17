@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class MutasiController extends GetxController {
-  static MutasiController get to => Get.put(MutasiController());
   ListMutasiModel? mutasiM;
   var isLoading = false.obs;
   var isEmptyData = true.obs;

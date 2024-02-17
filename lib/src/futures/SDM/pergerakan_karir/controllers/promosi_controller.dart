@@ -28,7 +28,6 @@ class PromosiController extends GetxController {
         } else {
           isEmptyData.value = true;
         }
-        print(json);
       } else {
         debugPrint(response.statusCode.toString());
       }
