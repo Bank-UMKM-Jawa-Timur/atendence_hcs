@@ -94,6 +94,25 @@ class ModalButtonManajements {
                                             {'nama': 'Cari Karyawan'},
                                           ],
                                         );
+                                      } else if (index == 3) {
+                                        Get.toNamed(
+                                          ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['route'],
+                                          arguments: ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['arguments'],
+                                        );
+                                      } else if (index == 4) {
+                                        Get.toNamed(
+                                          ListMenuItems
+                                                  .menuManagementList[index]
+                                              ['route'],
+                                          arguments: [
+                                            {'nip': ''},
+                                            {'nama': 'Cari Karyawan'},
+                                          ],
+                                        );
                                       } else {
                                         Get.toNamed(
                                           ListMenuItems
