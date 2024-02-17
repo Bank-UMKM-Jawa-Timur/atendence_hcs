@@ -252,7 +252,7 @@ class _DemosiPageState extends State<DemosiPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Tanggal Mutasi",
+                              "Tanggal Demosi",
                               style: customTextStyle(
                                 FontWeight.w600,
                                 12,

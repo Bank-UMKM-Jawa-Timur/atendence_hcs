@@ -6,6 +6,7 @@ import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_peng
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/demosi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/mutasi_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/promosi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/demosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/mutasi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/penonaktifan.dart';
@@ -116,7 +117,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.promosi,
       page: () => const PromosiPage(),
-      // binding: SearchBinding(),
+      binding: PromosiBinding(),
     ),
     GetPage(
       name: RouteNames.penonaktifan,
