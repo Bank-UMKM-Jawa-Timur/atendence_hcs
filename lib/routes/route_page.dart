@@ -4,6 +4,7 @@ import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/demosi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/bindings/mutasi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/demosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/mutasi.dart';
@@ -104,13 +105,13 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.mutasi,
-      page: () => MutasiPage(),
+      page: () => const MutasiPage(),
       binding: MutasiBinding(),
     ),
     GetPage(
       name: RouteNames.demosi,
       page: () => const DemosiPage(),
-      // binding: SearchBinding(),
+      binding: DemosiBinding(),
     ),
     GetPage(
       name: RouteNames.promosi,

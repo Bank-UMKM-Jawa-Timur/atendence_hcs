@@ -5,7 +5,6 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
-import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
