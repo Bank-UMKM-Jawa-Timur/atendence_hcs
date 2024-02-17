@@ -27,6 +27,7 @@ class SubDivisiController extends GetxController {
         } else {
           emptyData(true);
         }
+        print(json);
       } else {
         debugPrint(response.statusCode.toString());
       }

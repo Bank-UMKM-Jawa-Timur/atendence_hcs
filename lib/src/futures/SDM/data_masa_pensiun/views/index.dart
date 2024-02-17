@@ -1,3 +1,7 @@
+import 'package:atendence_hcs/http/models/SDM/masa_pensiun/divisi_model.dart'
+    as diviModel;
+import 'package:atendence_hcs/http/models/SDM/masa_pensiun/sub_divisi_model.dart'
+    as subDivisModel;
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/bagian_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/divisi_controller.dart';
@@ -96,19 +100,95 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                 : listMasaPensiunC.showSubDiv.value
                                     ? subDivisiC.isLoading.value
                                         ? loadingPage()
-                                        : dropdownSubDivisi(
-                                            subDivisiC.subdivisiM!.data,
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Sub Divisi",
+                                                  style: customTextStyle(
+                                                    FontWeight.w600,
+                                                    12,
+                                                    cGrey_900,
+                                                  ),
+                                                ),
+                                                spaceHeight(3),
+                                                DropdownButtonFormField(
+                                                  dropdownColor: Colors.white,
+                                                  isDense: true,
+                                                  isExpanded: true,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.all(10),
+                                                    focusedBorder:
+                                                        focusedBorder,
+                                                    enabledBorder:
+                                                        enabledBorder,
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                  ),
+                                                  // value: skemaKreditController.valueSkemaKredit,
+                                                  value: valueSubDivisi,
+                                                  hint: Text(
+                                                    valueSubDivisi ??
+                                                        "-- pilih Sub Divisi --",
+                                                    style: customTextStyle(
+                                                      FontWeight.w600,
+                                                      12,
+                                                      cGrey_600,
+                                                    ),
+                                                  ),
+                                                  onChanged: ((value) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        valueSubDivisi = value;
+                                                        if (listMasaPensiunC
+                                                            .bagian.value) {
+                                                          bagianC.getBagian(
+                                                              valueSubDivisi);
+                                                        }
+                                                      });
+                                                    }
+                                                  }),
+                                                  items: subDivisiC
+                                                      .subdivisiM?.data
+                                                      .map<
+                                                          DropdownMenuItem<
+                                                              String>>((item) {
+                                                    return DropdownMenuItem(
+                                                      child: Text(
+                                                        item.kdSubdiv +
+                                                            " - " +
+                                                            item.namaSubdivisi,
+                                                        style: customTextStyle(
+                                                          FontWeight.w500,
+                                                          12,
+                                                          cGrey_900,
+                                                        ),
+                                                      ),
+                                                      value: item.kdSubdiv,
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ],
+                                            ),
                                           )
                                     : Container(),
 
                             // show dropDown Bagian
-                            bagianC.emptyData.value
-                                ? Container()
-                                : listMasaPensiunC.bagian.value
-                                    ? bagianC.isLoading.value
-                                        ? loadingPage()
-                                        : dropdownBagian(bagianC.bagianM!.data)
-                                    : Container(),
+                            // bagianC.emptyData.value
+                            //     ? Container()
+                            //     : listMasaPensiunC.bagian.value
+                            //         ? bagianC.isLoading.value
+                            //             ? loadingPage()
+                            //             : dropdownBagian(bagianC.bagianM!.data)
+                            //         : Container(),
 
                             // Button filter
                             buttonWithIcon(
@@ -341,7 +421,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     );
   }
 
-  Padding dropdownDivisi(List<dynamic> data) {
+  Padding dropdownDivisi(List<diviModel.Datum> data) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(
@@ -371,7 +451,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
             // value: skemaKreditController.valueSkemaKredit,
             value: valueDivisi,
             hint: Text(
-              "-- pilih Divisi --",
+              valueDivisi ?? "-- pilih Divisi --",
               style: customTextStyle(
                 FontWeight.w600,
                 12,
@@ -385,10 +465,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                   if (listMasaPensiunC.showSubDiv.value) {
                     subDivisiC.getDivisi(valueDivisi);
                   }
+                  Get.delete<SubDivisiController>();
                 });
               }
             }),
-            items: divisC.divisiM?.data.map((item) {
+            items: data.map((item) {
               return DropdownMenuItem(
                 child: Text(
                   item.kdDivisi + " - " + item.namaDivisi,
@@ -407,7 +488,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     );
   }
 
-  Padding dropdownSubDivisi(List<dynamic> data) {
+  Padding dropdownSubDivisi(List<subDivisModel.Datum> data) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(
@@ -435,7 +516,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
               fillColor: Colors.white,
             ),
             // value: skemaKreditController.valueSkemaKredit,
-            value: valueSubDivisi,
+            value: valueSubDivisi ?? '',
             hint: Text(
               "-- pilih Sub Divisi --",
               style: customTextStyle(
@@ -454,7 +535,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                 });
               }
             }),
-            items: subDivisiC.subdivisiM?.data.map((item) {
+            items: data.map<DropdownMenuItem<String>>((item) {
               return DropdownMenuItem(
                 child: Text(
                   item.kdSubdiv + " - " + item.namaSubdivisi,
