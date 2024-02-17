@@ -1,6 +1,13 @@
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/bagian_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/divisi_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/sub_divis_controller.dart';
 import 'package:get/get.dart';
 
 class ListMasaPensiunController extends GetxController {
+  DivisiController divisC = Get.find<DivisiController>();
+  SubDivisiController subDivisiC = Get.find<SubDivisiController>();
+  BagianController bagianC = Get.find<BagianController>();
+
   List row1 = [
     {'title': "Jabatan:", 'value': 'Kepala Seksi'},
     {'title': "Kantor:", 'value': 'Pusat'},
@@ -25,4 +32,36 @@ class ListMasaPensiunController extends GetxController {
   ];
 
   var isLoading = false.obs;
+  var kategori = ''.obs;
+  var showDiv = false.obs;
+  var showSubDiv = false.obs;
+  var bagian = false.obs;
+
+  void changeValDropdown() {
+    if (kategori.value == "") {
+      showDiv(false);
+      showSubDiv(false);
+      bagian(false);
+    } else if (kategori.value == "Keseluruhan") {
+      showDiv(false);
+      showSubDiv(false);
+      bagian(false);
+    } else if (kategori.value == "Kantor") {
+      showDiv(false);
+      showSubDiv(false);
+      bagian(false);
+    } else if (kategori.value == "Sub Divisi") {
+      showDiv(true);
+      showSubDiv(true);
+      bagian(false);
+    } else if (kategori.value == "Bagian") {
+      showDiv(true);
+      showSubDiv(true);
+      bagian(true);
+    } else if (kategori.value == "Divisi") {
+      showDiv(true);
+      showSubDiv(false);
+      bagian(false);
+    }
+  }
 }

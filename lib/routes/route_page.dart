@@ -98,7 +98,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.dataMasaPensiun,
       page: () => const DataMasaPensiunPage(),
-      // binding: ListMasaPensiunBinding(),
+      binding: ListMasaPensiunBinding(),
     ),
     GetPage(
       name: RouteNames.pengkinianData,
