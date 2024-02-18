@@ -13,6 +13,7 @@ import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/demosi.dart
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/mutasi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/penonaktifan.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/promosi.dart';
+import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/bindings/surat_peringatan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/home/bindings/home_sdm_binding.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
@@ -134,7 +135,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.suratPeringatan,
       page: () => const SuratPeringatan(),
-      // binding: SearchBinding(),
+      binding: SuratPeringatanBinding(),
     ),
   ];
 }

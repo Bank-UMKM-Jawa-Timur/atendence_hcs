@@ -36,7 +36,7 @@ class Datum {
   String nip;
   DateTime tanggalSp;
   String? noSp;
-  String pelanggaran;
+  String? pelanggaran;
   String? sanksi;
   String namaKaryawan;
 
