@@ -1,8 +1,12 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
+import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/controllers/pejabat_sementara_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/empty_page.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +18,17 @@ class PejabatSementaraPage extends StatefulWidget {
 }
 
 class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
+  PejabatSementaraController pjsC = Get.find<PejabatSementaraController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+
+  @override
+  void initState() {
+    super.initState();
+    if (nip != "") {
+      pjsC.getListPjs(nip);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +107,41 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
             ),
           ),
           spaceHeight(20),
-          cardItems(1, "Bpj. Penyelia", "08 Maret 2021", "-", "aktif")
+          nip == ""
+              ? emptyData("Pejabat Sementara")
+              : Obx(
+                  () => pjsC.isLoading.value
+                      ? loadingPage()
+                      : pjsC.isEmptyData.value
+                          ? emtyPage(
+                              "Hasil Pejabat Sementara untuk\n$nama Masih Kosong!.")
+                          : Expanded(
+                              child: RefreshIndicator(
+                                color: Colors.white,
+                                backgroundColor: cPrimary,
+                                onRefresh: () => pjsC.getListPjs(nip),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  itemCount: pjsC.pjsModel?.data.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    return cardItems(
+                                      index + 1,
+                                      pjsC.pjsModel!.data[index].displayJabatan,
+                                      pjsC.pjsModel?.data[index].tanggalMulai
+                                          .fullDateAll()
+                                          .toString(),
+                                      pjsC.pjsModel!.data[index]
+                                              .tanggalBerakhir ??
+                                          '-',
+                                      "aktif",
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                ),
         ],
       ),
     );
@@ -178,7 +225,7 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "08129",
+                                    nip,
                                     style: customTextStyle(
                                       FontWeight.w600,
                                       12,
@@ -291,7 +338,11 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                               ),
                             ),
                             Text(
-                              berakhir,
+                              berakhir != "-"
+                                  ? DateTime.parse(berakhir)
+                                      .fullDateAll()
+                                      .toString()
+                                  : berakhir,
                               style: customTextStyle(
                                 FontWeight.w700,
                                 13,

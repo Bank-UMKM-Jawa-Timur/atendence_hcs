@@ -1,6 +1,7 @@
 import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/bindings/list_masa_pensiun_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/views/index.dart';
@@ -128,7 +129,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.pejabatSementara,
       page: () => const PejabatSementaraPage(),
-      // binding: SearchBinding(),
+      binding: PejabatSementaraBinding(),
     ),
     GetPage(
       name: RouteNames.suratPeringatan,
