@@ -67,17 +67,17 @@ class ListMenuItems {
     {
       'icon': Icons.line_style_sharp,
       'name': "Jabatan",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.jabatan,
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Pejabat Sementara",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.historiPejabatSementara,
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Surat Peringatan",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.historiSuratPeringatan,
     },
   ];
 

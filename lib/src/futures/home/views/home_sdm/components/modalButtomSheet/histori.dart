@@ -71,17 +71,17 @@ class ModalButtonHistori {
                             child: InkWell(
                               onTap: () {
                                 Get.back();
-                                // Get.toNamed(
-                                // RouteNames.pejan,
-                                // arguments: [
-                                //   {
-                                //     'nip': '',
-                                //   },
-                                //   {
-                                //     'nama': 'Cari Karyawan',
-                                //   },
-                                // ],
-                                // );
+                                Get.toNamed(
+                                  ListMenuItems.menuHistoriList[index]['route'],
+                                  arguments: [
+                                    {
+                                      'nip': '',
+                                    },
+                                    {
+                                      'nama': 'Cari Karyawan',
+                                    },
+                                  ],
+                                );
                               },
                               child: Container(
                                 width: Get.width,

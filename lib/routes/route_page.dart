@@ -2,6 +2,7 @@ import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/bindings/list_ma
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/histori_pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/jabatan/bindings/histori_jaminan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/jabatan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
@@ -150,7 +151,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.jabatan,
       page: () => const Jabatan(),
-      // binding: SuratPeringatanBinding(),
+      binding: HistoriJaminanBinding(),
     ),
     GetPage(
       name: RouteNames.historiPejabatSementara,

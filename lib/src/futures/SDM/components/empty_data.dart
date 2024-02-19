@@ -25,7 +25,7 @@ Column emptyData(String title) {
 
 Widget emptyDataSetTitle(String title) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 30),
+    padding: const EdgeInsets.symmetric(vertical: 25),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
