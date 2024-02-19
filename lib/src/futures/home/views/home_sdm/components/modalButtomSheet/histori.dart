@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/variable/list_menu.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -69,17 +70,17 @@ class ModalButtonHistori {
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: InkWell(
                               onTap: () {
-                                // Get.back();
+                                Get.back();
                                 // Get.toNamed(
-                                //   RouteNames.karyawanList,
-                                //   arguments: [
-                                //     {
-                                //       'nip': '',
-                                //     },
-                                //     {
-                                //       'nama': 'Cari Karyawan',
-                                //     },
-                                //   ],
+                                // RouteNames.pejan,
+                                // arguments: [
+                                //   {
+                                //     'nip': '',
+                                //   },
+                                //   {
+                                //     'nama': 'Cari Karyawan',
+                                //   },
+                                // ],
                                 // );
                               },
                               child: Container(

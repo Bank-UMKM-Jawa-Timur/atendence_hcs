@@ -1,5 +1,8 @@
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/bindings/list_masa_pensiun_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/histori_pejabat_sementara/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/jabatan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
@@ -140,6 +143,24 @@ class RoutePages {
       name: RouteNames.suratPeringatan,
       page: () => const SuratPeringatan(),
       binding: SuratPeringatanBinding(),
+    ),
+
+    // Histori
+
+    GetPage(
+      name: RouteNames.jabatan,
+      page: () => const Jabatan(),
+      // binding: SuratPeringatanBinding(),
+    ),
+    GetPage(
+      name: RouteNames.historiPejabatSementara,
+      page: () => const HistoriPejabatSementara(),
+      // binding: SuratPeringatanBinding(),
+    ),
+    GetPage(
+      name: RouteNames.historiSuratPeringatan,
+      page: () => const HistoriSuratPeringatan(),
+      // binding: SuratPeringatanBinding(),
     ),
   ];
 }

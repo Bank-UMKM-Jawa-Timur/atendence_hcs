@@ -21,4 +21,8 @@ abstract class RouteNames {
   static const penonaktifan = '/penonaktifan';
   static const pejabatSementara = '/pejabat-sementara';
   static const suratPeringatan = '/surat-peringatan';
+  // Histori
+  static const jabatan = '/jabatan';
+  static const historiPejabatSementara = '/histori-pejabat-sementara';
+  static const historiSuratPeringatan = '/histori-surat-peringatan';
 }

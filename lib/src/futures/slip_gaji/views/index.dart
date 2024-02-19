@@ -42,7 +42,6 @@ class _SlipGajiState extends State<SlipGaji> {
     var empty = emtyPage(
       "Slip Gaji Masih Kosong!",
     );
-    const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -63,7 +62,7 @@ class _SlipGajiState extends State<SlipGaji> {
           InkWell(
             splashColor: cPrimary,
             onTap: () {
-              _showModalButton(context, list);
+              _showModalButton(context);
             },
             child: const SizedBox(
               width: 27,
@@ -296,7 +295,7 @@ class _SlipGajiState extends State<SlipGaji> {
     );
   }
 
-  Future<dynamic> _showModalButton(BuildContext context, List<String> list) {
+  Future<dynamic> _showModalButton(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
