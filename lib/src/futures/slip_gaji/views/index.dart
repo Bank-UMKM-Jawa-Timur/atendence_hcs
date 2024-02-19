@@ -28,6 +28,8 @@ class _SlipGajiState extends State<SlipGaji> {
   var prefsC = Get.find<PrefsController>();
   String? valueBulan;
   String? dropdownValue;
+  String nip = "null";
+  String nama = "Cari Karyawan";
 
   @override
   void initState() {
@@ -303,8 +305,15 @@ class _SlipGajiState extends State<SlipGaji> {
         ),
       ),
       builder: (context) {
-        return SizedBox(
-          height: 300,
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          height: 350,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 30,
@@ -338,6 +347,54 @@ class _SlipGajiState extends State<SlipGaji> {
                 ),
                 spaceHeight(15),
                 // selectKaryawan(list),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: Get.width,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: cGrey_700),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.search,
+                              color: cGrey_900,
+                              size: 22,
+                            ),
+                          ),
+                          spaceWidth(8),
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              nip == "null" ? nama : "$nip - $nama",
+                              // "Cari Karyawan",
+                              style: const TextStyle(
+                                color: cGrey_900,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            flex: 1,
+                            child: SizedBox(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                spaceHeight(8),
                 _selectBulan(),
                 selectYear(),
                 spaceHeight(15),

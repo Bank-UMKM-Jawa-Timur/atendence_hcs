@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 class ListKaryawanController extends GetxController {
   ListKaryawanModel? listKaryawanM;
   var isLoading = false.obs;
+  var isEmptyData = true.obs;
 
   Future<void> getListKaryawan(nip) async {
     var headers = {'Content-Type': 'application/json'};
@@ -19,10 +20,15 @@ class ListKaryawanController extends GetxController {
         headers: headers,
       );
 
+      var json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
-        print(json);
-        listKaryawanM = ListKaryawanModel.fromJson(json);
+        var data = json['data'];
+        if (data.length > 0) {
+          isEmptyData(false);
+          listKaryawanM = ListKaryawanModel.fromJson(json);
+        } else {
+          isEmptyData(true);
+        }
       } else {
         debugPrint(response.statusCode.toString());
       }

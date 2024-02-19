@@ -2,6 +2,7 @@ import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/controllers/list_karyawan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -110,35 +111,42 @@ class _KaryawanPageState extends State<KaryawanPage> {
               : Obx(
                   () => listKaryawanC.isLoading.value
                       ? loadingPage()
-                      : Column(
-                          children: [
-                            spaceHeight(25),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemCount:
-                                  listKaryawanC.listKaryawanM?.data.length ?? 0,
-                              itemBuilder: (context, index) {
-                                return cardListData(
-                                  listKaryawanC.listKaryawanM?.data[index]
-                                          .namaKaryawan ??
-                                      '-',
-                                  listKaryawanC.listKaryawanM?.data[index]
-                                          .displayJabatan
-                                          .toString()
-                                          .trim() ??
-                                      '-',
-                                  listKaryawanC
-                                          .listKaryawanM?.data[index].nik ??
-                                      '-',
-                                  listKaryawanC.listKaryawanM?.data[index]
-                                          .namaCabang ??
-                                      '-',
-                                );
-                              },
+                      : listKaryawanC.isEmptyData.value
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 100),
+                              child: emtyPage("Data untuk $nama kosong!"),
+                            )
+                          : Column(
+                              children: [
+                                spaceHeight(25),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  itemCount: listKaryawanC
+                                          .listKaryawanM?.data.length ??
+                                      0,
+                                  itemBuilder: (context, index) {
+                                    return cardListData(
+                                      listKaryawanC.listKaryawanM?.data[index]
+                                              .namaKaryawan ??
+                                          '-',
+                                      listKaryawanC.listKaryawanM?.data[index]
+                                              .displayJabatan
+                                              .toString()
+                                              .trim() ??
+                                          '-',
+                                      listKaryawanC
+                                              .listKaryawanM?.data[index].nik ??
+                                          '-',
+                                      listKaryawanC.listKaryawanM?.data[index]
+                                              .namaCabang ??
+                                          '-',
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
                 )
         ],
       ),

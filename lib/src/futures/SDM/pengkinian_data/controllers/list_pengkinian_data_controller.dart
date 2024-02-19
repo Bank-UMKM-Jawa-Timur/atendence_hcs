@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 class ListPengkinianDataController extends GetxController {
   ListPengkinianDataModel? listPengkinianDataM;
   var isLoading = false.obs;
+  var isEmptyData = true.obs;
 
   Future<void> getListPengkinianData(nip) async {
     var headers = {'Content-Type': 'application/json'};
@@ -19,10 +20,15 @@ class ListPengkinianDataController extends GetxController {
         headers: headers,
       );
 
+      var json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
-        print(json);
-        listPengkinianDataM = ListPengkinianDataModel.fromJson(json);
+        var data = json['data'];
+        if (data.length > 0) {
+          listPengkinianDataM = ListPengkinianDataModel.fromJson(json);
+          isEmptyData(false);
+        } else {
+          isEmptyData(true);
+        }
       } else {
         debugPrint(response.statusCode.toString());
       }

@@ -1,4 +1,3 @@
-import 'package:atendence_hcs/http/sharedpreferences/bindings/prefs_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/bindings/list_masa_pensiun_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
@@ -25,6 +24,7 @@ import 'package:atendence_hcs/src/futures/SDM/karyawan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/views/search_karyawan_page.dart';
 import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
 import 'package:atendence_hcs/src/futures/profile/views/index.dart';
+import 'package:atendence_hcs/src/futures/slip_gaji/views/index.dart';
 
 import '../src/auth/bindings/login_binding.dart';
 import '../src/auth/views/login.dart';
@@ -60,6 +60,10 @@ class RoutePages {
       name: RouteNames.ubahPassword,
       page: () => const UbahPassword(),
       binding: UbahPasswordBinding(),
+    ),
+    GetPage(
+      name: RouteNames.slipGaji,
+      page: () => const SlipGaji(),
     ),
     GetPage(
       name: RouteNames.rincianSlipGaji,

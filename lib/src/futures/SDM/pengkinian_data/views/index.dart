@@ -3,6 +3,7 @@ import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/controllers/list_pengkinian_data_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -112,31 +113,39 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
               : Obx(
                   () => listPengkinianC.isLoading.value
                       ? loadingPage()
-                      : Column(
-                          children: [
-                            spaceHeight(20),
-                            ListView.builder(
-                              itemCount: listPengkinianC
-                                      .listPengkinianDataM?.data.length ??
-                                  0,
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return cardListData(
-                                  listPengkinianC.listPengkinianDataM
-                                          ?.data[index].namaBagian ??
-                                      '-',
-                                  listPengkinianC.listPengkinianDataM
-                                          ?.data[index].nik ??
-                                      '-',
-                                  listPengkinianC.listPengkinianDataM
-                                          ?.data[index].kantor ??
-                                      '-',
-                                );
-                              },
+                      : listPengkinianC.isEmptyData.value
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 100),
+                              child: emtyPage(
+                                "Pengkinian Data Untuk $nama masih kosong!",
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                spaceHeight(20),
+                                ListView.builder(
+                                  itemCount: listPengkinianC
+                                          .listPengkinianDataM?.data.length ??
+                                      0,
+                                  shrinkWrap: true,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return cardListData(
+                                      listPengkinianC.listPengkinianDataM
+                                              ?.data[index].namaBagian ??
+                                          '-',
+                                      listPengkinianC.listPengkinianDataM
+                                              ?.data[index].nik ??
+                                          '-',
+                                      listPengkinianC.listPengkinianDataM
+                                              ?.data[index].kantor ??
+                                          '-',
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
                 )
         ],
       ),
@@ -216,7 +225,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                "jabatan",
+                                nip,
                                 style: customTextStyle(
                                   FontWeight.w600,
                                   12,
