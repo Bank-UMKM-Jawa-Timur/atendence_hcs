@@ -24,7 +24,7 @@ class MenuPenghasilan {
           return InkWell(
             onTap: () {
               if (index == 1) {
-                Get.toNamed(RouteNames.slipGaji);
+                // Get.toNamed(RouteNames.slipGaji);
                 // Get.back();
               }
             },
