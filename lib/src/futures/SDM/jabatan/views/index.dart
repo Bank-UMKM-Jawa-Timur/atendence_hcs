@@ -5,7 +5,6 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -125,7 +124,21 @@ class _JabatanState extends State<Jabatan> {
                       () => jabatanC.isLoading.value
                           ? loadingPage()
                           : jabatanC.isEmptyData.value
-                              ? emptyData("Histori Jabaran $nama")
+                              ? Container(
+                                  width: Get.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: cGrey_400, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 30),
+                                    child: emptyData("Histori Jabaran $nama"),
+                                  ),
+                                )
                               : SizedBox(
                                   height:
                                       (jabatanC.jabatanM?.data.length ?? 0) *

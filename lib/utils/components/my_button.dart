@@ -9,7 +9,7 @@ buttonWithIcon(Icon icon, String text, String namRoute) {
     decoration: const BoxDecoration(
       color: cPrimary,
       borderRadius: BorderRadius.all(
-        Radius.circular(7),
+        Radius.circular(5),
       ),
     ),
     width: Get.width,
