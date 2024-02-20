@@ -41,6 +41,7 @@ class Datum {
   String? kdJabatan;
   String? namaJabatan;
   String? displayJabatan;
+  String? statusPjs;
 
   Datum({
     required this.id,
@@ -52,6 +53,7 @@ class Datum {
     required this.kdJabatan,
     required this.namaJabatan,
     required this.displayJabatan,
+    required this.statusPjs,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -64,6 +66,7 @@ class Datum {
         kdJabatan: json["kd_jabatan"],
         namaJabatan: json["nama_jabatan"],
         displayJabatan: json["display_jabatan"],
+        statusPjs: json["status_pjs"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,5 +80,6 @@ class Datum {
         "kd_jabatan": kdJabatan,
         "nama_jabatan": namaJabatan,
         "display_jabatan": displayJabatan,
+        "status_pjs": statusPjs,
       };
 }

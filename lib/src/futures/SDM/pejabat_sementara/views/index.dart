@@ -135,7 +135,8 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                                       pjsC.pjsModel!.data[index]
                                               .tanggalBerakhir ??
                                           '-',
-                                      "aktif",
+                                      pjsC.pjsModel!.data[index].statusPjs ??
+                                          '-',
                                     );
                                   },
                                 ),
@@ -234,9 +235,11 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                                   ),
                                   spaceWidth(10),
                                   Container(
-                                    decoration: const BoxDecoration(
-                                      color: cGreen_500,
-                                      borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                      color: type == "Aktif"
+                                          ? cGreen_500
+                                          : cRed_300,
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
                                     ),
