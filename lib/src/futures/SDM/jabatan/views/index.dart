@@ -5,6 +5,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,19 +32,19 @@ class _JabatanState extends State<Jabatan> {
   List listInput = [
     {
       'title': "Status Jabatan",
-      'value': "Definitif",
+      'value': "-",
     },
     {
       'title': "Pangkat dan Golongan Sekarang ",
-      'value': "C.4 - Staf 1",
+      'value': "-",
     },
     {
       'title': "Jabatan Sekarang",
-      'value': "Pimpinan Divisi",
+      'value': "-",
     },
     {
       'title': "Kantor Sekarang",
-      'value': "KPH",
+      'value': "-",
     },
   ];
 
@@ -65,103 +66,125 @@ class _JabatanState extends State<Jabatan> {
         elevation: 0,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              AnimatedSize(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.linear,
-                child: Container(
-                  width: Get.width,
-                  // height: Get.height,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cGrey_400, width: 1),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(6),
+      body: RefreshIndicator(
+        backgroundColor: cPrimary,
+        color: Colors.white,
+        onRefresh: () => jabatanC.getJabatan(nip),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Column(
+              children: [
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                  child: Container(
+                    width: Get.width,
+                    // height: Get.height,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: cGrey_400, width: 1),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(6),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        searchKaryawan(),
-                        isShow
-                            ? ListView.builder(
-                                itemCount: listInput.length,
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.all(0),
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) => inputData(
-                                  listInput[index]['title'],
-                                  listInput[index]['value'],
-                                ),
-                              )
-                            : Container()
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          searchKaryawan(),
+                          Obx(
+                            () => isShow
+                                ? ListView.builder(
+                                    itemCount: jabatanC.isEmptyData.value
+                                        ? listInput.length
+                                        : jabatanC.listInput.length,
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(0),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) => jabatanC
+                                            .isEmptyData.value
+                                        ? inputData(
+                                            listInput[index]['title'],
+                                            listInput[index]['value'],
+                                          )
+                                        : inputData(
+                                            jabatanC.listInput[index]['title'],
+                                            jabatanC.listInput[index]['value'],
+                                          ))
+                                : Container(),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              spaceHeight(10),
-              nip == ""
-                  ? Container(
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: cGrey_400, width: 1),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(6),
+                spaceHeight(10),
+                nip == ""
+                    ? Container(
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: cGrey_400, width: 1),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(6),
+                          ),
                         ),
+                        child: emptyDataSetTitle(
+                            "Silahkan Cari Karyawan untuk\nmenampilkan data."),
+                      )
+                    : Obx(
+                        () => jabatanC.isLoading.value
+                            ? loadingPage()
+                            : jabatanC.isEmptyData.value
+                                ? Container(
+                                    width: Get.width,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: cGrey_400, width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(6),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 30),
+                                      child: emptyData("Histori Jabaran $nama"),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height:
+                                        (jabatanC.jabatanM?.data.length ?? 0) *
+                                            200,
+                                    child: ListView.builder(
+                                      itemCount:
+                                          jabatanC.jabatanM?.data.length ?? 0,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) =>
+                                          cardItems(
+                                        index + 1,
+                                        jabatanC.jabatanM?.data[index]
+                                            .tanggalPengesahan
+                                            .fullDateAll()
+                                            .toString(),
+                                        jabatanC
+                                            .jabatanM?.data[index].keterangan,
+                                        jabatanC.jabatanM?.data[index].lama,
+                                        jabatanC.jabatanM?.data[index].baru,
+                                        jabatanC
+                                            .jabatanM?.data[index].masaKerja,
+                                        jabatanC.jabatanM?.data[index].buktiSk,
+                                      ),
+                                    ),
+                                  ),
                       ),
-                      child: emptyDataSetTitle(
-                          "Silahkan Cari Karyawan untuk\nmenampilkan data."),
-                    )
-                  : Obx(
-                      () => jabatanC.isLoading.value
-                          ? loadingPage()
-                          : jabatanC.isEmptyData.value
-                              ? Container(
-                                  width: Get.width,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border:
-                                        Border.all(color: cGrey_400, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(6),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 30),
-                                    child: emptyData("Histori Jabaran $nama"),
-                                  ),
-                                )
-                              : SizedBox(
-                                  height:
-                                      (jabatanC.jabatanM?.data.length ?? 0) *
-                                          200,
-                                  child: ListView.builder(
-                                    itemCount:
-                                        jabatanC.jabatanM?.data.length ?? 0,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) => cardItems(
-                                      1,
-                                      "tglMulai",
-                                      "ket",
-                                      "jabatanLama",
-                                      "jabatanBaru",
-                                      "lamaMenjabat",
-                                      "buktiSk",
-                                    ),
-                                  ),
-                                ),
-                    ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -331,7 +354,7 @@ class _JabatanState extends State<Jabatan> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: 40,

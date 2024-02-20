@@ -9,11 +9,13 @@ String historiJabatanModelToJson(HistoriJabatanModel data) =>
 class HistoriJabatanModel {
   int status;
   String message;
+  Rincian rincian;
   List<Datum> data;
 
   HistoriJabatanModel({
     required this.status,
     required this.message,
+    required this.rincian,
     required this.data,
   });
 
@@ -21,23 +23,25 @@ class HistoriJabatanModel {
       HistoriJabatanModel(
         status: json["status"],
         message: json["message"],
+        rincian: Rincian.fromJson(json["rincian"]),
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
+        "rincian": rincian.toJson(),
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
 class Datum {
   DateTime tanggalPengesahan;
-  String? lama;
-  String? baru;
-  String? buktiSk;
+  String lama;
+  String baru;
+  String buktiSk;
   Keterangan keterangan;
-  String? masaKerja;
+  String masaKerja;
 
   Datum({
     required this.tanggalPengesahan,
@@ -75,6 +79,42 @@ final keteranganValues = EnumValues({
   "Mutasi": Keterangan.MUTASI,
   "Promosi": Keterangan.PROMOSI
 });
+
+class Rincian {
+  String nip;
+  String namaKaryawan;
+  String statusJabatan;
+  String namaJabatan;
+  String pangkatGolongan;
+  String kantor;
+
+  Rincian({
+    required this.nip,
+    required this.namaKaryawan,
+    required this.statusJabatan,
+    required this.namaJabatan,
+    required this.pangkatGolongan,
+    required this.kantor,
+  });
+
+  factory Rincian.fromJson(Map<String, dynamic> json) => Rincian(
+        nip: json["nip"],
+        namaKaryawan: json["nama_karyawan"],
+        statusJabatan: json["status_jabatan"],
+        namaJabatan: json["nama_jabatan"],
+        pangkatGolongan: json["pangkat_golongan"],
+        kantor: json["kantor"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "nip": nip,
+        "nama_karyawan": namaKaryawan,
+        "status_jabatan": statusJabatan,
+        "nama_jabatan": namaJabatan,
+        "pangkat_golongan": pangkatGolongan,
+        "kantor": kantor,
+      };
+}
 
 class EnumValues<T> {
   Map<String, T> map;
