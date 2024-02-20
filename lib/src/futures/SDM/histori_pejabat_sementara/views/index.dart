@@ -362,9 +362,11 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                                   ),
                                   spaceWidth(10),
                                   Container(
-                                    decoration: const BoxDecoration(
-                                      color: cGreen_500,
-                                      borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                      color: type == "Aktif"
+                                          ? cGreen_500
+                                          : cRed_300,
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
                                     ),
