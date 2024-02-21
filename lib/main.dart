@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:atendence_hcs/utils/components/colors.dart';
+
 import 'src/auth/controllers/login_check.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -41,6 +43,12 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return GetMaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: cPrimary,
+        ),
+      ),
       defaultTransition: Transition.size,
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
