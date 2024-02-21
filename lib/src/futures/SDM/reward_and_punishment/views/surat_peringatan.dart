@@ -151,16 +151,16 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
         onTap: () {
-          // Get.toNamed(
-          //   RouteNames.detailKaryawan,
-          //   arguments: Get.arguments[0]['nip'],
-          // );
-          Get.snackbar(
-            backgroundColor: cRed_700,
-            "⚠️Warning!",
-            "Detail Surat Peringatan dalam proses pengembangan🙏🏻",
-            colorText: Colors.white,
+          Get.toNamed(
+            RouteNames.detailSuratPeringatan,
+            arguments: Get.arguments[0]['nip'],
           );
+          // Get.snackbar(
+          //   backgroundColor: cRed_700,
+          //   "⚠️Warning!",
+          //   "Detail Surat Peringatan dalam proses pengembangan🙏🏻",
+          //   colorText: Colors.white,
+          // );
         },
         child: Container(
           width: Get.width,

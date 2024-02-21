@@ -9,6 +9,7 @@ class SuratPeringatanController extends GetxController {
   SuratPeringatanModel? spM;
   var isLoading = false.obs;
   var isEmptyData = false.obs;
+  List listDetailSp = [];
 
   Future<void> getListSP(nip) async {
     var headers = {'Content-Type': 'application/json'};
@@ -36,5 +37,42 @@ class SuratPeringatanController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  Future<void> getDetailSp(nip) async {
+    listDetailSp = [
+      {
+        "title": "NIP",
+        "value": "....",
+      },
+      {
+        "title": "Nama Karywan",
+        "value": "....",
+      },
+      {
+        "title": "No. SP",
+        "value": "....",
+      },
+      {
+        "title": "Tanggal SP",
+        "value": "....",
+      },
+      {
+        "title": "Jabatan",
+        "value": "....",
+      },
+      {
+        "title": "Kantor",
+        "value": "....",
+      },
+      {
+        "title": "Pelanggan",
+        "value": "....",
+      },
+      {
+        "title": "Sangsi",
+        "value": "....",
+      },
+    ];
   }
 }
