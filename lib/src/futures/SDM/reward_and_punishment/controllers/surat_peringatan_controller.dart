@@ -46,7 +46,7 @@ class SuratPeringatanController extends GetxController {
   Future<void> getDetailSp(nip) async {
     var headers = {'Content-Type': 'application/json'};
     try {
-      isLoading(true);
+      isLoadingDetail(true);
       http.Response response = await http.get(
         Uri.parse("$base_url/surat-peringatan/$nip"),
         headers: headers,
@@ -95,7 +95,7 @@ class SuratPeringatanController extends GetxController {
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      isLoading(false);
+      isLoadingDetail(false);
     }
   }
 }

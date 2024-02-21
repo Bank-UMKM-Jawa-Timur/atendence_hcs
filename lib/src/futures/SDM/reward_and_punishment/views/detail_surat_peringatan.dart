@@ -1,5 +1,6 @@
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/controllers/surat_peringatan_controller.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ class _DetailSuratPeringatanState extends State<DetailSuratPeringatan> {
   @override
   void initState() {
     super.initState();
-    spC.getDetailSp('nip');
+    spC.getDetailSp(Get.arguments);
   }
 
   @override
@@ -94,76 +95,82 @@ class _DetailSuratPeringatanState extends State<DetailSuratPeringatan> {
           },
           body: TabBarView(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  top: 50 + 130,
-                  bottom: 25,
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(0),
-                    itemCount: spC.listDetailSp.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
+              Obx(
+                () => spC.isLoadingDetail.value
+                    ? loadingPage()
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 50 + 130,
+                          bottom: 25,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 7,
-                            horizontal: 15,
-                          ),
-                          child: Container(
-                            width: Get.width,
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: cGrey_400,
-                                  width: 1,
-                                ),
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  spC.listDetailSp[index]['title'],
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: cGrey_700,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                spaceHeight(5),
-                                Text(
-                                  spC.listDetailSp[index]['value'],
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
                             ),
                           ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(0),
+                            itemCount: spC.listDetailSp.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 7,
+                                    horizontal: 15,
+                                  ),
+                                  child: Container(
+                                    width: Get.width,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: cGrey_400,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          spC.listDetailSp[index]['title'],
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: cGrey_700,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        spaceHeight(5),
+                                        Text(
+                                          spC.listDetailSp[index]['value'],
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
