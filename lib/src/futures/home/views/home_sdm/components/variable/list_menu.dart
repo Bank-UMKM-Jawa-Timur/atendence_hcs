@@ -91,12 +91,12 @@ class ListMenuItems {
     {
       'icon': Icons.line_style_sharp,
       'name': "Data Jamsostek",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.laporanDataJamsostek,
     },
     {
       'icon': Icons.line_style_sharp,
       'name': "Data DPP",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.laporanDataDpp,
     },
   ];
 }

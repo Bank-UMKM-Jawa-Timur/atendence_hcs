@@ -6,6 +6,12 @@ import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/bindings/
 import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/jabatan/bindings/histori_jaminan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/jabatan/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_data_jamsostek/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_dpp/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_demosi.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_mutasi.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_penonaktifan.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_promosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
@@ -170,6 +176,39 @@ class RoutePages {
       name: RouteNames.historiSuratPeringatan,
       page: () => const HistoriSuratPeringatan(),
       binding: HistoriSpBinding(),
+    ),
+
+    // Laporan
+
+    GetPage(
+      name: RouteNames.laporanMutasi,
+      page: () => const LaporanMutasi(),
+      // binding: HistoriSpBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanDemosi,
+      page: () => const LaporanDemosi(),
+      // binding: HistoriSpBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanPromosi,
+      page: () => const LaporanPromosi(),
+      // binding: HistoriSpBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanPenonaktifan,
+      page: () => const LaporanPenonaktifan(),
+      // binding: HistoriSpBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanDataJamsostek,
+      page: () => const LaporanDataJamsostek(),
+      // binding: HistoriSpBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanDataDpp,
+      page: () => const LaporanDpp(),
+      // binding: HistoriSpBinding(),
     ),
   ];
 }

@@ -1,6 +1,4 @@
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_laporan.dart';
-import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_manajemen.dart';
-import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_penghasilan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/variable/list_menu.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -23,7 +21,7 @@ class ModalButtonLaporan {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
-              height: 350,
+              height: 410,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -74,18 +72,19 @@ class ModalButtonLaporan {
                                 ? dropDownMenu(setState, index)
                                 : InkWell(
                                     onTap: () {
-                                      // Get.back();
-                                      // Get.toNamed(
-                                      //   RouteNames.karyawanList,
-                                      //   arguments: [
-                                      //     {
-                                      //       'nip': '',
-                                      //     },
-                                      //     {
-                                      //       'nama': 'Cari Karyawan',
-                                      //     },
-                                      //   ],
-                                      // );
+                                      Get.back();
+                                      Get.toNamed(
+                                        ListMenuItems.menuLaporanList[index]
+                                            ['route'],
+                                        // arguments: [
+                                        //   {
+                                        //     'nip': '',
+                                        //   },
+                                        //   {
+                                        //     'nama': 'Cari Karyawan',
+                                        //   },
+                                        // ],
+                                      );
                                     },
                                     child: Container(
                                       width: Get.width,

@@ -1,10 +1,14 @@
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 List subMenuLaporan = [
-  {'name': "Blom Ada"},
-  {'name': "Blom Ada"},
+  {'name': "Laporan Mutasi", 'route': RouteNames.laporanMutasi},
+  {'name': "Laporan Demosi", 'route': RouteNames.laporanDemosi},
+  {'name': "Laporan Promosi", 'route': RouteNames.laporanPromosi},
+  {'name': "Laporan Penonaktifan", 'route': RouteNames.laporanPenonaktifan},
 ];
 
 class MenuLaporan {
@@ -20,7 +24,10 @@ class MenuLaporan {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.back();
+              Get.toNamed(subMenuLaporan[index]['route']);
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Row(

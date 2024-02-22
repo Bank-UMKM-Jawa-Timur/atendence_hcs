@@ -26,4 +26,11 @@ abstract class RouteNames {
   static const jabatan = '/jabatan';
   static const historiPejabatSementara = '/histori-pejabat-sementara';
   static const historiSuratPeringatan = '/histori-surat-peringatan';
+  // Laporan
+  static const laporanMutasi = '/laporan-mutasi';
+  static const laporanDemosi = '/laporan-demosi';
+  static const laporanPromosi = '/laporan-promosi';
+  static const laporanPenonaktifan = '/laporan-penonaktifan';
+  static const laporanDataJamsostek = '/laporan-data-jamsostek';
+  static const laporanDataDpp = '/laporan-data-dpp';
 }
