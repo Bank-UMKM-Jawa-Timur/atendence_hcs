@@ -6,6 +6,8 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_datepicker.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -43,101 +45,154 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Histori Surat Peringatan"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Column(
-          children: [
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(7),
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            children: [
+              Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(7),
+                  ),
+                  border: Border.all(color: cGrey_400, width: 1),
                 ),
-                border: Border.all(color: cGrey_400, width: 1),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                child: Column(
-                  children: [
-                    selectKategori(),
-                    dropdownValue == "Karyawan"
-                        ? searchKaryawan()
-                        : Container(),
-                    dropdownValue == "Tanggal"
-                        ? Column(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  child: Column(
+                    children: [
+                      selectKategori(),
+                      dropdownValue == "Karyawan"
+                          ? searchKaryawan()
+                          : Container(),
+                      dropdownValue == "Tanggal"
+                          ? Column(
+                              children: [
+                                formFirstDate(context),
+                                formLastDate(context),
+                              ],
+                            )
+                          : Container(),
+                      dropdownValue == "Tahun"
+                          ? formDateYear(context)
+                          : Container(),
+                      spaceHeight(10),
+                      Container(
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: cPrimary,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                        ),
+                        width: Get.width,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            historiSpC.typeFilter.value = true;
+                            historiSpC.getHistoriSp(
+                                nip, firstDate, lastDate, year);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: cPrimary,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              formFirstDate(context),
-                              formLastDate(context),
-                            ],
-                          )
-                        : Container(),
-                    dropdownValue == "Tahun"
-                        ? formDateYear(context)
-                        : Container(),
-                    spaceHeight(10),
-                    Container(
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: cPrimary,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                      ),
-                      width: Get.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          historiSpC.getHistoriSp(
-                              nip, firstDate, lastDate, year);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: cPrimary,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              CommunityMaterialIcons.filter_outline,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            spaceWidth(5),
-                            const Text(
-                              "Tampilkan",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                              const Icon(
+                                CommunityMaterialIcons.filter_outline,
                                 color: Colors.white,
+                                size: 20,
                               ),
+                              spaceWidth(5),
+                              const Text(
+                                "Tampilkan",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              spaceHeight(10),
+              historiSpC.typeFilter.value
+                  ? historiSpC.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 200),
+                          child: loadingPage(),
+                        )
+                      : historiSpC.isEmptyData.value
+                          ? Expanded(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: Get.width,
+                                  height: Get.height / 2,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: cGrey_400, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                  ),
+                                  child: emptyDataSetTitle(
+                                    "Data yang anda filter masih kosong!.",
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: RefreshIndicator(
+                                onRefresh: () => historiSpC.getHistoriSp(
+                                    nip, firstDate, lastDate, year),
+                                child: ListView.builder(
+                                  itemCount:
+                                      historiSpC.historiSpM?.data.length ?? 0,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    var data = historiSpC.historiSpM?.data;
+                                    return cardItems(
+                                      index + 1,
+                                      data?[index].nip ?? '-',
+                                      data?[index].namaKaryawan ?? '-',
+                                      data?[index].noSp ?? '-',
+                                      data?[index].tanggalSp.toString() ?? '-',
+                                      data?[index].pelanggaran ?? '-',
+                                      data?[index].sanksi ?? '-',
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          width: Get.width,
+                          height: Get.height / 2,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: cGrey_400, width: 1),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(6),
                             ),
-                          ],
+                          ),
+                          child: emptyDataSetTitle(
+                            "Silahkan Filter untuk menampilkan data\nHistori Surat Peringatan.",
+                          ),
                         ),
                       ),
                     )
-                  ],
-                ),
-              ),
-            ),
-            spaceHeight(10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  width: Get.width,
-                  height: Get.height / 2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cGrey_400, width: 1),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(6),
-                    ),
-                  ),
-                  child: emptyDataSetTitle(
-                      "Silahkan Cari Karyawan untuk\nmenampilkan data."),
-                ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -179,6 +234,8 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                         child: CupertinoDatePicker(
                             initialDateTime: DateTime.now(),
                             maximumDate: DateTime.now(),
+                            maximumYear: DateTime.now().year,
+                            minimumYear: 2023,
                             mode: CupertinoDatePickerMode.date,
                             onDateTimeChanged: (val) {
                               setState(() {
@@ -258,6 +315,8 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                         child: CupertinoDatePicker(
                             initialDateTime: DateTime.now(),
                             maximumDate: DateTime.now(),
+                            maximumYear: DateTime.now().year,
+                            minimumYear: 2023,
                             mode: CupertinoDatePickerMode.date,
                             onDateTimeChanged: (val) {
                               setState(() {
@@ -507,6 +566,211 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
           ),
         ),
       ],
+    );
+  }
+
+  Padding cardItems(no, nip, name, noSp, tglSp, pelanggaran, sanksi) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Container(
+        width: Get.width,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: cGrey_400,
+              blurRadius: 4,
+              offset: Offset(0, 1),
+            )
+          ],
+          borderRadius: BorderRadius.all(
+            Radius.circular(7),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: cPrimary_300,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            no.toString(),
+                            style: customTextStyle(
+                              FontWeight.w800,
+                              16,
+                              cPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      spaceWidth(10),
+                      SizedBox(
+                        width: 250,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              shortenLastName(name),
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                14,
+                                Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              nip,
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              spaceHeight(15),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nomor SP",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_700,
+                            ),
+                          ),
+                          Text(
+                            noSp,
+                            style: customTextStyle(
+                              FontWeight.w700,
+                              13,
+                              cGrey_600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  spaceWidth(10),
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tanggal SP",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_700,
+                            ),
+                          ),
+                          Text(
+                            DateTime.parse(tglSp).fullDateAll().toString(),
+                            style: customTextStyle(
+                              FontWeight.w700,
+                              13,
+                              cGrey_600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              spaceHeight(10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Pelanggaran",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_700,
+                            ),
+                          ),
+                          Text(
+                            pelanggaran,
+                            style: customTextStyle(
+                              FontWeight.w700,
+                              13,
+                              cGrey_600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Sanksi",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_700,
+                            ),
+                          ),
+                          Text(
+                            sanksi,
+                            style: customTextStyle(
+                              FontWeight.w700,
+                              13,
+                              cGrey_600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

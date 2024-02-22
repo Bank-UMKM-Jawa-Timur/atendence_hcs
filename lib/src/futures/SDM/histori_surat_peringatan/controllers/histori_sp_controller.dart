@@ -11,6 +11,7 @@ class HistoriSpController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
   var kategori = "Semua Data".obs;
+  var typeFilter = false.obs;
 
   Future<void> getHistoriSp(nip, firstDate, lastDate, year) async {
     var headers = {'Content-Type': 'application/json'};

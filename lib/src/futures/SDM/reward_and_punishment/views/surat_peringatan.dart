@@ -155,12 +155,6 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
             RouteNames.detailSuratPeringatan,
             arguments: Get.arguments[0]['nip'],
           );
-          // Get.snackbar(
-          //   backgroundColor: cRed_700,
-          //   "⚠️Warning!",
-          //   "Detail Surat Peringatan dalam proses pengembangan🙏🏻",
-          //   colorText: Colors.white,
-          // );
         },
         child: Container(
           width: Get.width,
