@@ -24,12 +24,16 @@ class HistoriSuratPeringatan extends StatefulWidget {
 
 class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
   HistoriSpController historiSpC = Get.find<HistoriSpController>();
+  final controller = ScrollController();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
   String dropdownValue = "Semua Data";
   DateTime firstDate = DateTime.now();
   DateTime lastDate = DateTime.now();
   DateTime year = DateTime.now();
+  int page = 1;
+  bool loadMore = false;
+  bool hasMore = true;
 
   @override
   void initState() {
@@ -38,6 +42,26 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
       dropdownValue = "Karyawan";
       historiSpC.kategori.value = "Karyawan";
     }
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        fetch();
+      }
+    });
+  }
+
+  Future<void> fetch() async {
+    loadMore = true;
+    setState(() {
+      page++;
+    });
+    if (historiSpC.isEmptyData.value) {
+      hasMore = false;
+    } else {
+      await historiSpC.getHistoriSp(nip, firstDate, lastDate, year, page);
+    }
+    loadMore = false;
+    setState(() {});
   }
 
   @override
@@ -91,9 +115,13 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                         width: Get.width,
                         child: ElevatedButton(
                           onPressed: () {
+                            setState(() {
+                              page = 1;
+                            });
+                            historiSpC.historiSpM?.data.clear();
                             historiSpC.typeFilter.value = true;
                             historiSpC.getHistoriSp(
-                                nip, firstDate, lastDate, year);
+                                nip, firstDate, lastDate, year, page);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: cPrimary,
@@ -125,54 +153,13 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
               ),
               spaceHeight(10),
               historiSpC.typeFilter.value
-                  ? historiSpC.isLoading.value
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 200),
-                          child: loadingPage(),
-                        )
-                      : historiSpC.isEmptyData.value
-                          ? Expanded(
-                              child: SingleChildScrollView(
-                                child: Container(
-                                  width: Get.width,
-                                  height: Get.height / 2,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border:
-                                        Border.all(color: cGrey_400, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(6),
-                                    ),
-                                  ),
-                                  child: emptyDataSetTitle(
-                                    "Data yang anda filter masih kosong!.",
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Expanded(
-                              child: RefreshIndicator(
-                                onRefresh: () => historiSpC.getHistoriSp(
-                                    nip, firstDate, lastDate, year),
-                                child: ListView.builder(
-                                  itemCount:
-                                      historiSpC.historiSpM?.data.length ?? 0,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    var data = historiSpC.historiSpM?.data;
-                                    return cardItems(
-                                      index + 1,
-                                      data?[index].nip ?? '-',
-                                      data?[index].namaKaryawan ?? '-',
-                                      data?[index].noSp ?? '-',
-                                      data?[index].tanggalSp.toString() ?? '-',
-                                      data?[index].pelanggaran ?? '-',
-                                      data?[index].sanksi ?? '-',
-                                    );
-                                  },
-                                ),
-                              ),
-                            )
+                  ? page == 1
+                      ? historiSpC.isLoading.value
+                          ? loadingPage()
+                          : historiSpC.isEmptyData.value
+                              ? widgetEmptyFilter()
+                              : cardListData()
+                      : cardListData()
                   : Expanded(
                       child: SingleChildScrollView(
                         child: Container(
@@ -192,6 +179,62 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                       ),
                     )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded cardListData() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        itemCount: loadMore
+            ? historiSpC.historiSpM!.data.length + 1
+            : historiSpC.historiSpM!.data.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          if (index < historiSpC.historiSpM!.data.length) {
+            var data = historiSpC.historiSpM?.data;
+            return cardItems(
+              index + 1,
+              data?[index].nip ?? '-',
+              data?[index].namaKaryawan ?? '-',
+              data?[index].noSp ?? '-',
+              data?[index].tanggalSp.toString() ?? '-',
+              data?[index].pelanggaran ?? '-',
+              data?[index].sanksi ?? '-',
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 100),
+              child: Center(
+                child: historiSpC.isEmptyData.value
+                    ? const Text("Tidak Ada Data Lagi!.")
+                    : const CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Expanded widgetEmptyFilter() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Container(
+          width: Get.width,
+          height: Get.height / 2,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: cGrey_400, width: 1),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+          child: emptyDataSetTitle(
+            "Data yang anda filter masih kosong!.",
           ),
         ),
       ),

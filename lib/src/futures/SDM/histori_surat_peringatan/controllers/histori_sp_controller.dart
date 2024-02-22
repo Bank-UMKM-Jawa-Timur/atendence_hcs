@@ -12,39 +12,49 @@ class HistoriSpController extends GetxController {
   var isEmptyData = true.obs;
   var kategori = "Semua Data".obs;
   var typeFilter = false.obs;
+  var page = 1;
 
-  Future<void> getHistoriSp(nip, firstDate, lastDate, year) async {
+  Future<void> getHistoriSp(nip, firstDate, lastDate, year, page) async {
     var headers = {'Content-Type': 'application/json'};
-    var url = "$base_url/history/surat-peringatan?kategori=keseluruhan";
+    var url =
+        "$base_url/history/surat-peringatan?kategori=keseluruhan&page=$page";
 
     try {
       isLoading(true);
       switch (kategori.value) {
         case "Semua Data":
-          url = "$base_url/history/surat-peringatan?kategori=keseluruhan";
+          url =
+              "$base_url/history/surat-peringatan?kategori=keseluruhan&page=$page";
           break;
         case "Karyawan":
-          url = "$base_url/history/surat-peringatan?kategori=karyawan&nip=$nip";
+          url =
+              "$base_url/history/surat-peringatan?kategori=karyawan&nip=$nip&page=$page";
           break;
         case "Tanggal":
           url =
-              "$base_url/history/surat-peringatan?kategori=tanggal&tanggal_awal=$firstDate&tanggal_akhir=$lastDate";
+              "$base_url/history/surat-peringatan?kategori=tanggal&tanggal_awal=$firstDate&tanggal_akhir=$lastDate&page=$page";
           break;
         case "Tahun":
-          url = "$base_url/history/surat-peringatan?kategori=tahun&tahun=$year";
+          url =
+              "$base_url/history/surat-peringatan?kategori=tahun&tahun=$year&page=$page";
       }
 
       http.Response response = await http.get(
         Uri.parse(url),
         headers: headers,
       );
-
       var json = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          historiSpM = HistoriSuratPeringatanModel.fromJson(json);
+          if (historiSpM != null) {
+            var newData = HistoriSuratPeringatanModel.fromJson(json);
+            historiSpM!.data.addAll(newData.data);
+          } else {
+            historiSpM = HistoriSuratPeringatanModel.fromJson(json);
+          }
+          page++;
         } else {
           isEmptyData(true);
         }
@@ -52,7 +62,7 @@ class HistoriSpController extends GetxController {
         debugPrint(response.statusCode.toString());
       }
 
-      print(json);
+      // print(json);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
