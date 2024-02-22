@@ -1,5 +1,6 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
+import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/controllers/histori_sp_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
@@ -20,12 +21,22 @@ class HistoriSuratPeringatan extends StatefulWidget {
 }
 
 class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
+  HistoriSpController historiSpC = Get.find<HistoriSpController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
   String dropdownValue = "Semua Data";
   DateTime firstDate = DateTime.now();
   DateTime lastDate = DateTime.now();
   DateTime year = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    if (nip != "") {
+      dropdownValue = "Karyawan";
+      historiSpC.kategori.value = "Karyawan";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +62,20 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                 child: Column(
                   children: [
                     selectKategori(),
-                    searchKaryawan(),
-                    formFirstDate(context),
-                    formLastDate(context),
-                    formDateYear(context),
+                    dropdownValue == "Karyawan"
+                        ? searchKaryawan()
+                        : Container(),
+                    dropdownValue == "Tanggal"
+                        ? Column(
+                            children: [
+                              formFirstDate(context),
+                              formLastDate(context),
+                            ],
+                          )
+                        : Container(),
+                    dropdownValue == "Tahun"
+                        ? formDateYear(context)
+                        : Container(),
                     spaceHeight(10),
                     Container(
                       height: 40,
@@ -66,7 +87,10 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
                       ),
                       width: Get.width,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          historiSpC.getHistoriSp(
+                              nip, firstDate, lastDate, year);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: cPrimary,
                         ),
@@ -281,7 +305,7 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        spaceHeight(7),
+        spaceHeight(2),
         Text(
           "Tahun",
           style: customTextStyle(
@@ -404,6 +428,7 @@ class _HistoriSuratPeringatanState extends State<HistoriSuratPeringatan> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownValue = newValue!;
+            historiSpC.kategori.value = newValue;
           });
         },
         items: <String>['Semua Data', 'Karyawan', 'Tanggal', 'Tahun']
