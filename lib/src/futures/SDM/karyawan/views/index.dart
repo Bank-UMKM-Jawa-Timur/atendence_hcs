@@ -5,6 +5,7 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -163,10 +164,10 @@ class _KaryawanPageState extends State<KaryawanPage> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
         onTap: () {
-          Get.toNamed(
-            RouteNames.detailKaryawan,
-            arguments: Get.arguments[0]['nip'],
-          );
+          Get.toNamed(RouteNames.profileSaya, arguments: {
+            'nip': Get.arguments[0]['nip'],
+            'title': "Detail Karyawan",
+          });
         },
         child: Container(
           width: Get.width,
@@ -223,7 +224,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                nama,
+                                shortenLastName(nama),
                                 style: customTextStyle(
                                   FontWeight.w700,
                                   14,

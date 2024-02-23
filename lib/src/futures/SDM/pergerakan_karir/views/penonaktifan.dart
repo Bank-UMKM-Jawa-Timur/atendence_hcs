@@ -9,7 +9,6 @@ import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class PenonaktifanPage extends StatefulWidget {
   const PenonaktifanPage({super.key});
@@ -166,12 +165,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
-        onTap: () {
-          Get.toNamed(
-            RouteNames.detailKaryawan,
-            arguments: Get.arguments[0]['nip'],
-          );
-        },
+        onTap: () {},
         child: Container(
           width: Get.width,
           decoration: const BoxDecoration(

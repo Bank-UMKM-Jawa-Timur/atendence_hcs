@@ -26,7 +26,7 @@ class _ProfileSayaState extends State<ProfileSaya> {
   ];
   @override
   void initState() {
-    biodataC.getBiodata(Get.arguments);
+    biodataC.getBiodata(Get.arguments['nip']);
     super.initState();
   }
 
@@ -39,9 +39,9 @@ class _ProfileSayaState extends State<ProfileSaya> {
         appBar: AppBar(
           centerTitle: true,
           foregroundColor: Colors.white,
-          title: const Text(
-            "Profile Saya",
-            style: TextStyle(
+          title: Text(
+            Get.arguments['title'],
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 17,
               fontWeight: FontWeight.w700,
