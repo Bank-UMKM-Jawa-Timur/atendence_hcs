@@ -76,7 +76,7 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.slipGaji,
-      page: () => const SlipGaji(),
+      page: () => SlipGaji(user: "sdm"),
     ),
     GetPage(
       name: RouteNames.rincianSlipGaji,

@@ -83,6 +83,7 @@ final keteranganValues = EnumValues({
 class Rincian {
   String nip;
   String namaKaryawan;
+  String jk;
   String statusJabatan;
   String namaJabatan;
   String pangkatGolongan;
@@ -91,6 +92,7 @@ class Rincian {
   Rincian({
     required this.nip,
     required this.namaKaryawan,
+    required this.jk,
     required this.statusJabatan,
     required this.namaJabatan,
     required this.pangkatGolongan,
@@ -100,6 +102,7 @@ class Rincian {
   factory Rincian.fromJson(Map<String, dynamic> json) => Rincian(
         nip: json["nip"],
         namaKaryawan: json["nama_karyawan"],
+        jk: json["jk"],
         statusJabatan: json["status_jabatan"],
         namaJabatan: json["nama_jabatan"],
         pangkatGolongan: json["pangkat_golongan"],
@@ -109,6 +112,7 @@ class Rincian {
   Map<String, dynamic> toJson() => {
         "nip": nip,
         "nama_karyawan": namaKaryawan,
+        "jk": jk,
         "status_jabatan": statusJabatan,
         "nama_jabatan": namaJabatan,
         "pangkat_golongan": pangkatGolongan,

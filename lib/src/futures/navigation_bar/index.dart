@@ -27,7 +27,7 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
     // HomeSdm(),
     commingSoon("Tampilan Jadwal Masih\nDalam Proses Pengembangan!"),
     commingSoon("Tampilan Permohonan Masih\nDalam Proses Pengembangan!"),
-    SlipGaji(),
+    SlipGaji(user: "karyawan"),
     ProfilePage(),
   ];
 
