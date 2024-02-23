@@ -197,6 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _listProfile(List<dynamic> listProfile, bool biomatrik) {
     return ListView.builder(
+      padding: const EdgeInsets.all(0),
       itemCount: listProfile.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
