@@ -21,9 +21,13 @@ class HistoriPejabatSementara extends StatefulWidget {
 
 class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
   HistoriPjsController historiPjsC = Get.find<HistoriPjsController>();
+  final controller = ScrollController();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
   String dropdownValue = "Aktif";
+  int page = 1;
+  bool loadMore = false;
+  bool hasMore = true;
 
   @override
   void initState() {
@@ -32,6 +36,26 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
       dropdownValue = "Karyawan";
       historiPjsC.valKategori.value = "Karyawan";
     }
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        fetch();
+      }
+    });
+  }
+
+  Future<void> fetch() async {
+    loadMore = true;
+    setState(() {
+      page++;
+    });
+    if (historiPjsC.isEmptyData.value) {
+      hasMore = false;
+    } else {
+      await historiPjsC.getHistoriPjs(nip, page);
+    }
+    loadMore = false;
+    setState(() {});
   }
 
   @override
@@ -86,7 +110,11 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                       width: Get.width,
                       child: ElevatedButton(
                         onPressed: () {
-                          historiPjsC.getHistoriPjs(nip);
+                          setState(() {
+                            page = 1;
+                          });
+                          historiPjsC.historiPjsM!.data.clear();
+                          historiPjsC.getHistoriPjs(nip, page);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: cPrimary,
@@ -118,8 +146,24 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
             ),
             spaceHeight(10),
             Obx(
-              () => historiPjsC.isLoading.value
-                  ? loadingPage()
+              () => page == 1
+                  ? historiPjsC.isLoading.value
+                      ? loadingPage()
+                      : historiPjsC.isEmptyData.value
+                          ? Container(
+                              width: Get.width,
+                              height: Get.height / 2,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: cGrey_400, width: 1),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              child: emptyDataSetTitle(
+                                  "Silahkan Cari Karyawan untuk\nmenampilkan data."),
+                            )
+                          : dataList()
                   : historiPjsC.isEmptyData.value
                       ? Container(
                           width: Get.width,
@@ -134,52 +178,56 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                           child: emptyDataSetTitle(
                               "Silahkan Cari Karyawan untuk\nmenampilkan data."),
                         )
-                      : Expanded(
-                          child: RefreshIndicator(
-                            color: Colors.white,
-                            backgroundColor: cPrimary,
-                            onRefresh: () => historiPjsC.getHistoriPjs(nip),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemCount:
-                                  historiPjsC.historiPjsM?.data.length ?? 0,
-                              itemBuilder: (context, index) {
-                                return cardItems(
-                                  index + 1,
-                                  historiPjsC.historiPjsM!.data[index].nip ??
-                                      '-',
-                                  historiPjsC
-                                      .historiPjsM!.data[index].displayJabatan,
-                                  historiPjsC
-                                      .historiPjsM?.data[index].tanggalMulai
-                                      .fullDateAll()
-                                      .toString(),
-                                  historiPjsC.historiPjsM!.data[index]
-                                          .tanggalBerakhir ??
-                                      '-',
-                                  historiPjsC.historiPjsM!.data[index].status ??
-                                      '-',
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                      : dataList(),
             )
-            // Container(
-            //   width: Get.width,
-            //   height: Get.height / 2,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     border: Border.all(color: cGrey_400, width: 1),
-            //     borderRadius: const BorderRadius.all(
-            //       Radius.circular(6),
-            //     ),
-            //   ),
-            //   child: emptyDataSetTitle(
-            //       "Silahkan Cari Karyawan untuk\nmenampilkan data."),
-            // )
           ],
+        ),
+      ),
+    );
+  }
+
+  Expanded dataList() {
+    return Expanded(
+      child: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: cPrimary,
+        onRefresh: () async {
+          setState(() {
+            page = 1;
+          });
+          historiPjsC.historiPjsM!.data.clear();
+          historiPjsC.getHistoriPjs(nip, page);
+        },
+        child: ListView.builder(
+          controller: controller,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: loadMore
+              ? historiPjsC.historiPjsM!.data.length + 1
+              : historiPjsC.historiPjsM!.data.length,
+          itemBuilder: (context, index) {
+            if (index < historiPjsC.historiPjsM!.data.length) {
+              return cardItems(
+                index + 1,
+                historiPjsC.historiPjsM!.data[index].nip ?? '-',
+                historiPjsC.historiPjsM!.data[index].displayJabatan,
+                historiPjsC.historiPjsM?.data[index].tanggalMulai
+                    .fullDateAll()
+                    .toString(),
+                historiPjsC.historiPjsM!.data[index].tanggalBerakhir ?? '-',
+                historiPjsC.historiPjsM!.data[index].status ?? '-',
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 100),
+                child: Center(
+                  child: historiPjsC.isEmptyData.value
+                      ? const Text("Tidak Ada Data Lagi!.")
+                      : const CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
         ),
       ),
     );

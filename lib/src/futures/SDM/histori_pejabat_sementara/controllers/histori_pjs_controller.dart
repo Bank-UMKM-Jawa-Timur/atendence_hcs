@@ -13,7 +13,7 @@ class HistoriPjsController extends GetxController {
   var valKategori = "Aktif".obs;
   var isEmptyData = true.obs;
 
-  Future<void> getHistoriPjs(nip) async {
+  Future<void> getHistoriPjs(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     print(valKategori);
 
@@ -26,8 +26,8 @@ class HistoriPjsController extends GetxController {
         http.Response response = await http.get(
           Uri.parse(
             valKategori.value == "Aktif"
-                ? "$base_url/history/pjs?kategori=$valKategori"
-                : "$base_url/history/pjs?kategori=$valKategori&nip=$nip",
+                ? "$base_url/history/pjs?kategori=$valKategori&page=$page"
+                : "$base_url/history/pjs?kategori=$valKategori&nip=$nip&page=$page",
           ),
           headers: headers,
         );
@@ -36,7 +36,12 @@ class HistoriPjsController extends GetxController {
           var data = json['data'];
           if (data.length > 0) {
             isEmptyData(false);
-            historiPjsM = HistoriPjsModel.fromJson(json);
+            if (historiPjsM != null) {
+              var newData = HistoriPjsModel.fromJson(json);
+              historiPjsM!.data.addAll(newData.data);
+            } else {
+              historiPjsM = HistoriPjsModel.fromJson(json);
+            }
           } else {
             isEmptyData(true);
           }
