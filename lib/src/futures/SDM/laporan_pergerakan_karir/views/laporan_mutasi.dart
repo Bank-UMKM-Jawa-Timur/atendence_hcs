@@ -99,7 +99,7 @@ class _LaporanMutasiState extends State<LaporanMutasi> {
                     ),
                   ),
                   child: emptyDataSetTitle(
-                    "Silahkan Filter untuk menampilkan data\nHistori Surat Peringatan.",
+                    "Silahkan Filter untuk menampilkan data\nLaporan Demosi.",
                   ),
                 ),
               ),
