@@ -108,10 +108,7 @@ class HomeSdm extends StatelessWidget {
                         spaceHeight(20),
                         homeSdmC.isLoading.value
                             ? shimmerCardPayment()
-                            : cardPayment(
-                                homeSdmC.homeSdmM!.data.totalGaji
-                                    .replaceAll('.', ','),
-                              ),
+                            : cardPayment(homeSdmC.homeSdmM!.data.totalGaji),
                         spaceHeight(25),
                         listCardItems(listIcon),
                         spaceHeight(25),

@@ -58,7 +58,7 @@ class SlipGajiController extends GetxController {
           } else {
             dataIsEmpty(true);
           }
-          Get.back();
+          // Get.back();
           // print(json);
         } else {
           typeFilter(false);
