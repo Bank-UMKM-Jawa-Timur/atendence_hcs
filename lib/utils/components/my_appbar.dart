@@ -11,6 +11,7 @@ appBarPrimary(title) {
         fontWeight: FontWeight.w700,
       ),
     ),
+    centerTitle: true,
     backgroundColor: cPrimary,
     elevation: 0,
     foregroundColor: Colors.white,
