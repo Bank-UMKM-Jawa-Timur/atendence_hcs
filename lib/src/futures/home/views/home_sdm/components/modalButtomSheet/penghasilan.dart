@@ -1,4 +1,3 @@
-import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_manajemen.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_penghasilan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/variable/list_menu.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -69,7 +68,7 @@ class ModalButtonPenghasilan {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: index == 2
+                            child: index == 1
                                 ? dropDownMenu(setState, index)
                                 : InkWell(
                                     onTap: () {
@@ -160,7 +159,7 @@ class ModalButtonPenghasilan {
                 splashColor: Colors.white,
                 onTap: () {
                   setState(() {
-                    if (index == 2) {
+                    if (index == 1) {
                       active = !active;
                     }
                   });
@@ -189,7 +188,7 @@ class ModalButtonPenghasilan {
                   ],
                 ),
               ),
-              index == 2
+              index == 1
                   ? active
                       ? MenuPenghasilan.subMenu()
                       : Container()

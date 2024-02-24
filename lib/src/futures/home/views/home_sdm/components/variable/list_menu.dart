@@ -52,11 +52,6 @@ class ListMenuItems {
     },
     {
       'icon': Icons.line_style_sharp,
-      'name': "Pajak",
-      'route': RouteNames.karyawanList,
-    },
-    {
-      'icon': Icons.line_style_sharp,
       'name': "Gaji",
       'route': 'null',
     },

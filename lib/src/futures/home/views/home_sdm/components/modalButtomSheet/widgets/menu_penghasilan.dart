@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 List subMenuGj = [
-  {'name': "Slip Jurnal"},
   {'name': "Slip Gaji"},
 ];
 
@@ -23,12 +22,10 @@ class MenuPenghasilan {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              if (index == 1) {
-                Get.offNamed(RouteNames.slipGaji, arguments: [
-                  {"nip": ""},
-                  {"nama": "Cari Karyawan"}
-                ]);
-              }
+              Get.offNamed(RouteNames.slipGaji, arguments: [
+                {"nip": ""},
+                {"nama": "Cari Karyawan"}
+              ]);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
