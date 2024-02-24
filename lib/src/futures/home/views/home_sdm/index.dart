@@ -45,60 +45,154 @@ class HomeSdm extends StatelessWidget {
     return Scaffold(
       primary: false,
       backgroundColor: Colors.white,
-      body: RefreshIndicator(
-        onRefresh: () {
-          return Future.delayed(
-            const Duration(seconds: 2),
-            () => homeSdmC.getDataHome(),
-          );
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: Obx(
+                () => SliverAppBar(
+                  backgroundColor: cPrimary,
+                  foregroundColor: Colors.white,
+                  title: headerHomeSdm(
+                    prefsC.jenisKelamin.value,
+                    prefsC.namaKaryawan.value,
+                    prefsC.displayJabatan.value,
+                  ),
+                  actionsIconTheme: const IconThemeData(opacity: 0.0),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: Image.asset(
+                            "assets/images/header.png",
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  titleTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  floating: false,
+                  pinned: true,
+                  toolbarHeight: 80,
+                  expandedHeight: 90,
+                  forceElevated: innerBoxIsScrolled,
+                ),
+              ),
+            ),
+          ];
         },
-        backgroundColor: cPrimary,
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: heightStatusBar,
-            bottom: 10,
-            left: 20,
-            right: 20,
-          ),
+        body: SafeArea(
           child: Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                spaceHeight(25),
-                headerHomeSdm(
-                  prefsC.jenisKelamin.value,
-                  prefsC.namaKaryawan.value,
-                  prefsC.displayJabatan.value,
+            () => Padding(
+              padding: const EdgeInsets.only(top: 80),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  // Future.delayed(
+                  //   const Duration(seconds: 2),
+                  //   () =>
+                  // );
+                  homeSdmC.getDataHome();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        spaceHeight(20),
+                        homeSdmC.isLoading.value
+                            ? shimmerCardPayment()
+                            : cardPayment(
+                                homeSdmC.homeSdmM!.data.totalGaji
+                                    .replaceAll('.', ','),
+                              ),
+                        spaceHeight(25),
+                        listCardItems(listIcon),
+                        spaceHeight(25),
+                        Container(
+                          width: Get.width,
+                          height: 1,
+                          color: cGrey_400,
+                        ),
+                        spaceHeight(20),
+                        Text(
+                          "Rincian Data",
+                          style: customTextStyle(
+                              FontWeight.w600, 16, Colors.black),
+                        ),
+                        spaceHeight(20),
+                        homeSdmC.isLoading.value
+                            ? shimmerListRincianData()
+                            : listRincianData(homeSdmC.listRincian)
+                      ],
+                    ),
+                  ),
                 ),
-                spaceHeight(25),
-                homeSdmC.isLoading.value
-                    ? shimmerCardPayment()
-                    : cardPayment(
-                        homeSdmC.homeSdmM!.data.totalGaji.replaceAll('.', ','),
-                      ),
-                spaceHeight(25),
-                listCardItems(listIcon),
-                spaceHeight(25),
-                Container(
-                  width: Get.width,
-                  height: 1,
-                  color: cGrey_400,
-                ),
-                spaceHeight(20),
-                Text(
-                  "Rincian Data",
-                  style: customTextStyle(FontWeight.w600, 16, Colors.black),
-                ),
-                spaceHeight(20),
-                homeSdmC.isLoading.value
-                    ? shimmerListRincianData()
-                    : listRincianData(homeSdmC.listRincian)
-              ],
+              ),
             ),
           ),
         ),
       ),
+      // body: RefreshIndicator(
+      //   onRefresh: () {
+      //     return Future.delayed(
+      //       const Duration(seconds: 2),
+      //       () => homeSdmC.getDataHome(),
+      //     );
+      //   },
+      //   backgroundColor: cPrimary,
+      //   color: Colors.white,
+      //   child: Padding(
+      //     padding: EdgeInsets.only(
+      //       top: heightStatusBar,
+      //       bottom: 10,
+      //       left: 20,
+      //       right: 20,
+      //     ),
+      //     child: Obx(
+      //       () => Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           spaceHeight(25),
+      //           headerHomeSdm(
+      //             prefsC.jenisKelamin.value,
+      //             prefsC.namaKaryawan.value,
+      //             prefsC.displayJabatan.value,
+      //           ),
+      //           spaceHeight(25),
+      //           homeSdmC.isLoading.value
+      //               ? shimmerCardPayment()
+      //               : cardPayment(
+      //                   homeSdmC.homeSdmM!.data.totalGaji.replaceAll('.', ','),
+      //                 ),
+      //           spaceHeight(25),
+      //           listCardItems(listIcon),
+      //           spaceHeight(25),
+      //           Container(
+      //             width: Get.width,
+      //             height: 1,
+      //             color: cGrey_400,
+      //           ),
+      //           spaceHeight(20),
+      //           Text(
+      //             "Rincian Data",
+      //             style: customTextStyle(FontWeight.w600, 16, Colors.black),
+      //           ),
+      //           spaceHeight(20),
+      //           homeSdmC.isLoading.value
+      //               ? shimmerListRincianData()
+      //               : listRincianData(homeSdmC.listRincian)
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

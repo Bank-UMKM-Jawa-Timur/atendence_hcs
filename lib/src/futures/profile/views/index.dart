@@ -197,6 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _listProfile(List<dynamic> listProfile, bool biomatrik) {
     return ListView.builder(
+      padding: const EdgeInsets.all(0),
       itemCount: listProfile.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -212,7 +213,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 if (index == 1) {
                   Get.toNamed(route, arguments: false);
                 } else {
-                  Get.toNamed(route, arguments: prefsC.nip.value);
+                  Get.toNamed(
+                    route,
+                    arguments: {
+                      'nip': prefsC.nip.value,
+                      'title': "Profile Saya"
+                    },
+                  );
                 }
               }
             } else {

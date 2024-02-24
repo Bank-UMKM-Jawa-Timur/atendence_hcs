@@ -24,8 +24,10 @@ class MenuPenghasilan {
           return InkWell(
             onTap: () {
               if (index == 1) {
-                // Get.toNamed(RouteNames.slipGaji);
-                // Get.back();
+                Get.offNamed(RouteNames.slipGaji, arguments: [
+                  {"nip": ""},
+                  {"nama": "Cari Karyawan"}
+                ]);
               }
             },
             child: Padding(

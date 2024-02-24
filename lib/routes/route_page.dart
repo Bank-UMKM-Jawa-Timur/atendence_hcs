@@ -32,7 +32,6 @@ import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/bindings/list_karyawan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/bindings/search_binding.dart';
-import 'package:atendence_hcs/src/futures/SDM/karyawan/views/detail_karyawan.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/views/search_karyawan_page.dart';
 import 'package:atendence_hcs/src/futures/profile/bindings/biodata_binding.dart';
@@ -76,7 +75,7 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.slipGaji,
-      page: () => const SlipGaji(),
+      page: () => SlipGaji(user: "sdm"),
     ),
     GetPage(
       name: RouteNames.rincianSlipGaji,
@@ -106,11 +105,6 @@ class RoutePages {
       name: RouteNames.searchKaryawan,
       page: () => const SearchKaryawanPage(),
       binding: SearchBinding(),
-    ),
-    GetPage(
-      name: RouteNames.detailKaryawan,
-      page: () => const DetailKaryawan(),
-      // binding: SearchBinding(),
     ),
 
     // SDM

@@ -325,10 +325,10 @@ class _JabatanState extends State<Jabatan> {
       padding: const EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () {
-          Get.toNamed(
-            RouteNames.detailKaryawan,
-            arguments: Get.arguments[0]['nip'],
-          );
+          // Get.toNamed(
+          //   RouteNames.detailKaryawan,
+          //   arguments: Get.arguments[0]['nip'],
+          // );
         },
         child: Container(
           width: Get.width,

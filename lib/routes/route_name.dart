@@ -12,7 +12,6 @@ abstract class RouteNames {
   // SDM
   static const karyawanList = '/karyawan-list';
   static const searchKaryawan = '/search-karyawan';
-  static const detailKaryawan = '/detail-karyawan';
   static const dataMasaPensiun = '/data-masa-pensiun';
   static const pengkinianData = '/pengkinian-data';
   static const mutasi = '/mutasi';

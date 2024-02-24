@@ -19,8 +19,11 @@ class SlipGajiController extends GetxController {
   SharedPreferences? prefs;
   ListSlipGajiModel? listSlipGaji;
   RincianSlipGajiModel? rincianSlipGaji;
+  var nip = "".obs;
 
-  filter(bool isFilter) async {
+  var user = "karyawan".obs;
+
+  filter() async {
     selectedTahun.value = dateNow.getYear();
     prefs = await SharedPreferences.getInstance();
     var headers = {
@@ -35,9 +38,13 @@ class SlipGajiController extends GetxController {
         isLoading(true);
         http.Response response = await http.get(
           Uri.parse(
-            isFilter
-                ? '$base_url/slip-gaji/list?nip=${prefs?.getString("nip")}&tahun=${selectedTahun.value}&bulan=${selectedBulan.value}'
-                : '$base_url/slip-gaji/list?nip=${prefs?.getString("nip")}&tahun=${dateNow.getYear()}',
+            user.value == "karyawan"
+                ? selectedBulan.value != ""
+                    ? '$base_url/slip-gaji/list?nip=${prefs?.getString("nip")}&tahun=${selectedTahun.value}&bulan=${selectedBulan.value}'
+                    : '$base_url/slip-gaji/list?nip=${prefs?.getString("nip")}&tahun=${dateNow.getYear()}'
+                : selectedBulan.value != ""
+                    ? '$base_url/slip-gaji/list?nip=${nip.value}&tahun=${selectedTahun.value}&bulan=${selectedBulan.value}'
+                    : '$base_url/slip-gaji/list?nip=${nip.value}&tahun=${dateNow.getYear()}',
           ),
           headers: headers,
         );
@@ -47,18 +54,12 @@ class SlipGajiController extends GetxController {
           if (data.isNotEmpty) {
             dataIsEmpty(false);
             listSlipGaji = ListSlipGajiModel.fromJson(result);
-            typeFilter(true);
-            // id.value = listSlipGaji!.data[0].id;
-            // totalGaji.value = listSlipGaji!.data[0].dataList.totalGaji;
-            // totalPotongan.value = listSlipGaji!.data[0].dataList.totalPotongan;
-            // totalGajiDiterima.value =
-            //     listSlipGaji!.data[0].dataList.totalDiterima;
-            // bulan.value = listSlipGaji!.data[0].dataList.bulan;
-            // tahun.value = listSlipGaji!.data[0].dataList.tahun;
+            // typeFilter(true);
           } else {
             dataIsEmpty(true);
           }
           Get.back();
+          // print(json);
         } else {
           typeFilter(false);
           snackbarfailed("error fetching data ${response.statusCode}");

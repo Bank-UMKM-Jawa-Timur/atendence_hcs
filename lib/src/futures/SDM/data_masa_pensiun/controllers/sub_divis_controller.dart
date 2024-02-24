@@ -10,7 +10,7 @@ class SubDivisiController extends GetxController {
   var isLoading = false.obs;
   var emptyData = true.obs;
 
-  Future<void> getDivisi(kdDivisi) async {
+  Future<void> getSubDivisi(kdDivisi) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
@@ -27,7 +27,6 @@ class SubDivisiController extends GetxController {
         } else {
           emptyData(true);
         }
-        print(json);
       } else {
         debugPrint(response.statusCode.toString());
       }

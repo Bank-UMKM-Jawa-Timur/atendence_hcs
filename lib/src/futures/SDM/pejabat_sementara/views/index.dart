@@ -153,10 +153,10 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
         onTap: () {
-          Get.toNamed(
-            RouteNames.detailKaryawan,
-            arguments: Get.arguments[0]['nip'],
-          );
+          // Get.toNamed(
+          //   RouteNames.detailKaryawan,
+          //   arguments: Get.arguments[0]['nip'],
+          // );
         },
         child: Container(
           width: Get.width,
