@@ -15,35 +15,34 @@ class DataMasaPensiunController extends GetxController {
   var valBagian = "".obs;
   List<bool>? isActiveList;
 
-  Future<void> getDataMasaPensiun(kategori) async {
+  Future<void> getDataMasaPensiun(kategori, page) async {
     var headers = {'Content-Type': 'application/json'};
     var url = "";
     try {
       isLoading(true);
       switch (kategori) {
         case "Keseluruhan":
-          url = "$base_url/reminder-pensiun?kategori=$kategori&page=1";
+          url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
           break;
         case "Divisi":
           url =
-              "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=1";
+              "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=$page";
           break;
         case "Sub Divisi":
           url =
-              "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=1";
+              "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=$page";
           break;
         case "Bagian":
           url =
-              "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=1";
+              "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
           break;
         case "Kantor":
           url =
               "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
           break;
       }
-      print(url);
       http.Response response = await http.get(
-        Uri.parse(url),
+        Uri.parse("$base_url/reminder-pensiun?kategori=$kategori&page=$page"),
         headers: headers,
       );
       var json = jsonDecode(response.body);
@@ -51,14 +50,14 @@ class DataMasaPensiunController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          // if (historiPjsM != null) {
-          //   var newData = HistoriPjsModel.fromJson(json);
-          //   historiPjsM!.data.addAll(newData.data);
-          // } else {
-          dataMasaPensiunM = DataMasaPensiunModel.fromJson(json);
+          if (dataMasaPensiunM != null) {
+            var newData = DataMasaPensiunModel.fromJson(json);
+            dataMasaPensiunM!.data.addAll(newData.data);
+          } else {
+            dataMasaPensiunM = DataMasaPensiunModel.fromJson(json);
+          }
           isActiveList = List.generate(
               dataMasaPensiunM?.data.length ?? 0, (index) => false);
-          // }
         } else {
           isEmptyData(true);
         }

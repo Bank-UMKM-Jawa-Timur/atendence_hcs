@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/http/models/SDM/masa_pensiun/data_masa_pensiun_model.dart';
 import 'package:atendence_hcs/http/models/SDM/masa_pensiun/divisi_model.dart'
     as diviModel;
 import 'package:atendence_hcs/http/models/SDM/masa_pensiun/sub_divisi_model.dart'
@@ -14,8 +15,8 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
-import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
+import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,10 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
       Get.find<ListMasaPensiunController>();
   DataMasaPensiunController dataMasaPensiunC =
       Get.find<DataMasaPensiunController>();
-  // late List<bool> isActiveList;
+  int page = 1;
+  final controller = ScrollController();
+  bool loadMore = false;
+  bool hasMore = true;
 
   String? valueKat;
   String? valueDivisi;
@@ -52,11 +56,31 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     {'name': 'Bagian'},
     {'name': 'Kantor'},
   ];
-  bool isActive = false;
 
   @override
   void initState() {
     super.initState();
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    loadMore = true;
+    setState(() {
+      page++;
+    });
+    if (dataMasaPensiunC.isEmptyData.value) {
+      hasMore = false;
+    } else {
+      hasMore = true;
+      dataMasaPensiunC.getDataMasaPensiun(kategori, page);
+    }
+    loadMore = false;
+    setState(() {});
   }
 
   @override
@@ -126,8 +150,37 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                             width: Get.width,
                             child: ElevatedButton(
                               onPressed: () {
-                                dataMasaPensiunC.getDataMasaPensiun(valueKat);
-                                dataMasaPensiunC.isActiveList!.clear();
+                                void fetch() {
+                                  setState(() {
+                                    page = 1;
+                                  });
+                                  dataMasaPensiunC.dataMasaPensiunM!.data
+                                      .clear();
+                                  dataMasaPensiunC.isActiveList!.clear();
+                                  dataMasaPensiunC.getDataMasaPensiun(
+                                      valueKat, page);
+                                }
+
+                                if (valueKat == null) {
+                                  snackbarfailed("Kategori Harap Dipilih!.");
+                                } else {
+                                  switch (valueKat) {
+                                    // case "Keseluruhan":
+                                    //   valueDivisi == null
+                                    //       ? snackbarfailed(
+                                    //           "Divisi Harap di isi.")
+                                    //       : fetch();
+                                    //   break;
+                                    case "Divisi":
+                                      valueDivisi == null
+                                          ? snackbarfailed(
+                                              "Divisi Harap di isi.")
+                                          : fetch();
+                                      break;
+                                    default:
+                                      fetch();
+                                  }
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: cPrimary,
@@ -163,31 +216,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
             spaceHeight(10),
             Expanded(
               child: Obx(
-                () => dataMasaPensiunC.isLoading.value
-                    ? loadingPage()
-                    : dataMasaPensiunC.isEmptyData.value
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: cGrey_400, width: 1),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                            ),
-                            child: emptyDataSetTitle(
-                                "Pilih Kategori untuk menampilkan data."))
-                        : ListView.builder(
-                            itemCount: dataMasaPensiunC
-                                    .dataMasaPensiunM?.data.length ??
-                                0,
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var data =
-                                  dataMasaPensiunC.dataMasaPensiunM?.data;
-                              return Container(
-                                width: Get.width,
-                                // height: Get.height,
+                () => page == 1
+                    ? dataMasaPensiunC.isLoading.value
+                        ? loadingPage()
+                        : dataMasaPensiunC.isEmptyData.value
+                            ? Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
@@ -196,31 +229,71 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                     Radius.circular(6),
                                   ),
                                 ),
-                                child: cardData(
-                                  index,
-                                  data?[index].nip,
-                                  data?[index].namaKaryawan,
-                                  data?[index].displayJabatan.trim() ?? '-',
-                                  data?[index].kantor ?? '-',
-                                  "Gol -",
-                                  data?[index].tglLahir ?? '-',
-                                  'Umur -',
-                                  data?[index].jk ?? '-',
-                                  data?[index].statusJabatan ?? '-',
-                                  'Status -',
-                                  data?[index].tanggalPengangkat ?? '-',
-                                  "masaKerja -",
-                                  'pendidikan belum',
-                                  data?[index].pensiun ?? "-",
-                                ),
-                              );
-                            },
-                          ),
+                                child: emptyDataSetTitle(
+                                    "Pilih Kategori untuk menampilkan data."))
+                            : dataList()
+                    : dataList(),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  ListView dataList() {
+    return ListView.builder(
+      controller: controller,
+      itemCount: dataMasaPensiunC.dataMasaPensiunM!.data.length + 1,
+      // : dataMasaPensiunC
+      //     .dataMasaPensiunM!.data.length,
+      shrinkWrap: true,
+      physics: const AlwaysScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        var data = dataMasaPensiunC.dataMasaPensiunM?.data;
+        if (index < dataMasaPensiunC.dataMasaPensiunM!.data.length) {
+          return Container(
+            width: Get.width,
+            // height: Get.height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: cGrey_400, width: 1),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(6),
+              ),
+            ),
+            child: cardData(
+              index,
+              data?[index].nip,
+              data?[index].namaKaryawan,
+              data?[index].displayJabatan.trim() ?? '-',
+              data?[index].kantor ?? '-',
+              "Gol -",
+              data?[index].tglLahir ?? '-',
+              'Umur -',
+              data?[index].jk ?? '-',
+              data?[index].statusJabatan ?? '-',
+              'Status -',
+              data?[index].tanggalPengangkat ?? '-',
+              "masaKerja -",
+              'pendidikan belum',
+              data?[index].pensiun ?? "-",
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: Center(
+              child: hasMore
+                  ? const CircularProgressIndicator()
+                  : Text(
+                      "Data Kosong!",
+                      style: customTextStyle(FontWeight.w600, 15, cGrey_900),
+                    ),
+            ),
+          );
+        }
+      },
     );
   }
 

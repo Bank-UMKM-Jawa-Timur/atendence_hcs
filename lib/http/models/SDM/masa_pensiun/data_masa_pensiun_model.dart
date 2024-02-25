@@ -36,7 +36,7 @@ class Datum {
   String nik;
   String namaKaryawan;
   dynamic kdBagian;
-  String kdJabatan;
+  dynamic kdJabatan;
   dynamic kdEntitas;
   dynamic tanggalPenonaktifan;
   dynamic statusJabatan;
