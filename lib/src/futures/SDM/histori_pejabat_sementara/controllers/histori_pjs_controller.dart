@@ -15,7 +15,6 @@ class HistoriPjsController extends GetxController {
 
   Future<void> getHistoriPjs(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
-    print(valKategori);
 
     try {
       isLoading(true);

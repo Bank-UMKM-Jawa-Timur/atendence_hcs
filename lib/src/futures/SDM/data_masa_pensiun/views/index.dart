@@ -4,6 +4,7 @@ import 'package:atendence_hcs/http/models/SDM/masa_pensiun/sub_divisi_model.dart
     as subDivisModel;
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/bagian_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/data_masa_pensiun_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/divisi_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/list_masa_pensiun_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/sub_divis_controller.dart';
@@ -12,7 +13,6 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
-import 'package:atendence_hcs/utils/components/my_button.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -34,6 +34,8 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
   BagianController bagianC = Get.find<BagianController>();
   ListMasaPensiunController listMasaPensiunC =
       Get.find<ListMasaPensiunController>();
+  DataMasaPensiunController dataMasaPensiunC =
+      Get.find<DataMasaPensiunController>();
 
   String? valueKat;
   String? valueDivisi;
@@ -113,15 +115,43 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                     : Container(),
 
                             // Button filter
-                            buttonWithIcon(
-                              const Icon(
-                                CommunityMaterialIcons.filter_outline,
-                                color: Colors.white,
-                                size: 20,
+                            Container(
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: cPrimary,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
                               ),
-                              "Tampilkan",
-                              "namRoute",
-                            ),
+                              width: Get.width,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  dataMasaPensiunC.getDataMasaPensiun(valueKat);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: cPrimary,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      CommunityMaterialIcons.filter_outline,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    spaceWidth(5),
+                                    const Text(
+                                      "Tampilkan",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -130,33 +160,41 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                 ),
               ),
               spaceHeight(10),
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: cGrey_400, width: 1),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(6),
-                      ),
-                    ),
-                    child: emptyDataSetTitle(
-                        "Pilih Kategori untuk menampilkan data."),
-                  ),
-                ],
+              Obx(
+                () => dataMasaPensiunC.isLoading.value
+                    ? loadingPage()
+                    : dataMasaPensiunC.isEmptyData.value
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: cGrey_400, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(6),
+                              ),
+                            ),
+                            child: emptyDataSetTitle(
+                                "Pilih Kategori untuk menampilkan data."))
+                        : Container(
+                            width: Get.width,
+                            // height: Get.height,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: cGrey_400, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(6),
+                              ),
+                            ),
+                            child: ListView.builder(
+                              itemCount: dataMasaPensiunC
+                                      .dataMasaPensiunM?.data.length ??
+                                  0,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return cardData();
+                              },
+                            ),
+                          ),
               )
-              // Container(
-              //   width: Get.width,
-              //   // height: Get.height,
-              //   decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     border: Border.all(color: cGrey_400, width: 1),
-              //     borderRadius: const BorderRadius.all(
-              //       Radius.circular(6),
-              //     ),
-              //   ),
-              //   child: cardData(),
-              // ),
             ],
           ),
         ),
@@ -205,6 +243,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
               if (mounted) {
                 setState(() {
                   valueSubDivisi = value;
+                  dataMasaPensiunC.valSubDivisi.value = value!;
                   if (listMasaPensiunC.bagian.value) {
                     bagianC.getBagian(valueSubDivisi);
                   }
@@ -455,6 +494,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
               if (mounted) {
                 setState(() {
                   valueDivisi = value;
+                  dataMasaPensiunC.valDivisi.value = value!;
                   if (listMasaPensiunC.showSubDiv.value) {
                     subDivisiC.getSubDivisi(valueDivisi);
                   }
@@ -530,6 +570,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
               if (mounted) {
                 setState(() {
                   valueBagian = value;
+                  dataMasaPensiunC.valBagian.value = value!;
                 });
               }
             }),
