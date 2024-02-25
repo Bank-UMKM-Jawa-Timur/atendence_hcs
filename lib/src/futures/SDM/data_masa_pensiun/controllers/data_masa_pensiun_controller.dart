@@ -13,6 +13,7 @@ class DataMasaPensiunController extends GetxController {
   var valDivisi = "".obs;
   var valSubDivisi = "".obs;
   var valBagian = "".obs;
+  List<bool>? isActiveList;
 
   Future<void> getDataMasaPensiun(kategori) async {
     var headers = {'Content-Type': 'application/json'};
@@ -40,6 +41,7 @@ class DataMasaPensiunController extends GetxController {
               "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
           break;
       }
+      print(url);
       http.Response response = await http.get(
         Uri.parse(url),
         headers: headers,
@@ -54,6 +56,8 @@ class DataMasaPensiunController extends GetxController {
           //   historiPjsM!.data.addAll(newData.data);
           // } else {
           dataMasaPensiunM = DataMasaPensiunModel.fromJson(json);
+          isActiveList = List.generate(
+              dataMasaPensiunM?.data.length ?? 0, (index) => false);
           // }
         } else {
           isEmptyData(true);

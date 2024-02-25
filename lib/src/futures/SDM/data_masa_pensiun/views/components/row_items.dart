@@ -2,7 +2,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:flutter/material.dart';
 
-Padding row1() {
+Padding row1(jabatan, kantor, gol) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 20,
@@ -26,7 +26,7 @@ Padding row1() {
                 ),
               ),
               Text(
-                "Staf Analisa",
+                jabatan,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -50,7 +50,7 @@ Padding row1() {
                 ),
               ),
               Text(
-                "Pusat",
+                kantor,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -75,7 +75,7 @@ Padding row1() {
                 ),
               ),
               Text(
-                "-",
+                gol,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -90,7 +90,7 @@ Padding row1() {
   );
 }
 
-Padding row2() {
+Padding row2(tglLahir, umur, jk) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 20,
@@ -114,7 +114,7 @@ Padding row2() {
                 ),
               ),
               Text(
-                "22 Feb 2000",
+                tglLahir,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -138,7 +138,7 @@ Padding row2() {
                 ),
               ),
               Text(
-                "23",
+                umur,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -163,7 +163,7 @@ Padding row2() {
                 ),
               ),
               Text(
-                "Perempuan",
+                jk,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -178,7 +178,7 @@ Padding row2() {
   );
 }
 
-Padding row3() {
+Padding row3(status, skAngkat, tglAngkat) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 20,
@@ -202,7 +202,7 @@ Padding row3() {
                 ),
               ),
               Text(
-                "K/O",
+                status,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -226,7 +226,7 @@ Padding row3() {
                 ),
               ),
               Text(
-                "016A/KEP/DIR.Um/2002",
+                skAngkat,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -251,7 +251,7 @@ Padding row3() {
                 ),
               ),
               Text(
-                "02 Jan 2020",
+                tglAngkat,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -266,7 +266,7 @@ Padding row3() {
   );
 }
 
-Padding row4() {
+Padding row4(masaKerja, pendidikanTerakhir, status2) {
   return Padding(
     padding: const EdgeInsets.only(
       right: 20,
@@ -290,7 +290,7 @@ Padding row4() {
                 ),
               ),
               Text(
-                "0,2",
+                masaKerja,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -314,7 +314,7 @@ Padding row4() {
                 ),
               ),
               Text(
-                "S2",
+                pendidikanTerakhir,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,
@@ -339,7 +339,7 @@ Padding row4() {
                 ),
               ),
               Text(
-                "Belum Sampai Batas Pensiun",
+                status2,
                 style: customTextStyle(
                   FontWeight.w600,
                   12,

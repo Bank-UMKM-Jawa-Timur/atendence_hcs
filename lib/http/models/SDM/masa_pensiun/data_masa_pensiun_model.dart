@@ -35,23 +35,23 @@ class Datum {
   String nip;
   String nik;
   String namaKaryawan;
-  String? kdBagian;
-  String? kdJabatan;
-  String? kdEntitas;
-  String? tanggalPenonaktifan;
-  String? statusJabatan;
-  String? ketJabatan;
-  String? jk;
-  DateTime tanggalPengangkat;
-  DateTime tglMulai;
-  String? noRekening;
-  String? namaJabatan;
-  String? namaBagian;
-  String? namaCabang;
-  DateTime tglLahir;
-  String? displayJabatan;
-  String? pensiun;
-  String? kantor;
+  dynamic kdBagian;
+  String kdJabatan;
+  dynamic kdEntitas;
+  dynamic tanggalPenonaktifan;
+  dynamic statusJabatan;
+  dynamic ketJabatan;
+  String jk;
+  dynamic tanggalPengangkat;
+  dynamic tglMulai;
+  dynamic noRekening;
+  dynamic namaJabatan;
+  dynamic namaBagian;
+  dynamic namaCabang;
+  dynamic tglLahir;
+  dynamic displayJabatan;
+  dynamic pensiun;
+  dynamic kantor;
 
   Datum({
     required this.nip,
@@ -87,13 +87,13 @@ class Datum {
         statusJabatan: json["status_jabatan"],
         ketJabatan: json["ket_jabatan"],
         jk: json["jk"],
-        tanggalPengangkat: DateTime.parse(json["tanggal_pengangkat"]),
-        tglMulai: DateTime.parse(json["tgl_mulai"]),
+        tanggalPengangkat: json["tanggal_pengangkat"],
+        tglMulai: json["tgl_mulai"],
         noRekening: json["no_rekening"],
         namaJabatan: json["nama_jabatan"],
         namaBagian: json["nama_bagian"],
         namaCabang: json["nama_cabang"],
-        tglLahir: DateTime.parse(json["tgl_lahir"]),
+        tglLahir: json["tgl_lahir"],
         displayJabatan: json["display_jabatan"],
         pensiun: json["pensiun"],
         kantor: json["kantor"],
@@ -110,16 +110,13 @@ class Datum {
         "status_jabatan": statusJabatan,
         "ket_jabatan": ketJabatan,
         "jk": jk,
-        "tanggal_pengangkat":
-            "${tanggalPengangkat.year.toString().padLeft(4, '0')}-${tanggalPengangkat.month.toString().padLeft(2, '0')}-${tanggalPengangkat.day.toString().padLeft(2, '0')}",
-        "tgl_mulai":
-            "${tglMulai.year.toString().padLeft(4, '0')}-${tglMulai.month.toString().padLeft(2, '0')}-${tglMulai.day.toString().padLeft(2, '0')}",
+        "tanggal_pengangkat": tanggalPengangkat,
+        "tgl_mulai": tglMulai,
         "no_rekening": noRekening,
         "nama_jabatan": namaJabatan,
         "nama_bagian": namaBagian,
         "nama_cabang": namaCabang,
-        "tgl_lahir":
-            "${tglLahir.year.toString().padLeft(4, '0')}-${tglLahir.month.toString().padLeft(2, '0')}-${tglLahir.day.toString().padLeft(2, '0')}",
+        "tgl_lahir": tglLahir,
         "display_jabatan": displayJabatan,
         "pensiun": pensiun,
         "kantor": kantor,

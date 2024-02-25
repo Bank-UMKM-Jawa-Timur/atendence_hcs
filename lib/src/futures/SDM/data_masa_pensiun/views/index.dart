@@ -15,6 +15,7 @@ import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
       Get.find<ListMasaPensiunController>();
   DataMasaPensiunController dataMasaPensiunC =
       Get.find<DataMasaPensiunController>();
+  // late List<bool> isActiveList;
 
   String? valueKat;
   String? valueDivisi;
@@ -62,105 +64,105 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Data Masa Pensiun"),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              Container(
-                width: Get.width,
-                // height: Get.height,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: cGrey_400, width: 1),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(6),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Obx(
-                      () => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 15,
-                        ),
-                        child: Column(
-                          children: [
-                            dropdownKategori(),
-                            // show dropDown Divis
-                            listMasaPensiunC.showDiv.value
-                                ? divisC.isLoading.value
-                                    ? loadingPage()
-                                    : dropdownDivisi(divisC.divisiM!.data)
-                                : Container(),
-
-                            // show dropDown Sub Divis
-                            subDivisiC.emptyData.value
-                                ? Container()
-                                : listMasaPensiunC.showSubDiv.value
-                                    ? subDivisiC.isLoading.value
-                                        ? loadingPage()
-                                        : dropdownSubDivisi()
-                                    : Container(),
-
-                            // show dropDown Bagian
-                            bagianC.emptyData.value
-                                ? Container()
-                                : listMasaPensiunC.bagian.value
-                                    ? bagianC.isLoading.value
-                                        ? loadingPage()
-                                        : dropdownBagian(bagianC.bagianM!.data)
-                                    : Container(),
-
-                            // Button filter
-                            Container(
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: cPrimary,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              width: Get.width,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  dataMasaPensiunC.getDataMasaPensiun(valueKat);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: cPrimary,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      CommunityMaterialIcons.filter_outline,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    spaceWidth(5),
-                                    const Text(
-                                      "Tampilkan",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            Container(
+              width: Get.width,
+              // height: Get.height,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: cGrey_400, width: 1),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(6),
                 ),
               ),
-              spaceHeight(10),
-              Obx(
+              child: Column(
+                children: [
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 15,
+                      ),
+                      child: Column(
+                        children: [
+                          dropdownKategori(),
+                          // show dropDown Divis
+                          listMasaPensiunC.showDiv.value
+                              ? divisC.isLoading.value
+                                  ? loadingPage()
+                                  : dropdownDivisi(divisC.divisiM!.data)
+                              : Container(),
+
+                          // show dropDown Sub Divis
+                          subDivisiC.emptyData.value
+                              ? Container()
+                              : listMasaPensiunC.showSubDiv.value
+                                  ? subDivisiC.isLoading.value
+                                      ? loadingPage()
+                                      : dropdownSubDivisi()
+                                  : Container(),
+
+                          // show dropDown Bagian
+                          bagianC.emptyData.value
+                              ? Container()
+                              : listMasaPensiunC.bagian.value
+                                  ? bagianC.isLoading.value
+                                      ? loadingPage()
+                                      : dropdownBagian(bagianC.bagianM!.data)
+                                  : Container(),
+
+                          // Button filter
+                          Container(
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: cPrimary,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                            ),
+                            width: Get.width,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                dataMasaPensiunC.getDataMasaPensiun(valueKat);
+                                dataMasaPensiunC.isActiveList!.clear();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: cPrimary,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    CommunityMaterialIcons.filter_outline,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  spaceWidth(5),
+                                  const Text(
+                                    "Tampilkan",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            spaceHeight(10),
+            Expanded(
+              child: Obx(
                 () => dataMasaPensiunC.isLoading.value
                     ? loadingPage()
                     : dataMasaPensiunC.isEmptyData.value
@@ -174,29 +176,49 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                             ),
                             child: emptyDataSetTitle(
                                 "Pilih Kategori untuk menampilkan data."))
-                        : Container(
-                            width: Get.width,
-                            // height: Get.height,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: cGrey_400, width: 1),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(6),
-                              ),
-                            ),
-                            child: ListView.builder(
-                              itemCount: dataMasaPensiunC
-                                      .dataMasaPensiunM?.data.length ??
-                                  0,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return cardData();
-                              },
-                            ),
+                        : ListView.builder(
+                            itemCount: dataMasaPensiunC
+                                    .dataMasaPensiunM?.data.length ??
+                                0,
+                            shrinkWrap: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var data =
+                                  dataMasaPensiunC.dataMasaPensiunM?.data;
+                              return Container(
+                                width: Get.width,
+                                // height: Get.height,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: cGrey_400, width: 1),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(6),
+                                  ),
+                                ),
+                                child: cardData(
+                                  index,
+                                  data?[index].nip,
+                                  data?[index].namaKaryawan,
+                                  data?[index].displayJabatan.trim() ?? '-',
+                                  data?[index].kantor ?? '-',
+                                  "Gol -",
+                                  data?[index].tglLahir ?? '-',
+                                  'Umur -',
+                                  data?[index].jk ?? '-',
+                                  data?[index].statusJabatan ?? '-',
+                                  'Status -',
+                                  data?[index].tanggalPengangkat ?? '-',
+                                  "masaKerja -",
+                                  'pendidikan belum',
+                                  data?[index].pensiun ?? "-",
+                                ),
+                              );
+                            },
                           ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -274,7 +296,23 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     );
   }
 
-  Container cardData() {
+  Container cardData(
+    index,
+    nip,
+    nama,
+    jabatan,
+    kantor,
+    gol,
+    tglLahir,
+    umur,
+    jk,
+    status,
+    skAngkat,
+    tglAngkat,
+    masaKerja,
+    pendidikanTerakhir,
+    status2,
+  ) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: cGrey_300, width: 1),
@@ -287,7 +325,8 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
           InkWell(
             onTap: () {
               setState(() {
-                isActive = !isActive;
+                dataMasaPensiunC.isActiveList![index] =
+                    !dataMasaPensiunC.isActiveList![index];
               });
             },
             child: Padding(
@@ -313,7 +352,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                         ),
                         child: Center(
                           child: Text(
-                            shortTwoCaracterName("Mursida Lestari"),
+                            "${index + 1}",
                             style: customTextStyle(
                               FontWeight.w700,
                               10,
@@ -327,7 +366,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "MURSIDA LIESWARI",
+                            shortenLastName(nama),
                             style: customTextStyle(
                               FontWeight.w700,
                               11,
@@ -335,7 +374,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                             ),
                           ),
                           Text(
-                            "01287",
+                            nip,
                             style: customTextStyle(
                               FontWeight.w600,
                               10,
@@ -365,14 +404,14 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                   height: 1,
                   color: cGrey_300,
                 ),
-                isActive
+                dataMasaPensiunC.isActiveList![index]
                     ? Column(
                         children: [
                           spaceHeight(10),
-                          row1(),
-                          row2(),
-                          row3(),
-                          row4(),
+                          row1(jabatan, kantor, gol),
+                          row2(tglLahir, umur, jk),
+                          row3(status, skAngkat, tglAngkat),
+                          row4(masaKerja, pendidikanTerakhir, status2),
                           spaceHeight(20),
                         ],
                       )
