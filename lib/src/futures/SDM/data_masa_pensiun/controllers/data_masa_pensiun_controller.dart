@@ -10,44 +10,45 @@ class DataMasaPensiunController extends GetxController {
   DataMasaPensiunModel? dataMasaPensiunM;
   var isLoading = false.obs;
   var isEmptyData = true.obs;
+  var isFilter = false.obs;
   var valDivisi = "".obs;
   var valSubDivisi = "".obs;
   var valBagian = "".obs;
   List<bool>? isActiveList;
 
+  Future<String> getUrl(kategori, page) async {
+    var url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
+    if (kategori == "Keseluruhan") {
+      url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
+    } else if (kategori == "Divisi") {
+      url =
+          "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=$page";
+    } else if (kategori == "Sub Divisi") {
+      url =
+          "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=$page";
+    } else if (kategori == "Bagian") {
+      url =
+          "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
+    } else if (kategori == "Kantor") {
+      url =
+          "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
+    }
+    return url;
+  }
+
   Future<void> getDataMasaPensiun(kategori, page) async {
     var headers = {'Content-Type': 'application/json'};
-    var url = "";
+    String url = await getUrl(kategori, page);
     try {
       isLoading(true);
-      switch (kategori) {
-        case "Keseluruhan":
-          url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
-          break;
-        case "Divisi":
-          url =
-              "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=$page";
-          break;
-        case "Sub Divisi":
-          url =
-              "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=$page";
-          break;
-        case "Bagian":
-          url =
-              "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
-          break;
-        case "Kantor":
-          url =
-              "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
-          break;
-      }
       http.Response response = await http.get(
-        Uri.parse("$base_url/reminder-pensiun?kategori=$kategori&page=$page"),
+        Uri.parse(url),
         headers: headers,
       );
       var json = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var data = json['data'];
+        isFilter(true);
         if (data.length > 0) {
           isEmptyData(false);
           if (dataMasaPensiunM != null) {

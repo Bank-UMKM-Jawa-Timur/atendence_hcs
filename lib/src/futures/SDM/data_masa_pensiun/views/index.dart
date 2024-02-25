@@ -83,11 +83,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     setState(() {});
   }
 
-  submit() {
+  filter() {
     setState(() {
       page = 1;
     });
-    if (dataMasaPensiunC.dataMasaPensiunM!.data.isNotEmpty) {
+    if (dataMasaPensiunC.isFilter.value) {
       dataMasaPensiunC.dataMasaPensiunM!.data.clear();
       dataMasaPensiunC.isActiveList!.clear();
     }
@@ -165,11 +165,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                   snackbarfailed("Kategori Harap Dipilih!.");
                                 } else {
                                   if (valueKat == "Keseluruhan") {
-                                    submit();
+                                    filter();
                                   } else if (valueKat == "Divisi") {
                                     valueDivisi == null
                                         ? snackbarfailed("Divisi Harap di isi.")
-                                        : submit();
+                                        : filter();
                                   }
                                 }
                               },
@@ -221,7 +221,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                   ),
                                 ),
                                 child: emptyDataSetTitle(
-                                    "Pilih Kategori untuk menampilkan data."))
+                                  dataMasaPensiunC.isFilter.value
+                                      ? "Data yang anda filter kosong!."
+                                      : "Pilih Kategori untuk menampilkan data.",
+                                ),
+                              )
                             : dataList()
                     : dataList(),
               ),
