@@ -83,6 +83,17 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     setState(() {});
   }
 
+  submit() {
+    setState(() {
+      page = 1;
+    });
+    if (dataMasaPensiunC.dataMasaPensiunM!.data.isNotEmpty) {
+      dataMasaPensiunC.dataMasaPensiunM!.data.clear();
+      dataMasaPensiunC.isActiveList!.clear();
+    }
+    dataMasaPensiunC.getDataMasaPensiun(valueKat, page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,35 +161,15 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                             width: Get.width,
                             child: ElevatedButton(
                               onPressed: () {
-                                void fetch() {
-                                  setState(() {
-                                    page = 1;
-                                  });
-                                  dataMasaPensiunC.dataMasaPensiunM!.data
-                                      .clear();
-                                  dataMasaPensiunC.isActiveList!.clear();
-                                  dataMasaPensiunC.getDataMasaPensiun(
-                                      valueKat, page);
-                                }
-
                                 if (valueKat == null) {
                                   snackbarfailed("Kategori Harap Dipilih!.");
                                 } else {
-                                  switch (valueKat) {
-                                    // case "Keseluruhan":
-                                    //   valueDivisi == null
-                                    //       ? snackbarfailed(
-                                    //           "Divisi Harap di isi.")
-                                    //       : fetch();
-                                    //   break;
-                                    case "Divisi":
-                                      valueDivisi == null
-                                          ? snackbarfailed(
-                                              "Divisi Harap di isi.")
-                                          : fetch();
-                                      break;
-                                    default:
-                                      fetch();
+                                  if (valueKat == "Keseluruhan") {
+                                    submit();
+                                  } else if (valueKat == "Divisi") {
+                                    valueDivisi == null
+                                        ? snackbarfailed("Divisi Harap di isi.")
+                                        : submit();
                                   }
                                 }
                               },
