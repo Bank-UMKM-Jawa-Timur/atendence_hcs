@@ -1,6 +1,5 @@
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class DetailKaryawan extends StatefulWidget {
   const DetailKaryawan({super.key});
@@ -13,7 +12,6 @@ class _DetailKaryawanState extends State<DetailKaryawan> {
   @override
   void initState() {
     super.initState();
-    print(Get.arguments);
   }
 
   @override
