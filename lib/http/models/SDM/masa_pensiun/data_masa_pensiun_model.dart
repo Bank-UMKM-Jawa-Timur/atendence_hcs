@@ -32,16 +32,16 @@ class DataMasaPensiunModel {
 }
 
 class Datum {
-  String nip;
-  String nik;
-  String namaKaryawan;
+  dynamic nip;
+  dynamic nik;
+  dynamic namaKaryawan;
   dynamic kdBagian;
   dynamic kdJabatan;
   dynamic kdEntitas;
   dynamic tanggalPenonaktifan;
   dynamic statusJabatan;
   dynamic ketJabatan;
-  String jk;
+  dynamic jk;
   dynamic tanggalPengangkat;
   dynamic tglMulai;
   dynamic noRekening;

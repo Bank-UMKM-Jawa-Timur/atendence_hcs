@@ -14,31 +14,30 @@ class DataMasaPensiunController extends GetxController {
   var valDivisi = "".obs;
   var valSubDivisi = "".obs;
   var valBagian = "".obs;
+  var loadMore = false.obs;
+  var hasMore = true.obs;
   List<bool>? isActiveList;
 
   Future<String> getUrl(kategori, page) async {
-    var url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
+    // print(kategori);
     if (kategori == "Keseluruhan") {
-      url = "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
+      return "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
     } else if (kategori == "Divisi") {
-      url =
-          "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=$page";
+      return "$base_url/reminder-pensiun?kategori=divisi&divisi=${valDivisi.value}&page=$page";
     } else if (kategori == "Sub Divisi") {
-      url =
-          "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=$page";
+      return "$base_url/reminder-pensiun?kategori=sub_divisi&sub_divisi=${valSubDivisi.value}&page=$page";
     } else if (kategori == "Bagian") {
-      url =
-          "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
+      return "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
     } else if (kategori == "Kantor") {
-      url =
-          "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
+      return "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
     }
-    return url;
+    return "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
   }
 
   Future<void> getDataMasaPensiun(kategori, page) async {
     var headers = {'Content-Type': 'application/json'};
     String url = await getUrl(kategori, page);
+    print(url);
     try {
       isLoading(true);
       http.Response response = await http.get(
@@ -50,6 +49,19 @@ class DataMasaPensiunController extends GetxController {
         var data = json['data'];
         isFilter(true);
         if (data.length > 0) {
+          // load data jika data masih lebih dari limit
+          if (dataMasaPensiunM!.data.length >= 25) {
+            loadMore.value = true;
+          } else {
+            loadMore.value = false;
+          }
+
+          //
+          // if (dataMasaPensiunM!.data.length <= 25) {
+          //   hasMore.value = false;
+          // }
+
+          //
           isEmptyData(false);
           if (dataMasaPensiunM != null) {
             var newData = DataMasaPensiunModel.fromJson(json);
@@ -62,7 +74,7 @@ class DataMasaPensiunController extends GetxController {
         } else {
           isEmptyData(true);
         }
-        print(json);
+        // print(json);
       } else {
         debugPrint(response.statusCode.toString());
       }

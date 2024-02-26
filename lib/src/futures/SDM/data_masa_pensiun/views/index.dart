@@ -40,8 +40,6 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
       Get.find<DataMasaPensiunController>();
   int page = 1;
   final controller = ScrollController();
-  bool loadMore = false;
-  bool hasMore = true;
 
   String? valueKat;
   String? valueDivisi;
@@ -69,17 +67,10 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
   }
 
   _fetchPage() {
-    loadMore = true;
     setState(() {
       page++;
     });
-    if (dataMasaPensiunC.isEmptyData.value) {
-      hasMore = false;
-    } else {
-      hasMore = true;
-      dataMasaPensiunC.getDataMasaPensiun(kategori, page);
-    }
-    loadMore = false;
+    dataMasaPensiunC.getDataMasaPensiun(valueKat, page);
     setState(() {});
   }
 
@@ -87,11 +78,18 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     setState(() {
       page = 1;
     });
-    if (dataMasaPensiunC.isFilter.value) {
-      dataMasaPensiunC.dataMasaPensiunM!.data.clear();
-      dataMasaPensiunC.isActiveList!.clear();
-    }
+    // if (dataMasaPensiunC.isFilter.value) {
+    //   dataMasaPensiunC.dataMasaPensiunM!.data.clear();
+    //   dataMasaPensiunC.isActiveList!.clear();
+    // }
     dataMasaPensiunC.getDataMasaPensiun(valueKat, page);
+    // dataMasaPensiunC.isFilter.value = false;
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -170,6 +168,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                     valueDivisi == null
                                         ? snackbarfailed("Divisi Harap di isi.")
                                         : filter();
+                                  } else if (valueKat == "Sub Divisi") {
+                                    valueSubDivisi == null
+                                        ? snackbarfailed(
+                                            "Sub Divisi Harap di isi.")
+                                        : filter();
                                   }
                                 }
                               },
@@ -239,9 +242,9 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
   ListView dataList() {
     return ListView.builder(
       controller: controller,
-      itemCount: dataMasaPensiunC.dataMasaPensiunM!.data.length + 1,
-      // : dataMasaPensiunC
-      //     .dataMasaPensiunM!.data.length,
+      itemCount: dataMasaPensiunC.loadMore.value
+          ? dataMasaPensiunC.dataMasaPensiunM!.data.length + 1
+          : dataMasaPensiunC.dataMasaPensiunM!.data.length,
       shrinkWrap: true,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -279,13 +282,15 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
             child: Center(
-              child: hasMore
-                  ? const CircularProgressIndicator()
-                  : Text(
-                      "Data Kosong!",
-                      style: customTextStyle(FontWeight.w600, 15, cGrey_900),
-                    ),
-            ),
+                child:
+                    // dataMasaPensiunC.hasMore.value
+                    //     ?
+                    const CircularProgressIndicator()
+                // : Text(
+                //     "Tidak ada data lagi.",
+                //     style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                //   ),
+                ),
           );
         }
       },
