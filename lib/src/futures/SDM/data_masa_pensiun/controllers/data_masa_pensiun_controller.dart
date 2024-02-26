@@ -14,8 +14,6 @@ class DataMasaPensiunController extends GetxController {
   var valDivisi = "".obs;
   var valSubDivisi = "".obs;
   var valBagian = "".obs;
-  var loadMore = false.obs;
-  var hasMore = true.obs;
   List<bool>? isActiveList;
 
   Future<String> getUrl(kategori, page) async {
@@ -37,7 +35,6 @@ class DataMasaPensiunController extends GetxController {
   Future<void> getDataMasaPensiun(kategori, page) async {
     var headers = {'Content-Type': 'application/json'};
     String url = await getUrl(kategori, page);
-    print(url);
     try {
       isLoading(true);
       http.Response response = await http.get(
@@ -49,19 +46,6 @@ class DataMasaPensiunController extends GetxController {
         var data = json['data'];
         isFilter(true);
         if (data.length > 0) {
-          // load data jika data masih lebih dari limit
-          if (dataMasaPensiunM!.data.length >= 25) {
-            loadMore.value = true;
-          } else {
-            loadMore.value = false;
-          }
-
-          //
-          // if (dataMasaPensiunM!.data.length <= 25) {
-          //   hasMore.value = false;
-          // }
-
-          //
           isEmptyData(false);
           if (dataMasaPensiunM != null) {
             var newData = DataMasaPensiunModel.fromJson(json);
@@ -69,8 +53,12 @@ class DataMasaPensiunController extends GetxController {
           } else {
             dataMasaPensiunM = DataMasaPensiunModel.fromJson(json);
           }
+
+          // mendeklarasi boolean untuk mebuka card
           isActiveList = List.generate(
-              dataMasaPensiunM?.data.length ?? 0, (index) => false);
+            dataMasaPensiunM?.data.length ?? 0,
+            (index) => false,
+          );
         } else {
           isEmptyData(true);
         }

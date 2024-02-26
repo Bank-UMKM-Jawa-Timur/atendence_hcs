@@ -78,12 +78,12 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     setState(() {
       page = 1;
     });
-    // if (dataMasaPensiunC.isFilter.value) {
-    //   dataMasaPensiunC.dataMasaPensiunM!.data.clear();
-    //   dataMasaPensiunC.isActiveList!.clear();
-    // }
+    if (dataMasaPensiunC.isFilter.value) {
+      dataMasaPensiunC.dataMasaPensiunM!.data.clear();
+      dataMasaPensiunC.isActiveList!.clear();
+    }
     dataMasaPensiunC.getDataMasaPensiun(valueKat, page);
-    // dataMasaPensiunC.isFilter.value = false;
+    dataMasaPensiunC.isFilter.value = false;
   }
 
   @override
@@ -166,12 +166,18 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                     filter();
                                   } else if (valueKat == "Divisi") {
                                     valueDivisi == null
-                                        ? snackbarfailed("Divisi Harap di isi.")
+                                        ? snackbarfailed(
+                                            "Divisi Harap di pilih.")
                                         : filter();
                                   } else if (valueKat == "Sub Divisi") {
                                     valueSubDivisi == null
                                         ? snackbarfailed(
-                                            "Sub Divisi Harap di isi.")
+                                            "Sub Divisi Harap di pilih.")
+                                        : filter();
+                                  } else if (valueKat == "Bagian") {
+                                    valueBagian == null
+                                        ? snackbarfailed(
+                                            "Bagian Harap di pilih.")
                                         : filter();
                                   }
                                 }
@@ -242,9 +248,7 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
   ListView dataList() {
     return ListView.builder(
       controller: controller,
-      itemCount: dataMasaPensiunC.loadMore.value
-          ? dataMasaPensiunC.dataMasaPensiunM!.data.length + 1
-          : dataMasaPensiunC.dataMasaPensiunM!.data.length,
+      itemCount: dataMasaPensiunC.dataMasaPensiunM!.data.length + 1,
       shrinkWrap: true,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -282,15 +286,13 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
             child: Center(
-                child:
-                    // dataMasaPensiunC.hasMore.value
-                    //     ?
-                    const CircularProgressIndicator()
-                // : Text(
-                //     "Tidak ada data lagi.",
-                //     style: customTextStyle(FontWeight.w400, 15, cGrey_900),
-                //   ),
-                ),
+              child: !dataMasaPensiunC.isEmptyData.value
+                  ? const CircularProgressIndicator()
+                  : Text(
+                      "Tidak ada data lagi.",
+                      style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                    ),
+            ),
           );
         }
       },
