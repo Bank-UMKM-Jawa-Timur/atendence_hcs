@@ -5,6 +5,7 @@ import 'package:atendence_hcs/http/models/SDM/masa_pensiun/sub_divisi_model.dart
     as subDivisModel;
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/bagian_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/cabang_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/data_masa_pensiun_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/divisi_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/list_masa_pensiun_controller.dart';
@@ -38,14 +39,16 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
       Get.find<ListMasaPensiunController>();
   DataMasaPensiunController dataMasaPensiunC =
       Get.find<DataMasaPensiunController>();
-  int page = 1;
+  CabangController cabangC = Get.find<CabangController>();
   final controller = ScrollController();
 
+  int page = 1;
   String? valueKat;
   String? valueDivisi;
   String? valueSubDivisi;
   String? valueBagian;
   String? valueKantor;
+  String? valueCabang;
 
   List kategori = [
     {'name': 'Keseluruhan'},
@@ -53,6 +56,11 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
     {'name': 'Sub Divisi'},
     {'name': 'Bagian'},
     {'name': 'Kantor'},
+  ];
+
+  List kantor = [
+    {'name': 'Pusat'},
+    {'name': 'Cabang'},
   ];
 
   @override
@@ -147,6 +155,13 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                       : dropdownBagian(bagianC.bagianM!.data)
                                   : Container(),
 
+                          valueKat == "Kantor" ? dropdownKantor() : Container(),
+                          valueKantor == "Cabang"
+                              ? cabangC.isLoading.value
+                                  ? loadingPage()
+                                  : dropdownCabang()
+                              : Container(),
+
                           // Button filter
                           Container(
                             height: 40,
@@ -179,6 +194,19 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                                         ? snackbarfailed(
                                             "Bagian Harap di pilih.")
                                         : filter();
+                                  } else if (valueKat == "Kantor") {
+                                    if (valueKantor == null) {
+                                      snackbarfailed("Kantor harap dipilih.");
+                                    } else {
+                                      if (valueKantor == "Cabang") {
+                                        valueCabang == null
+                                            ? snackbarfailed(
+                                                "Cabang harap di isi.")
+                                            : filter();
+                                      } else {
+                                        filter();
+                                      }
+                                    }
                                   }
                                 }
                               },
@@ -559,6 +587,137 @@ class _DataMasaPensiunPageState extends State<DataMasaPensiunPage> {
                   ),
                 ),
                 value: item['name'],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding dropdownKantor() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Kantor",
+            style: customTextStyle(
+              FontWeight.w600,
+              12,
+              cGrey_900,
+            ),
+          ),
+          spaceHeight(3),
+          DropdownButtonFormField(
+            dropdownColor: Colors.white,
+            isDense: true,
+            isExpanded: true,
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.all(10),
+              focusedBorder: focusedBorder,
+              enabledBorder: enabledBorder,
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            value: valueKantor,
+            hint: Text(
+              "-- pilih Kantor --",
+              style: customTextStyle(
+                FontWeight.w600,
+                12,
+                cGrey_600,
+              ),
+            ),
+            onChanged: ((value) {
+              if (mounted) {
+                setState(() {
+                  valueKantor = value as String?;
+                  dataMasaPensiunC.valKantor.value = value!;
+                  cabangC.cabangM?.data.clear();
+                  if (valueKantor == "Cabang") {
+                    cabangC.getCabang();
+                  }
+                  valueCabang == null;
+                });
+              }
+            }),
+            items: kantor.map((item) {
+              return DropdownMenuItem(
+                child: Text(
+                  item['name'],
+                  style: customTextStyle(
+                    FontWeight.w500,
+                    12,
+                    cGrey_900,
+                  ),
+                ),
+                value: item['name'],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding dropdownCabang() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Cabang",
+            style: customTextStyle(
+              FontWeight.w600,
+              12,
+              cGrey_900,
+            ),
+          ),
+          spaceHeight(3),
+          DropdownButtonFormField(
+            dropdownColor: Colors.white,
+            isDense: true,
+            isExpanded: true,
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.all(10),
+              focusedBorder: focusedBorder,
+              enabledBorder: enabledBorder,
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            value: valueCabang,
+            hint: Text(
+              "-- pilih Cabang --",
+              style: customTextStyle(
+                FontWeight.w600,
+                12,
+                cGrey_600,
+              ),
+            ),
+            onChanged: ((value) {
+              if (mounted) {
+                setState(() {
+                  valueCabang = value;
+                  dataMasaPensiunC.valKdCabang.value = value!;
+                });
+              }
+            }),
+            items: cabangC.cabangM?.data.map((item) {
+              return DropdownMenuItem(
+                child: Text(
+                  "${item.kdCabang} - ${item.namaCabang}",
+                  style: customTextStyle(
+                    FontWeight.w500,
+                    12,
+                    cGrey_900,
+                  ),
+                ),
+                value: item.kdCabang,
               );
             }).toList(),
           ),

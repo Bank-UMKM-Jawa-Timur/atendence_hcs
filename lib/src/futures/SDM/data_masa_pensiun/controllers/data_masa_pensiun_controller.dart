@@ -14,10 +14,13 @@ class DataMasaPensiunController extends GetxController {
   var valDivisi = "".obs;
   var valSubDivisi = "".obs;
   var valBagian = "".obs;
+  var valKantor = "".obs;
+  var valKdCabang = "".obs;
+
   List<bool>? isActiveList;
 
   Future<String> getUrl(kategori, page) async {
-    // print(kategori);
+    print(valKdCabang.value);
     if (kategori == "Keseluruhan") {
       return "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
     } else if (kategori == "Divisi") {
@@ -27,7 +30,9 @@ class DataMasaPensiunController extends GetxController {
     } else if (kategori == "Bagian") {
       return "$base_url/reminder-pensiun?kategori=bagian&bagian=${valBagian.value}&page=$page";
     } else if (kategori == "Kantor") {
-      return "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=001";
+      return valKantor.value == "Pusat"
+          ? "$base_url/reminder-pensiun?kategori=kantor&kantor=pusat&page=$page"
+          : "$base_url/reminder-pensiun?kategori=kantor&kantor=cabang&kd_cabang=${valKdCabang.value}&page=$page";
     }
     return "$base_url/reminder-pensiun?kategori=$kategori&page=$page";
   }
@@ -35,6 +40,7 @@ class DataMasaPensiunController extends GetxController {
   Future<void> getDataMasaPensiun(kategori, page) async {
     var headers = {'Content-Type': 'application/json'};
     String url = await getUrl(kategori, page);
+    print(url);
     try {
       isLoading(true);
       http.Response response = await http.get(
