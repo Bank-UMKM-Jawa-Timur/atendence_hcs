@@ -1,8 +1,11 @@
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/controllers/laporan_mutasi_controller.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/my_datepicker.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:atendence_hcs/utils/constant.dart';
@@ -18,9 +21,35 @@ class LaporanMutasi extends StatefulWidget {
 }
 
 class _LaporanMutasiState extends State<LaporanMutasi> {
+  LaporanMutasiController laporanMutasiC = Get.find<LaporanMutasiController>();
   DateTime firstDate = DateTime.now();
   DateTime lastDate = DateTime.now();
   DateTime year = DateTime.now();
+  final controller = ScrollController();
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    laporanMutasiC.getLaporanMutasi(
+      firstDate.simpleDate(),
+      lastDate.simpleDate(),
+      page,
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +86,14 @@ class _LaporanMutasiState extends State<LaporanMutasi> {
                       width: Get.width,
                       child: ElevatedButton(
                         onPressed: () {
-                          setState(() {});
+                          setState(() {
+                            page = 1;
+                          });
+                          laporanMutasiC.laporanMutasiM!.data.clear();
+                          laporanMutasiC.getLaporanMutasi(
+                              firstDate.simpleDate(),
+                              lastDate.simpleDate(),
+                              page);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: cPrimary,
@@ -86,26 +122,70 @@ class _LaporanMutasiState extends State<LaporanMutasi> {
                   ])),
             ),
             spaceHeight(10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  width: Get.width,
-                  height: Get.height / 2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cGrey_400, width: 1),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(6),
-                    ),
-                  ),
-                  child: emptyDataSetTitle(
-                    "Silahkan Filter untuk menampilkan data\nLaporan Demosi.",
-                  ),
-                ),
-              ),
+            Obx(
+              () => page == 1
+                  ? laporanMutasiC.isLoading.value
+                      ? loadingPage()
+                      : laporanMutasiC.isEmptyData.value
+                          ? Container(
+                              width: Get.width,
+                              height: Get.height / 2,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: cGrey_400, width: 1),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(6),
+                                ),
+                              ),
+                              child: emptyDataSetTitle(
+                                laporanMutasiC.isFilter.value
+                                    ? "Data yang anda filter masih kosong!."
+                                    : "Silahkan Filter untuk menampilkan data\nLaporan Mutasi.",
+                              ),
+                            )
+                          : listData()
+                  : listData(),
             )
           ]),
         ));
+  }
+
+  Expanded listData() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        itemCount: laporanMutasiC.laporanMutasiM!.data.length + 1,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var data = laporanMutasiC.laporanMutasiM?.data;
+          if (index < laporanMutasiC.laporanMutasiM!.data.length) {
+            return cardItems(
+              index + 1,
+              data?[index].nip,
+              data?[index].namaKaryawan,
+              data?[index].tanggalPengesahan,
+              data?[index].buktiSk,
+              data?[index].jabatanLama,
+              data?[index].jabatanBaru,
+              data?[index].kantorLama,
+              data?[index].kantorBaru,
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: !laporanMutasiC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                      ),
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 
   Column formFirstDate(BuildContext context) {
@@ -267,6 +347,285 @@ class _LaporanMutasiState extends State<LaporanMutasi> {
           ),
         ),
       ],
+    );
+  }
+
+  Padding cardItems(
+    int no,
+    nip,
+    nama,
+    tglMutasi,
+    buktiSK,
+    jabatanLama,
+    jabatanBaru,
+    kantorLama,
+    kantorBaru,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          width: Get.width,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: cGrey_400,
+                blurRadius: 4,
+                offset: Offset(0, 1),
+              )
+            ],
+            borderRadius: BorderRadius.all(
+              Radius.circular(7),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: cPrimary_300,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              // shortTwoCaracterName(nama),
+                              no.toString(),
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                16,
+                                cPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        spaceWidth(10),
+                        SizedBox(
+                          width: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                shortenLastName(nama),
+                                style: customTextStyle(
+                                  FontWeight.w700,
+                                  14,
+                                  Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                nip,
+                                style: customTextStyle(
+                                  FontWeight.w600,
+                                  12,
+                                  cGrey_700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                spaceHeight(15),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Tanggal Mutasi",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              tglMutasi,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(10),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Bukti SK",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              buktiSK,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Jabatan Lama",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              jabatanLama,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(10),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Jabatan Baru",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              jabatanBaru,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kantor Lama",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              kantorLama,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(10),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kantor Baru",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              kantorBaru,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
