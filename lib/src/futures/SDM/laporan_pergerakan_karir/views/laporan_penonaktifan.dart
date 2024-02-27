@@ -1,8 +1,11 @@
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/controllers/laporan_penonaktifan_controller.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/my_datepicker.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:atendence_hcs/utils/constant.dart';
@@ -18,94 +21,175 @@ class LaporanPenonaktifan extends StatefulWidget {
 }
 
 class _LaporanPenonaktifanState extends State<LaporanPenonaktifan> {
+  LaporanPenonaktifanController laporanPC =
+      Get.find<LaporanPenonaktifanController>();
   DateTime firstDate = DateTime.now();
   DateTime lastDate = DateTime.now();
   DateTime year = DateTime.now();
+  final controller = ScrollController();
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    laporanPC.getLaporanPenonaktifan(
+      firstDate.simpleDate(),
+      lastDate.simpleDate(),
+      page,
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: cGrey_200,
-        appBar: appBarPrimary("Laporan Penonaktifan"),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Column(children: [
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(7),
-                ),
-                border: Border.all(color: cGrey_400, width: 1),
+      backgroundColor: cGrey_200,
+      appBar: appBarPrimary("Laporan Penonaktifan"),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Column(children: [
+          Container(
+            width: Get.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(7),
               ),
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  child: Column(children: [
-                    formFirstDate(context),
-                    spaceHeight(15),
-                    formLastDate(context),
-                    spaceHeight(15),
-                    Container(
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: cPrimary,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
+              border: Border.all(color: cGrey_400, width: 1),
+            ),
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                child: Column(children: [
+                  formFirstDate(context),
+                  spaceHeight(15),
+                  formLastDate(context),
+                  spaceHeight(15),
+                  Container(
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      color: cPrimary,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
                       ),
-                      width: Get.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: cPrimary,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              CommunityMaterialIcons.filter_outline,
+                    ),
+                    width: Get.width,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          page = 1;
+                        });
+                        laporanPC.penonaktifanM?.data.clear();
+                        laporanPC.getLaporanPenonaktifan(
+                          firstDate.simpleDate(),
+                          lastDate.simpleDate(),
+                          page,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: cPrimary,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            CommunityMaterialIcons.filter_outline,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          spaceWidth(5),
+                          const Text(
+                            "Tampilkan",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                               color: Colors.white,
-                              size: 20,
                             ),
-                            spaceWidth(5),
-                            const Text(
-                              "Tampilkan",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ])),
+          ),
+          spaceHeight(10),
+          Obx(
+            () => page == 1
+                ? laporanPC.isLoading.value
+                    ? loadingPage()
+                    : laporanPC.isEmptyData.value
+                        ? Container(
+                            width: Get.width,
+                            height: Get.height / 2,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: cGrey_400, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(6),
                               ),
                             ),
-                          ],
-                        ),
+                            child: emptyDataSetTitle(
+                              laporanPC.isFilter.value
+                                  ? "Data yang anda filter masih kosong!."
+                                  : "Silahkan Filter untuk menampilkan data\nLaporan Penonaktifan.",
+                            ),
+                          )
+                        : listData()
+                : listData(),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Expanded listData() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        itemCount: laporanPC.penonaktifanM!.data.length + 1,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var data = laporanPC.penonaktifanM!.data;
+          if (index < laporanPC.penonaktifanM!.data.length) {
+            return cardItems(
+              index + 1,
+              data[index].nip,
+              data[index].namaKaryawan,
+              data[index].nik,
+              data[index].kategoriPenonaktifan ?? '-',
+              data[index].namaCabang ?? '-',
+              data[index].displayJabatan ?? '-',
+              DateTime.parse(data[index].tanggalPenonaktifan.toString())
+                  .fullDate()
+                  .toString(),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: !laporanPC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
                       ),
-                    )
-                  ])),
-            ),
-            spaceHeight(10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  width: Get.width,
-                  height: Get.height / 2,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cGrey_400, width: 1),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(6),
-                    ),
-                  ),
-                  child: emptyDataSetTitle(
-                    "Silahkan Filter untuk menampilkan data\nLaporan Penonaktifan.",
-                  ),
-                ),
               ),
-            )
-          ]),
-        ));
+            );
+          }
+        },
+      ),
+    );
   }
 
   Column formFirstDate(BuildContext context) {
@@ -267,6 +351,257 @@ class _LaporanPenonaktifanState extends State<LaporanPenonaktifan> {
           ),
         ),
       ],
+    );
+  }
+
+  Padding cardItems(
+    int no,
+    nip,
+    nama,
+    nik,
+    katPenonaktifan,
+    kantorTerakhir,
+    jabatanTerakhir,
+    tglPenonaktifan,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          width: Get.width,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: cGrey_400,
+                blurRadius: 4,
+                offset: Offset(0, 1),
+              )
+            ],
+            borderRadius: BorderRadius.all(
+              Radius.circular(7),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: cPrimary_300,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              // shortTwoCaracterName(nama),
+                              no.toString(),
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                16,
+                                cPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        spaceWidth(10),
+                        SizedBox(
+                          width: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                shortenLastName(nama),
+                                style: customTextStyle(
+                                  FontWeight.w700,
+                                  14,
+                                  Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                nip,
+                                style: customTextStyle(
+                                  FontWeight.w600,
+                                  12,
+                                  cGrey_700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                spaceHeight(15),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "NIK",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              nik,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(10),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kat Penonaktifan",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              katPenonaktifan,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kantor Terakhir",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              kantorTerakhir,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(10),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Jabatan Terakhir",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              jabatanTerakhir,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Tanggal Penonaktifan",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              tglPenonaktifan,
+                              style: customTextStyle(
+                                FontWeight.w700,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

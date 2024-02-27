@@ -142,7 +142,7 @@ class _LaporanPromosiState extends State<LaporanPromosi> {
                               child: emptyDataSetTitle(
                                 laporanPromosiC.isFilter.value
                                     ? "Data yang anda filter masih kosong!."
-                                    : "Silahkan Filter untuk menampilkan data\nLaporan Demosi.",
+                                    : "Silahkan Filter untuk menampilkan data\nLaporan Promosi.",
                               ),
                             )
                           : listData()
