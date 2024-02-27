@@ -42,9 +42,9 @@ class Datum {
   DateTime tanggalCetak;
   DateTime tanggalUpload;
   DateTime tanggalFinal;
-  String file;
-  String status;
-  String nip;
+  String? file;
+  String? status;
+  String? nip;
   int bulan;
   int gjPokok;
   int gjPenyesuaian;
@@ -290,11 +290,11 @@ class Potongan {
 class Rincian {
   String nip;
   String namaKaryawan;
-  String jk;
-  String statusJabatan;
-  String namaJabatan;
-  String pangkatGolongan;
-  String kantor;
+  String? jk;
+  String? statusJabatan;
+  String? namaJabatan;
+  String? pangkatGolongan;
+  String? kantor;
 
   Rincian({
     required this.nip,

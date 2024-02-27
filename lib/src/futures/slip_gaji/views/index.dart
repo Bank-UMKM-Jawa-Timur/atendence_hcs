@@ -114,7 +114,8 @@ class _SlipGajiState extends State<SlipGaji> {
                         cardPersion(
                           shortenLastName(
                               slipGajiC.listSlipGaji!.rincian.namaKaryawan),
-                          slipGajiC.listSlipGaji!.rincian.namaJabatan.trim(),
+                          slipGajiC.listSlipGaji!.rincian.namaJabatan?.trim() ??
+                              '-',
                           slipGajiC.selectedTahun.value,
                           "Laki-laki",
                         ),
