@@ -8,6 +8,7 @@ import 'package:atendence_hcs/src/futures/SDM/jabatan/bindings/histori_jaminan_b
 import 'package:atendence_hcs/src/futures/SDM/jabatan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_data_jamsostek/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_dpp/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/bindings/laporan_demosi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/bindings/laporan_mutasi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_demosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_mutasi.dart';
@@ -183,7 +184,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.laporanDemosi,
       page: () => const LaporanDemosi(),
-      // binding: HistoriSpBinding(),
+      binding: LaporanDemosiBinding(),
     ),
     GetPage(
       name: RouteNames.laporanPromosi,

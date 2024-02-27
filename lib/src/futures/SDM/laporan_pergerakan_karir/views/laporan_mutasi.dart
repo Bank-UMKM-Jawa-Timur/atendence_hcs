@@ -89,7 +89,7 @@ class _LaporanMutasiState extends State<LaporanMutasi> {
                           setState(() {
                             page = 1;
                           });
-                          laporanMutasiC.laporanMutasiM!.data.clear();
+                          laporanMutasiC.laporanMutasiM?.data.clear();
                           laporanMutasiC.getLaporanMutasi(
                               firstDate.simpleDate(),
                               lastDate.simpleDate(),
