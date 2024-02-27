@@ -7,6 +7,7 @@ import 'package:atendence_hcs/src/futures/SDM/histori_surat_peringatan/views/ind
 import 'package:atendence_hcs/src/futures/SDM/jabatan/bindings/histori_jaminan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/jabatan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_data_jamsostek/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_dpp/bindings/laporan_dpp_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_dpp/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/bindings/laporan_demosi_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/bindings/laporan_mutasi_binding.dart';
@@ -206,7 +207,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.laporanDataDpp,
       page: () => const LaporanDpp(),
-      // binding: HistoriSpBinding(),
+      binding: LaporanDppBinding(),
     ),
   ];
 }
