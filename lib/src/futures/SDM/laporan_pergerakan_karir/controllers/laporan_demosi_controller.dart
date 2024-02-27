@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:atendence_hcs/http/models/SDM/laporan/laporan_demosi_model.dart';
+import 'package:atendence_hcs/http/models/SDM/laporan_pergerakan_karir/laporan_demosi_model.dart';
 import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
