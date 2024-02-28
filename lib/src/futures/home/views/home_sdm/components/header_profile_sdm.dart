@@ -1,6 +1,7 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +21,25 @@ Widget headerHomeSdm(String jk, String nama, String jabatan) {
           child: Row(
             children: [
               Container(
-                height: 55,
-                width: 55,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
                     Radius.circular(50),
                   ),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      jk != "Laki-laki"
-                          ? 'assets/icon/female.jpg'
-                          : 'assets/icon/male.jpg',
-                    ),
+                  color: Colors.white,
+                  // image: DecorationImage(
+                  //   image: AssetImage(
+                  //     jk != "Laki-laki"
+                  //         ? 'assets/icon/female.jpg'
+                  //         : 'assets/icon/male.jpg',
+                  //   ),
+                  // ),
+                ),
+                child: Center(
+                  child: Text(
+                    shortTwoCaracterName(nama),
+                    style: customTextStyle(FontWeight.w600, 25, cPrimary),
                   ),
                 ),
               ),
