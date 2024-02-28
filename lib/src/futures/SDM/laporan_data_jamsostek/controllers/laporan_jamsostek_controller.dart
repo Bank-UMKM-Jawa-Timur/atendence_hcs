@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:atendence_hcs/http/models/SDM/laporan_dpp/laporan_dpp_kantor_model.dart';
-import 'package:atendence_hcs/http/models/SDM/laporan_dpp/laporan_dpp_keseluruhan_model.dart';
+import 'package:atendence_hcs/http/models/SDM/laporan_jamsostek/laporan_jamsostek_kantor_model.dart';
+import 'package:atendence_hcs/http/models/SDM/laporan_jamsostek/laporan_jamsostek_keseluruhan_model.dart';
 import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class LaporanDppController extends GetxController {
-  LaporanDppKeseluruhanModel? dppKeseluruhanM;
-  LaporanDppKantorModel? dppKantorM;
+class LaporanJamsostekController extends GetxController {
+  LaporanJamsostekKeseluruhanModel? jamsostekKeseluruhanM;
+  LaporanJamsostekKantorModel? jamsostekKantorM;
   // for kategori keseluruhan
   var isLoading = false.obs;
   var isEmptyData = true.obs;
@@ -23,13 +23,14 @@ class LaporanDppController extends GetxController {
   var bulan = "".obs;
   var totalKeseluruhan = 0.obs;
 
-  Future<void> getLaporanDppKeseluruhan() async {
+  Future<void> getLaporanJamsostekKeseluruhan() async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
         Uri.parse(
-          "$base_url/laporan/dpp?kategori=keseluruhan&tahun=${tahun.value}&bulan=${bulan.value}",
+          // "$base_url/laporan/jamsostek?kategori=keseluruhan&tahun=${tahun.value}&bulan=${bulan.value}",
+          "$base_url/laporan/jamsostek?kategori=keseluruhan&tahun=${tahun.value}&bulan=${bulan.value}",
         ),
         headers: headers,
       );
@@ -40,11 +41,12 @@ class LaporanDppController extends GetxController {
         isFilter(true);
         if (data.length > 0) {
           isEmptyData(false);
-          dppKeseluruhanM = LaporanDppKeseluruhanModel.fromJson(json);
+          jamsostekKeseluruhanM =
+              LaporanJamsostekKeseluruhanModel.fromJson(json);
           totalKeseluruhan.value = 0;
-          for (var i = 0; i < dppKeseluruhanM!.data.length; i++) {
+          for (var i = 0; i < jamsostekKeseluruhanM!.data.length; i++) {
             totalKeseluruhan.value += int.parse(
-                dppKeseluruhanM!.data[i].totalDpp.replaceAll(".", ""));
+                jamsostekKeseluruhanM!.data[i].totalJp.replaceAll(".", ""));
           }
         } else {
           isEmptyData(true);
@@ -59,16 +61,15 @@ class LaporanDppController extends GetxController {
     }
   }
 
-  Future<void> getLaporanDppKantor(kantor, kdCabang, page) async {
+  Future<void> getLaporanJamsostekKantor(kantor, kdCabang, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading2(true);
       http.Response response = await http.get(
         Uri.parse(
           kantor == "Pusat"
-              ? "$base_url/laporan/dpp?kategori=kantor&kantor=pusat&tahun=${tahun.value}&bulan=${bulan.value}&page=$page"
-              : "$base_url/laporan/dpp?kategori=kantor&kantor=cabang&kd_cabang=$kdCabang&tahun=${tahun.value}&bulan=${bulan.value}&page=$page",
-          // laporan/dpp?kategori=kantor&kantor=cabang&tahun=2024&bulan=01&kd_cabang=001&page=1
+              ? "$base_url/laporan/jamsostek?kategori=kantor&kantor=pusat&tahun=${tahun.value}&bulan=${bulan.value}&page=$page"
+              : "$base_url/laporan/jamsostek?kategori=kantor&kantor=cabang&kd_cabang=$kdCabang&tahun=${tahun.value}&bulan=${bulan.value}&page=$page",
         ),
         headers: headers,
       );
@@ -79,17 +80,16 @@ class LaporanDppController extends GetxController {
         isFilter2(true);
         if (data.length > 0) {
           isEmptyData2(false);
-          if (dppKantorM != null) {
-            var newData = LaporanDppKantorModel.fromJson(json);
-            dppKantorM!.data.addAll(newData.data);
+          if (jamsostekKantorM != null) {
+            var newData = LaporanJamsostekKantorModel.fromJson(json);
+            jamsostekKantorM!.data.addAll(newData.data);
           } else {
-            dppKantorM = LaporanDppKantorModel.fromJson(json);
+            jamsostekKantorM = LaporanJamsostekKantorModel.fromJson(json);
           }
-          // dppKantorM = LaporanDppKantorModel.fromJson(json);
           totalKeseluruhan.value = 0;
-          for (var i = 0; i < dppKantorM!.data.length; i++) {
+          for (var i = 0; i < jamsostekKantorM!.data.length; i++) {
             totalKeseluruhan.value += int.parse(
-              dppKantorM!.data[i].dpp.replaceAll(".", ""),
+              jamsostekKantorM!.data[i].perhitungan.totalJp.replaceAll(".", ""),
             );
           }
         } else {
