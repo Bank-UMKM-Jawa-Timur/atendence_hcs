@@ -1210,7 +1210,7 @@ class _LaporanDataJamsostekState extends State<LaporanDataJamsostek> {
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child: Text(
-                    isActive ? "Show Menu" : "Hide Menu",
+                    isActive ? "Show Filter" : "Hide Filter",
                     style: customTextStyle(
                       FontWeight.w500,
                       10,
