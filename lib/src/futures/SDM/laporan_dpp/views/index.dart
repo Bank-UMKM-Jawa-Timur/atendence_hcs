@@ -636,7 +636,7 @@ class _LaporanDppState extends State<LaporanDpp> {
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child: Text(
-                    isActive ? "Show Menu" : "Hide Menu",
+                    isActive ? "Show Filter" : "Hide Filter",
                     style: customTextStyle(
                       FontWeight.w500,
                       10,
