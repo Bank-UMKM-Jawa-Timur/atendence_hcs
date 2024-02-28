@@ -29,7 +29,6 @@ class LaporanJamsostekController extends GetxController {
       isLoading(true);
       http.Response response = await http.get(
         Uri.parse(
-          // "$base_url/laporan/jamsostek?kategori=keseluruhan&tahun=${tahun.value}&bulan=${bulan.value}",
           "$base_url/laporan/jamsostek?kategori=keseluruhan&tahun=${tahun.value}&bulan=${bulan.value}",
         ),
         headers: headers,
@@ -98,7 +97,6 @@ class LaporanJamsostekController extends GetxController {
       } else {
         debugPrint(response.statusCode.toString());
       }
-      print(json);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
