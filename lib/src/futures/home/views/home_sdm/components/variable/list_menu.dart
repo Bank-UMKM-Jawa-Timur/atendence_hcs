@@ -85,13 +85,18 @@ class ListMenuItems {
     },
     {
       'icon': Icons.line_style_sharp,
-      'name': "Data Jamsostek",
+      'name': "Laporan Data Jamsostek",
       'route': RouteNames.laporanDataJamsostek,
     },
     {
       'icon': Icons.line_style_sharp,
-      'name': "Data DPP",
+      'name': "Laporan Data DPP",
       'route': RouteNames.laporanDataDpp,
+    },
+    {
+      'icon': Icons.line_style_sharp,
+      'name': "Laporan Rekap Tetap",
+      'route': RouteNames.laporanRekapTetap,
     },
   ];
 }
