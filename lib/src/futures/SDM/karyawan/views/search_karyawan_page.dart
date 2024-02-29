@@ -117,81 +117,85 @@ class _SearchKaryawanPageState extends State<SearchKaryawanPage> {
             !searchC.dataIsEmpty.value
                 ? Expanded(
                     child: Column(
-                    children: [
-                      Container(
-                        width: Get.width,
-                        color: cGrey_200,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 12),
-                          child: Text(
-                            "Hasil Pencarian",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
+                      children: [
+                        Container(
+                          width: Get.width,
+                          color: cGrey_200,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                            child: Text(
+                              "Hasil Pencarian",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      ListView.builder(
-                        itemCount:
-                            searchC.searchKaryawanModel?.data.length ?? 0,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              Get.offNamedUntil(
-                                Get.arguments,
-                                ModalRoute.withName(RouteNames.homeSdm),
-                                arguments: [
-                                  {
-                                    'nip': searchC
-                                        .searchKaryawanModel!.data[index].nip
-                                        .toString(),
-                                  },
-                                  {
-                                    'nama': searchC.searchKaryawanModel!
-                                        .data[index].namaKaryawan,
-                                  },
-                                ],
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount:
+                                searchC.searchKaryawanModel?.data.length ?? 0,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.offNamedUntil(
+                                    Get.arguments,
+                                    ModalRoute.withName(RouteNames.homeSdm),
+                                    arguments: [
+                                      {
+                                        'nip': searchC.searchKaryawanModel!
+                                            .data[index].nip
+                                            .toString(),
+                                      },
+                                      {
+                                        'nama': searchC.searchKaryawanModel!
+                                            .data[index].namaKaryawan,
+                                      },
+                                    ],
+                                  );
+                                },
+                                child: Container(
+                                  width: Get.width,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: cGrey_200, width: 1.5),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.search,
+                                          size: 17,
+                                        ),
+                                        spaceWidth(10),
+                                        Text(
+                                          "${searchC.searchKaryawanModel!.data[index].nip} - ${searchC.searchKaryawanModel!.data[index].namaKaryawan}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               );
                             },
-                            child: Container(
-                              width: Get.width,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                border: Border(
-                                  bottom:
-                                      BorderSide(color: cGrey_200, width: 1.5),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.search,
-                                      size: 17,
-                                    ),
-                                    spaceWidth(10),
-                                    Text(
-                                      "${searchC.searchKaryawanModel!.data[index].nip} - ${searchC.searchKaryawanModel!.data[index].namaKaryawan}",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ))
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 : emptyData(),
             // emptyData(),
           ],
@@ -200,24 +204,34 @@ class _SearchKaryawanPageState extends State<SearchKaryawanPage> {
     );
   }
 
-  Column emptyData() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        spaceHeight(80),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50),
-          child: Image(
-            image: AssetImage('assets/images/search_empty.png'),
+  Widget emptyData() {
+    return Expanded(
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 70),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Image(
+                    image: AssetImage('assets/images/search_empty.png'),
+                  ),
+                ),
+                Text(
+                  "Silahkan cari data karyawan untuk\nmenampilkan data karyawan",
+                  textAlign: TextAlign.center,
+                  style: customTextStyle(FontWeight.w500, 15, Colors.black),
+                )
+              ],
+            ),
           ),
-        ),
-        Text(
-          "Silahkan cari data karyawan untuk\nmenampilkan data karyawan",
-          textAlign: TextAlign.center,
-          style: customTextStyle(FontWeight.w500, 15, Colors.black),
-        )
-      ],
+        ],
+      ),
     );
   }
 
