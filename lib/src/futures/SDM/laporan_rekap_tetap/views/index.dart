@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/cabang_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
@@ -234,181 +235,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                 ),
               ),
               spaceHeight(10),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Container(
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: cGrey_400),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: const BoxDecoration(
-                                        color: cPrimary_300,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(50),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          1.toString(),
-                                          style: customTextStyle(
-                                            FontWeight.w800,
-                                            16,
-                                            cPrimary,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    spaceWidth(10),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            shortenLastName("nama"),
-                                            style: customTextStyle(
-                                              FontWeight.w700,
-                                              14,
-                                              Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            "nip",
-                                            style: customTextStyle(
-                                              FontWeight.w600,
-                                              12,
-                                              cGrey_700,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        spaceHeight(10),
-                        Container(
-                          width: Get.width,
-                          height: 1,
-                          color: cGrey_400,
-                        ),
-                        spaceHeight(10),
-                        spaceHeight(10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "NPWP",
-                                      style: customTextStyle(
-                                        FontWeight.w600,
-                                        12,
-                                        cGrey_700,
-                                      ),
-                                    ),
-                                    Text(
-                                      "641310503644000",
-                                      style: customTextStyle(
-                                        FontWeight.w800,
-                                        13,
-                                        cGrey_600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            spaceWidth(5),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "PTKP",
-                                      style: customTextStyle(
-                                        FontWeight.w600,
-                                        12,
-                                        cGrey_700,
-                                      ),
-                                    ),
-                                    Text(
-                                      "K/1",
-                                      style: customTextStyle(
-                                        FontWeight.w800,
-                                        13,
-                                        cGrey_600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            spaceWidth(5),
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Gaji",
-                                      style: customTextStyle(
-                                        FontWeight.w600,
-                                        12,
-                                        cGrey_700,
-                                      ),
-                                    ),
-                                    Text(
-                                      "5.593.423",
-                                      style: customTextStyle(
-                                        FontWeight.w800,
-                                        13,
-                                        cGrey_600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        spaceHeight(5)
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              cardItems(),
               // Expanded(
               //   child: SingleChildScrollView(
               //     child: Container(
@@ -428,6 +255,187 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
               //   ),
               // )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget cardItems() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(RouteNames.detailLaporanRekapTetap);
+        },
+        child: Container(
+          width: Get.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: cGrey_400),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 35,
+                              height: 35,
+                              decoration: const BoxDecoration(
+                                color: cPrimary_300,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  1.toString(),
+                                  style: customTextStyle(
+                                    FontWeight.w800,
+                                    16,
+                                    cPrimary,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            spaceWidth(10),
+                            SizedBox(
+                              width: 150,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    shortenLastName("nama"),
+                                    style: customTextStyle(
+                                      FontWeight.w700,
+                                      14,
+                                      Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    "nip",
+                                    style: customTextStyle(
+                                      FontWeight.w600,
+                                      12,
+                                      cGrey_700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                spaceHeight(10),
+                Container(
+                  width: Get.width,
+                  height: 1,
+                  color: cGrey_400,
+                ),
+                spaceHeight(10),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "NPWP",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              "641310503644000",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(5),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "PTKP",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              "K/1",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(5),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Gaji",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              "5.593.423",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                13,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                spaceHeight(5)
+              ],
+            ),
           ),
         ),
       ),

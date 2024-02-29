@@ -33,4 +33,5 @@ abstract class RouteNames {
   static const laporanDataJamsostek = '/laporan-data-jamsostek';
   static const laporanDataDpp = '/laporan-data-dpp';
   static const laporanRekapTetap = '/laporan-rekap-tetap';
+  static const detailLaporanRekapTetap = '/detail-laporan-rekap-tetap';
 }

@@ -19,6 +19,7 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/lap
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_penonaktifan.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_promosi.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/bindings/laporan_rekap_tetap_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/detail.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
@@ -216,6 +217,11 @@ class RoutePages {
       name: RouteNames.laporanRekapTetap,
       page: () => const LaporanRekapTetap(),
       binding: LaporanRekapTetapBinding(),
+    ),
+    GetPage(
+      name: RouteNames.detailLaporanRekapTetap,
+      page: () => const DetailLaporanRekapTetap(),
+      // binding: LaporanRekapTetapBinding(),
     ),
   ];
 }
