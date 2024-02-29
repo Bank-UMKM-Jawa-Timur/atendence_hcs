@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
+
 import '../../../../http/sharedpreferences/prefs.dart';
 import '../../../../routes/route_name.dart';
 import '../../../futures/profile/components/logout.dart';
@@ -153,39 +156,81 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
       body: Obx(() => Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  spaceHeight(0),
-                  InkWell(
-                      onTap: () {},
-                      child: profileImage(prefsC.jenisKelamin.value)),
-                  spaceHeight(10),
-                  Text(
-                    prefsC.namaKaryawan.value,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
+                  spaceHeight(35),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: cPrimary,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Center(
+                          child: Text(
+                            shortTwoCaracterName(prefsC.namaKaryawan.value),
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      spaceWidth(15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            shortenLastName(prefsC.namaKaryawan.value),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            prefsC.displayJabatan.value.trim(),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: cGrey_700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  spaceHeight(8),
-                  Text(
-                    prefsC.displayJabatan.value.trim(),
-                    style: const TextStyle(
-                      fontSize: 12,
+                  spaceHeight(35),
+                  const Text(
+                    "Account",
+                    style: TextStyle(
+                      fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: cGrey_700,
+                      color: cGrey_900,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  spaceHeight(30),
-                  // _bottomEditProfile(),
-                  spaceHeight(30),
                   _listProfile(listProfile, prefsC.biometric.value),
                   logout(context)
                 ],

@@ -18,6 +18,7 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/lap
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_mutasi.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_penonaktifan.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_pergerakan_karir/views/laporan_promosi.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pengkinian_data/bindings/list_pengkinian_binding.dart';
@@ -209,6 +210,11 @@ class RoutePages {
       name: RouteNames.laporanDataDpp,
       page: () => const LaporanDpp(),
       binding: LaporanDppBinding(),
+    ),
+    GetPage(
+      name: RouteNames.laporanRekapTetap,
+      page: () => const LaporanRekapTetap(),
+      // binding: LaporanDppBinding(),
     ),
   ];
 }
