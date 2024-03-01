@@ -3,6 +3,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
+import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,10 +70,13 @@ Widget headerHomeSdm(String jk, String nama, String jabatan) {
             ],
           ),
         ),
-        const Icon(
-          Icons.notifications_none,
-          size: 30,
-          color: Colors.white,
+        InkWell(
+          onTap: () => snackbarfailed("Fitur Masih Tahap Pengembangan!."),
+          child: const Icon(
+            Icons.notifications_none,
+            size: 30,
+            color: Colors.white,
+          ),
         )
       ],
     ),
