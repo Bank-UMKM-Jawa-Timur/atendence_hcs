@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
   LoginController loginController = Get.find<LoginController>();
   PrefsController prefsC = Get.put(PrefsController());
   late final LocalAuthentication auth;
+  SharedPreferences? prefs;
   bool _supportState = false;
   bool _obscureText = true;
   void _toggle() {
@@ -34,12 +35,20 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
+    super.initState();
     prefsC.addPrefs();
     auth = LocalAuthentication();
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
           _supportState = isSupported;
         }));
-    super.initState();
+    checkBiometric();
+  }
+
+  checkBiometric() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefsC.biometric.value == true) {
+      authenticate();
+    }
   }
 
   @override

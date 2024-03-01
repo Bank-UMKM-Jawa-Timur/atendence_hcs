@@ -4,14 +4,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginCheck extends GetxController {
   SharedPreferences? prefs;
+  var biomatric = false;
   check() async {
     prefs = await SharedPreferences.getInstance();
     var nip = prefs?.getString("nip");
-    Get.offAllNamed(RouteNames.login);
-    // if (nip != null) {
-    //   Get.offAllNamed(RouteNames.navigationBar);
-    // } else {
-    //   Get.offAllNamed(RouteNames.login);
-    // }
+    var tipe = prefs?.getString("tipe");
+    biomatric = prefs?.getBool("biometric") == null ? false : true;
+    if (nip != null) {
+      if (biomatric == false) {
+        if (tipe == "Karyawan") {
+          Get.offAllNamed(RouteNames.navigationBar);
+        } else {
+          Get.offAllNamed(RouteNames.homeSdm);
+        }
+      } else {
+        Get.offAllNamed(RouteNames.login);
+      }
+    } else {
+      Get.offAllNamed(RouteNames.login);
+    }
   }
 }

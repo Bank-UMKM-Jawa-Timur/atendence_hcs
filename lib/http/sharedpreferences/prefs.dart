@@ -28,6 +28,7 @@ class PrefsController extends GetxController {
     prefs = await SharedPreferences.getInstance();
     try {
       biometric.value = prefs?.getBool("biometric") == null ? false : true;
+      // print(biometric.value);
       nip.value = "${prefs?.getString("nip")}";
       namaKaryawan.value = "${prefs?.getString("nama_karyawan")}";
       jenisKelamin.value = "${prefs?.getString("jenis_kelamin")}";
