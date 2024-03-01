@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:atendence_hcs/http/internet_injection/depedency_injection.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 
 import 'src/auth/controllers/login_check.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   await initializeDateFormatting('id_ID', null).then((_) {
-    // DepedencyInjection.init();
+    DepedencyInjection.init();
     runApp(const MyApp());
   });
 }

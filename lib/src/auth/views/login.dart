@@ -46,6 +46,7 @@ class _LoginState extends State<Login> {
 
   checkBiometric() async {
     prefs = await SharedPreferences.getInstance();
+    print(prefsC.biometric.value);
     if (prefsC.biometric.value == true) {
       authenticate();
     }
