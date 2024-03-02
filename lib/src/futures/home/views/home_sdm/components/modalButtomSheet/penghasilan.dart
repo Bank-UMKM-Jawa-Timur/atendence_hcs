@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_penghasilan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/variable/list_menu.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -72,6 +73,7 @@ class ModalButtonPenghasilan {
                                 ? dropDownMenu(setState, index)
                                 : InkWell(
                                     onTap: () {
+                                      Get.offNamed(RouteNames.penghasilan);
                                       // Get.back();
                                       // Get.toNamed(
                                       //   RouteNames.karyawanList,

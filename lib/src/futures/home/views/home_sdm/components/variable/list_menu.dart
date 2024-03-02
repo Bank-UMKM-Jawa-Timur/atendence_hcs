@@ -48,7 +48,7 @@ class ListMenuItems {
     {
       'icon': Icons.line_style_sharp,
       'name': "Proses Penghasilan",
-      'route': RouteNames.karyawanList,
+      'route': RouteNames.penghasilan,
     },
     {
       'icon': Icons.line_style_sharp,
