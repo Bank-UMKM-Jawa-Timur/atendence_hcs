@@ -23,7 +23,9 @@ abstract class RouteNames {
   static const detailSuratPeringatan = '/detail-surat-peringatan';
   // Penghasilan
   static const penghasilan = '/penghasilan';
-  // static const penghasilan = '/penghasilan';
+  static const detailPenghasilan = '/detail-penghasilan';
+  static const rincianPenghasilan = '/rincian-penghasilan';
+  static const payrollPenghasilan = '/payroll-penghasilan';
   // Histori
   static const jabatan = '/jabatan';
   static const historiPejabatSementara = '/histori-pejabat-sementara';
