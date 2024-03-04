@@ -35,8 +35,8 @@ class Datum {
   String? namaKaryawan;
   String? nip;
   String? kdEntitas;
-  DateTime tanggalMulai;
-  dynamic tanggalBerakhir;
+  String? tanggalMulai;
+  String? tanggalBerakhir;
   String? noSk;
   String? namaJabatan;
   String? namaBagian;
@@ -62,7 +62,7 @@ class Datum {
         namaKaryawan: json["nama_karyawan"],
         nip: json["nip"],
         kdEntitas: json["kd_entitas"],
-        tanggalMulai: DateTime.parse(json["tanggal_mulai"]),
+        tanggalMulai: json["tanggal_mulai"],
         tanggalBerakhir: json["tanggal_berakhir"],
         noSk: json["no_sk"],
         namaJabatan: json["nama_jabatan"],
@@ -76,8 +76,7 @@ class Datum {
         "nama_karyawan": namaKaryawan,
         "nip": nip,
         "kd_entitas": kdEntitas,
-        "tanggal_mulai":
-            "${tanggalMulai.year.toString().padLeft(4, '0')}-${tanggalMulai.month.toString().padLeft(2, '0')}-${tanggalMulai.day.toString().padLeft(2, '0')}",
+        "tanggal_mulai": tanggalMulai,
         "tanggal_berakhir": tanggalBerakhir,
         "no_sk": noSk,
         "nama_jabatan": namaJabatan,

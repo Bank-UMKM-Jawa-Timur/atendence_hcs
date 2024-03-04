@@ -5,6 +5,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -44,17 +45,11 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
     });
   }
 
-  Future<void> fetch() async {
-    loadMore = true;
+  fetch() {
     setState(() {
       page++;
     });
-    if (historiPjsC.isEmptyData.value) {
-      hasMore = false;
-    } else {
-      await historiPjsC.getHistoriPjs(nip, page);
-    }
-    loadMore = false;
+    historiPjsC.getHistoriPjs(nip, page);
     setState(() {});
   }
 
@@ -110,11 +105,16 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                       width: Get.width,
                       child: ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            page = 1;
-                          });
-                          historiPjsC.historiPjsM!.data.clear();
-                          historiPjsC.getHistoriPjs(nip, page);
+                          if (dropdownValue == "Karyawan" && nip == "") {
+                            snackbarfailed(
+                                "Anda Harus Cari Karyawan jika memilih kategori Karyawan");
+                          } else {
+                            setState(() {
+                              page = 1;
+                            });
+                            historiPjsC.historiPjsM?.data.clear();
+                            historiPjsC.getHistoriPjs(nip, page);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: cPrimary,
@@ -160,25 +160,13 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                                   Radius.circular(6),
                                 ),
                               ),
-                              child: emptyDataSetTitle(
-                                  "Silahkan Cari Karyawan untuk\nmenampilkan data."),
+                              child: emptyDataSetTitle(historiPjsC
+                                      .isFilterData.value
+                                  ? "Data yang anda filter kosong!."
+                                  : "Silahkan Cari Karyawan untuk\nmenampilkan data."),
                             )
                           : dataList()
-                  : historiPjsC.isEmptyData.value
-                      ? Container(
-                          width: Get.width,
-                          height: Get.height / 2,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: cGrey_400, width: 1),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(6),
-                            ),
-                          ),
-                          child: emptyDataSetTitle(
-                              "Silahkan Cari Karyawan untuk\nmenampilkan data."),
-                        )
-                      : dataList(),
+                  : dataList(),
             )
           ],
         ),
@@ -202,24 +190,21 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
           controller: controller,
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: loadMore
-              ? historiPjsC.historiPjsM!.data.length + 1
-              : historiPjsC.historiPjsM!.data.length,
+          itemCount: historiPjsC.historiPjsM!.data.length + 1,
           itemBuilder: (context, index) {
             if (index < historiPjsC.historiPjsM!.data.length) {
               return cardItems(
                 index + 1,
+                historiPjsC.historiPjsM!.data[index].namaKaryawan ?? '-',
                 historiPjsC.historiPjsM!.data[index].nip ?? '-',
-                historiPjsC.historiPjsM!.data[index].displayJabatan,
-                historiPjsC.historiPjsM?.data[index].tanggalMulai
-                    .fullDateAll()
-                    .toString(),
+                historiPjsC.historiPjsM!.data[index].displayJabatan ?? '-',
+                historiPjsC.historiPjsM!.data[index].tanggalMulai ?? '-',
                 historiPjsC.historiPjsM!.data[index].tanggalBerakhir ?? '-',
                 historiPjsC.historiPjsM!.data[index].status ?? '-',
               );
             } else {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 100),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Center(
                   child: historiPjsC.isEmptyData.value
                       ? const Text("Tidak Ada Data Lagi!.")
@@ -323,7 +308,15 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
     );
   }
 
-  Widget cardItems(int no, nipK, pejabatBPJ, mulai, berakhir, type) {
+  Widget cardItems(
+    int no,
+    String nama,
+    String nipK,
+    String pejabatBPJ,
+    String mulai,
+    String berakhir,
+    String type,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: InkWell(
@@ -457,7 +450,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                               ),
                             ),
                             Text(
-                              pejabatBPJ,
+                              pejabatBPJ.toString(),
                               style: customTextStyle(
                                 FontWeight.w700,
                                 13,
@@ -484,7 +477,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                               ),
                             ),
                             Text(
-                              mulai,
+                              mulai.toString(),
                               style: customTextStyle(
                                 FontWeight.w700,
                                 13,
@@ -520,7 +513,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                                   ? DateTime.parse(berakhir)
                                       .fullDateAll()
                                       .toString()
-                                  : berakhir,
+                                  : berakhir.toString(),
                               style: customTextStyle(
                                 FontWeight.w700,
                                 13,
