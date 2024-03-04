@@ -1,10 +1,13 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/controllers/list_penghasilan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,63 +19,132 @@ class ProsesPenghasilan extends StatefulWidget {
 }
 
 class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
+  ListPenghasilanController penghasilanC =
+      Get.find<ListPenghasilanController>();
   String valueKategori = "Proses";
+  final controller = ScrollController();
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    penghasilanC.getListPenghasilan(valueKategori, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    penghasilanC.getListPenghasilan(valueKategori, page);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Proses Penghasilan"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Column(
-          children: [
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(7),
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            children: [
+              Container(
+                width: Get.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(7),
+                  ),
+                  border: Border.all(color: cGrey_400, width: 1),
                 ),
-                border: Border.all(color: cGrey_400, width: 1),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  child: formSelectKantor(),
+                ),
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                child: formSelectKantor(),
-              ),
-            ),
-            spaceHeight(10),
-            cardItems(),
-            // Expanded(
-            //   child: SingleChildScrollView(
-            //     child: Container(
-            //       width: Get.width,
-            //       height: Get.height / 2,
-            //       decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         border: Border.all(color: cGrey_400, width: 1),
-            //         borderRadius: const BorderRadius.all(
-            //           Radius.circular(6),
-            //         ),
-            //       ),
-            //       child: emptyDataSetTitle(
-            //         "$valueKategori Penghasilan Masih Kosong.",
-            //       ),
-            //     ),
-            //   ),
-            // )
-          ],
+              spaceHeight(10),
+              page == 1
+                  ? penghasilanC.isLoading.value
+                      ? loadingPage()
+                      : penghasilanC.isEmptyData.value
+                          ? Expanded(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: Get.width,
+                                  height: Get.height / 2,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: cGrey_400, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                  ),
+                                  child: emptyDataSetTitle(
+                                    "Proses $valueKategori Penghasilan Masih Kosong.",
+                                  ),
+                                ),
+                              ),
+                            )
+                          : itemsDynamis()
+                  : itemsDynamis()
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget cardItems() {
+  Expanded itemsDynamis() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        physics: const AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: penghasilanC.penghasilanM!.data.length + 1,
+        itemBuilder: (context, index) {
+          var data = penghasilanC.penghasilanM!.data;
+          if (index < penghasilanC.penghasilanM!.data.length) {
+            return cardItems(
+              index,
+              data[index].id,
+              data[index].kategori,
+              data[index].tanggal.simpleDateRevers().toString(),
+              data[index].bulan,
+              data[index].tahun,
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: !penghasilanC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                      ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget cardItems(index, id, kategori, tanggal, bulan, tahun) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: InkWell(
         onTap: () {
-          Get.toNamed(RouteNames.detailPenghasilan);
+          Get.toNamed(RouteNames.detailPenghasilan, arguments: id);
         },
         child: Container(
           width: Get.width,
@@ -89,58 +161,51 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 35,
-                              height: 35,
-                              decoration: const BoxDecoration(
-                                color: cPrimary_300,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(50),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  1.toString(),
-                                  style: customTextStyle(
-                                    FontWeight.w800,
-                                    16,
-                                    cPrimary,
-                                  ),
-                                ),
+                        Container(
+                          width: 35,
+                          height: 35,
+                          decoration: const BoxDecoration(
+                            color: cPrimary_300,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${index + 1}",
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                16,
+                                cPrimary,
                               ),
                             ),
-                            spaceWidth(10),
-                            SizedBox(
-                              width: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Kategori",
-                                    style: customTextStyle(
-                                      FontWeight.w700,
-                                      14,
-                                      Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    "Januari 2024 | 25-01-2024",
-                                    style: customTextStyle(
-                                      FontWeight.w600,
-                                      12,
-                                      cGrey_700,
-                                    ),
-                                  ),
-                                ],
+                          ),
+                        ),
+                        spaceWidth(10),
+                        SizedBox(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                kategori,
+                                style: customTextStyle(
+                                  FontWeight.w700,
+                                  14,
+                                  Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "$bulan $tahun | $tanggal",
+                                style: customTextStyle(
+                                  FontWeight.w600,
+                                  12,
+                                  cGrey_700,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -160,79 +225,6 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
                           color: cGrey_700,
                         )
                       ],
-                    ),
-                  ],
-                ),
-                spaceHeight(10),
-                Container(
-                  width: Get.width,
-                  height: 1,
-                  color: cGrey_400,
-                ),
-                spaceHeight(10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 35,
-                        decoration: const BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                        width: Get.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(RouteNames.rincianPenghasilan);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.amber,
-                          ),
-                          child: const Text(
-                            "Rincian",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    spaceWidth(5),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 35,
-                        decoration: const BoxDecoration(
-                          color: cGreen_900,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                        width: Get.width,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(RouteNames.payrollPenghasilan);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: cGreen_900,
-                          ),
-                          child: const Text(
-                            "Payroll",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -285,6 +277,8 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
                 setState(() {
                   valueKategori = newValue!;
                 });
+                penghasilanC.penghasilanM?.data.clear();
+                penghasilanC.getListPenghasilan(valueKategori, page);
               },
               items: ['Proses', 'Final'].map<DropdownMenuItem<String>>((value) {
                 return DropdownMenuItem<String>(
