@@ -37,6 +37,7 @@ class ListPenghasilanController extends GetxController {
       } else {
         debugPrint(response.statusCode.toString());
       }
+      print(json);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
