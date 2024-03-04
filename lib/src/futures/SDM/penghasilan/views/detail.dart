@@ -1,7 +1,10 @@
 import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/controllers/detail_penghasilan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
+import 'package:atendence_hcs/utils/components/my_format_bulan.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,10 +17,28 @@ class DetailPenghasilan extends StatefulWidget {
 }
 
 class _DetailPenghasilanState extends State<DetailPenghasilan> {
+  DetailPenghasilanController detailPenghasilanC =
+      Get.find<DetailPenghasilanController>();
+  final controller = ScrollController();
+  int page = 1;
+  int id = Get.arguments;
   @override
   void initState() {
-    print(Get.arguments);
     super.initState();
+    detailPenghasilanC.getDetailPenghasilan(id, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    detailPenghasilanC.getDetailPenghasilan(id, page);
+    setState(() {});
   }
 
   @override
@@ -25,21 +46,16 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Detail Penghasilan"),
-      body: SingleChildScrollView(
-        child: Padding(
+      body: Obx(
+        () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
-              cardItems(),
-              // cardDetail(
-              //   10000000,
-              //   10000000,
-              //   10000000,
-              //   10000000,
-              //   10000000,
-              //   10000000,
-              //   1000000000,
-              // ),
+              page == 1
+                  ? detailPenghasilanC.isLoading.value
+                      ? loadingPage()
+                      : itemsDynamis()
+                  : itemsDynamis()
             ],
           ),
         ),
@@ -47,7 +63,41 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
     );
   }
 
-  Widget cardItems() {
+  Expanded itemsDynamis() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        itemCount: detailPenghasilanC.detailPenghasilanM!.data.length + 1,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var data = detailPenghasilanC.detailPenghasilanM!.data;
+          if (index < detailPenghasilanC.detailPenghasilanM!.data.length) {
+            return cardItems(
+              index,
+              data[index].namaKaryawan,
+              data[index].nip,
+              int.parse(data[index].bulan),
+              data[index].tahun,
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: detailPenghasilanC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                      ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget cardItems(index, nama, nip, bulan, tahun) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Container(
@@ -81,7 +131,7 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
                             ),
                             child: Center(
                               child: Text(
-                                1.toString(),
+                                "${index + 1}".toString(),
                                 style: customTextStyle(
                                   FontWeight.w800,
                                   16,
@@ -97,7 +147,7 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nama",
+                                  nama,
                                   style: customTextStyle(
                                     FontWeight.w700,
                                     14,
@@ -106,7 +156,7 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
-                                  "nip | Januari - 2024",
+                                  "$nip | ${FormatBulan().formatBulan(bulan)} - $tahun",
                                   style: customTextStyle(
                                     FontWeight.w600,
                                     12,

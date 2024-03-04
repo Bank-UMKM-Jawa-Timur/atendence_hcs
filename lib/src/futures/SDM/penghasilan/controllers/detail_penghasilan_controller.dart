@@ -1,22 +1,22 @@
 import 'dart:convert';
 
-import 'package:atendence_hcs/http/models/SDM/penghasilan/list_penghasilan_model.dart';
+import 'package:atendence_hcs/http/models/SDM/penghasilan/detail_penghasilan_model.dart';
 import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class ListPenghasilanController extends GetxController {
-  ListPenghasilanModel? penghasilanM;
+class DetailPenghasilanController extends GetxController {
+  DetailPenghasilanModel? detailPenghasilanM;
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListPenghasilan(status, page) async {
+  Future<void> getDetailPenghasilan(id, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/penghasilan?status=$status&page=$page"),
+        Uri.parse("$base_url/penghasilan/detail/$id?page=$page"),
         headers: headers,
       );
 
@@ -25,11 +25,11 @@ class ListPenghasilanController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          if (penghasilanM != null) {
-            var newData = ListPenghasilanModel.fromJson(json);
-            penghasilanM!.data.addAll(newData.data);
+          if (detailPenghasilanM != null) {
+            var newData = DetailPenghasilanModel.fromJson(json);
+            detailPenghasilanM!.data.addAll(newData.data);
           } else {
-            penghasilanM = ListPenghasilanModel.fromJson(json);
+            detailPenghasilanM = DetailPenghasilanModel.fromJson(json);
           }
         } else {
           isEmptyData(true);

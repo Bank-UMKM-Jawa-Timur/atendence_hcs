@@ -23,6 +23,7 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/detail.d
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/detail_penghasilan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/penghasilan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/detail.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/index.dart';
@@ -177,7 +178,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.detailPenghasilan,
       page: () => const DetailPenghasilan(),
-      // binding: SuratPeringatanBinding(),
+      binding: DetailPenghasilanBinding(),
     ),
     GetPage(
       name: RouteNames.rincianPenghasilan,
