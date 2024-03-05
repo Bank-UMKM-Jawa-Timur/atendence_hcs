@@ -5,6 +5,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
+import 'package:atendence_hcs/utils/components/my_format_currency.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
@@ -120,6 +121,14 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
               data[index].tanggal.simpleDateRevers().toString(),
               data[index].bulan,
               data[index].tahun,
+              FormatCurrency.convertToIdr(data[index].bruto, 0).toString(),
+              FormatCurrency.convertToIdr(data[index].totalPotongan, 0)
+                  .toString(),
+              FormatCurrency.convertToIdr(data[index].netto, 0).toString(),
+              FormatCurrency.convertToIdr(data[index].totalPph, 0).toString(),
+              FormatCurrency.convertToIdr(data[index].totalPajakInsentif, 0)
+                  .toString(),
+              FormatCurrency.convertToIdr(data[index].hasilPph, 0).toString(),
             );
           } else {
             return Padding(
@@ -139,7 +148,20 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
     );
   }
 
-  Widget cardItems(index, id, kategori, tanggal, bulan, tahun) {
+  Widget cardItems(
+    index,
+    id,
+    kategori,
+    tanggal,
+    bulan,
+    tahun,
+    bruto,
+    potongan,
+    netto,
+    pphBentukan,
+    pajakInsentif,
+    pph21,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: InkWell(
@@ -225,6 +247,188 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
                           color: cGrey_700,
                         )
                       ],
+                    ),
+                  ],
+                ),
+                spaceHeight(10),
+                Container(
+                  width: Get.width,
+                  height: 1,
+                  color: cGrey_400,
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Bruto",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              bruto,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(3),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Potongan",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              potongan,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(3),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Netto",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              netto,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "PPH Bentukan",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              pphBentukan,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    spaceWidth(3),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Pajak Insentif",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              pajakInsentif,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                spaceHeight(10),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "PPh21 (PPh Bentukan - Pajak Insentif)",
+                              style: customTextStyle(
+                                FontWeight.w600,
+                                12,
+                                cGrey_700,
+                              ),
+                            ),
+                            Text(
+                              pph21,
+                              style: customTextStyle(
+                                FontWeight.w800,
+                                12,
+                                cGrey_600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
