@@ -1,7 +1,11 @@
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/controllers/rincian_penghasilan_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/components/row_items.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
+import 'package:atendence_hcs/utils/components/my_format_currency.dart';
+import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
@@ -15,45 +19,79 @@ class RincianPenghasilan extends StatefulWidget {
 }
 
 class _RincianPenghasilanState extends State<RincianPenghasilan> {
+  RincianPenghasilanController rincianPC =
+      Get.find<RincianPenghasilanController>();
   bool isShow = true;
+  var id = Get.arguments['id'];
+  var bulan = Get.arguments['bulan'];
+  var tahun = Get.arguments['tahun'];
+  var nip = Get.arguments['nip'];
+
+  @override
+  void initState() {
+    rincianPC.getRincianPenghasilan(id, bulan, tahun, nip);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Rincian Penghasilan"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: cGrey_400, width: 1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(6),
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: rincianPC.isLoading.value
+              ? Center(
+                  child: loadingPage(),
+                )
+              : Column(
+                  children: [
+                    Container(
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: cGrey_400, width: 1),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(6),
+                        ),
+                      ),
+                      child: cardData(
+                        shortTwoCaracterName(
+                            rincianPC.rincianPenghasilanM!.data.namaKaryawan),
+                        nip,
+                        rincianPC.rincianPenghasilanM!.data.namaKaryawan,
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.gajiPokok, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjKeluarga, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjListrik, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjJabatan, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjKhusus, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjPerumahan, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjPelaksana, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjKemahalan, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjKesejahteraan,
+                            0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.tjTeller, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.penyesuaian, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.totalGaji, 0),
+                        FormatCurrency.convertToIdr(
+                            rincianPC.rincianPenghasilanM!.data.pph21, 0),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              child: cardData(
-                0,
-                "nip",
-                "nama",
-                "gajiPokok",
-                "tKeluarga",
-                "tTeleponListrik",
-                "tJabatan",
-                "tKhusus",
-                "tPerumahan",
-                "tPelaksana",
-                "tKemahalan",
-                "tKesejahteraan",
-                "tTeller",
-                "penyesuaian",
-                "total",
-                "pph21",
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -117,7 +155,7 @@ class _RincianPenghasilanState extends State<RincianPenghasilan> {
                         ),
                         child: Center(
                           child: Text(
-                            "${index + 1}",
+                            index,
                             style: customTextStyle(
                               FontWeight.w700,
                               10,

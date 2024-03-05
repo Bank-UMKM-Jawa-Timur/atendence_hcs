@@ -195,7 +195,13 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
                       width: Get.width,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.toNamed(RouteNames.rincianPenghasilan);
+                          Get.toNamed(RouteNames.rincianPenghasilan,
+                              arguments: {
+                                'id': Get.arguments,
+                                'bulan': bulan,
+                                'tahun': tahun,
+                                'nip': nip,
+                              });
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
