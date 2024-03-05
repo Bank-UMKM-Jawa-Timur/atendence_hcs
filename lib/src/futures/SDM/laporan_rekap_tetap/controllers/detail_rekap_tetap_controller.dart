@@ -12,7 +12,7 @@ class DetailRekapTetapController extends GetxController {
   var isEmptyData = true.obs;
   var isFilterData = false.obs;
 
-  Future<void> getRekapTetap(nip, tahun, bulan, kategori, kantor, page) async {
+  Future<void> getRekapTetap(nip, tahun, bulan, kategori, kantor) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);

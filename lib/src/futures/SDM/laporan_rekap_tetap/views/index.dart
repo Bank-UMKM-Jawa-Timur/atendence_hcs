@@ -325,6 +325,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
       child: InkWell(
         onTap: () {
           Get.toNamed(RouteNames.detailLaporanRekapTetap, arguments: {
+            'nip': nip,
             'kantor': valKdCabang,
             'kategori': dropdownValueKat,
             'bulan': dropdownValueMonth,
