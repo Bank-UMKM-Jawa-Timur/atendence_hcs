@@ -16,6 +16,11 @@ class DetailLaporanRekapTetap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var kantor = Get.arguments['kantor'];
+    var kategori = Get.arguments['kategori'];
+    var bulan = Get.arguments['bulan'];
+    var tahun = Get.arguments['tahun'];
+    print("$kantor $kategori $bulan $tahun");
     return Scaffold(
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Detail Laporan Pergerakan Karir"),

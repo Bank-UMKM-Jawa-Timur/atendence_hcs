@@ -1,14 +1,18 @@
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/cabang_controller.dart';
+import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/controllers/rekap_tetap_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/list_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
+import 'package:atendence_hcs/utils/components/my_format_currency.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
+import 'package:atendence_hcs/utils/components/my_snacbar.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,16 +27,44 @@ class LaporanRekapTetap extends StatefulWidget {
 class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
   ListBulan listBulan = Get.put(ListBulan());
   CabangController cabangC = Get.find<CabangController>();
-  DateTime? valueYear;
-  String? dropdownValueMonth;
+  RekapTetapController rekapTC = Get.find<RekapTetapController>();
+  DateTime valueYear = DateTime.now();
+  String? dropdownValueMonth = DateTime.now().month.toString();
   String? dropdownValueKat;
-  String? dropdownValueKantor;
+  String dropdownValueKantor = "Pusat";
   String? kdCabang;
+  String valKdCabang = "000";
+  final controller = ScrollController();
+  int page = 1;
 
   @override
   void initState() {
     cabangC.getCabang();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
     super.initState();
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    rekapTC.getRekapTetap(valueYear.getYear(), dropdownValueMonth,
+        dropdownValueKat, valKdCabang, page);
+    setState(() {});
+  }
+
+  filter() {
+    setState(() {
+      page = 1;
+    });
+    rekapTC.rekapM?.data.clear();
+    rekapTC.getRekapTetap(valueYear.getYear(), dropdownValueMonth,
+        dropdownValueKat, valKdCabang, page);
+    setState(() {});
   }
 
   @override
@@ -157,11 +189,12 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                           ),
                         ],
                       ),
-                      spaceHeight(5),
                       cabangC.isLoading.value
                           ? loadingPage()
-                          : formSelectCabang(),
-                      spaceHeight(5),
+                          : dropdownValueKantor == "Pusat"
+                              ? Container()
+                              : formSelectCabang(),
+                      spaceHeight(8),
                       Container(
                         height: 40,
                         decoration: const BoxDecoration(
@@ -173,37 +206,19 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                         width: Get.width,
                         child: ElevatedButton(
                           onPressed: () {
-                            // if (dropdownValueKat == null) {
-                            //   snackbarfailed(
-                            //       "Kategori harap dipilih!");
-                            // } else {
-                            //   if (dropdownValueMonth == null) {
-                            //     snackbarfailed(
-                            //         "Bulan harap dipilih!");
-                            //   } else {
-                            //     if (dropdownValueKat ==
-                            //         "Rekap Keseluruhan") {
-                            //       fetchKeseluruhan();
-                            //     } else {
-                            //       if (dropdownValueKantor != null) {
-                            //         if (dropdownValueKantor ==
-                            //             "Cabang") {
-                            //           if (kdCabang == null) {
-                            //             snackbarfailed(
-                            //                 "Cabang harap dipilih!");
-                            //           } else {
-                            //             fetchKantor();
-                            //           }
-                            //         } else {
-                            //           fetchKantor();
-                            //         }
-                            //       } else {
-                            //         snackbarfailed(
-                            //             "Kantor harap dipilih!");
-                            //       }
-                            //     }
-                            //   }
-                            // }
+                            if (dropdownValueKat == null) {
+                              snackbarfailed("Kategori harap dipilih!");
+                            } else {
+                              if (dropdownValueKantor == "Cabang") {
+                                if (valKdCabang == "") {
+                                  snackbarfailed("Cabang harap di pilih!");
+                                } else {
+                                  filter();
+                                }
+                              } else {
+                                filter();
+                              }
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: cPrimary,
@@ -235,25 +250,33 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                 ),
               ),
               spaceHeight(10),
-              cardItems(),
-              // Expanded(
-              //   child: SingleChildScrollView(
-              //     child: Container(
-              //       width: Get.width,
-              //       height: Get.height / 2,
-              //       decoration: BoxDecoration(
-              //         color: Colors.white,
-              //         border: Border.all(color: cGrey_400, width: 1),
-              //         borderRadius: const BorderRadius.all(
-              //           Radius.circular(6),
-              //         ),
-              //       ),
-              //       child: emptyDataSetTitle(
-              //         "Silahkan Filter untuk menampilkan data\nLaporan Rekap Tetap.",
-              //       ),
-              //     ),
-              //   ),
-              // )
+              page == 1
+                  ? rekapTC.isLoading.value
+                      ? loadingPage()
+                      : rekapTC.isEmptyData.value
+                          ? Expanded(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: Get.width,
+                                  height: Get.height / 2,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        Border.all(color: cGrey_400, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                  ),
+                                  child: emptyDataSetTitle(
+                                    rekapTC.isFilterData.value
+                                        ? "Data Yang anda filter masih kosong!."
+                                        : "Silahkan Filter untuk menampilkan data\nLaporan Rekap Tetap.",
+                                  ),
+                                ),
+                              ),
+                            )
+                          : itemsDinamis()
+                  : itemsDinamis(),
             ],
           ),
         ),
@@ -261,12 +284,52 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
     );
   }
 
-  Widget cardItems() {
+  Expanded itemsDinamis() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        itemCount: rekapTC.rekapM!.data.length + 1,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var data = rekapTC.rekapM!.data;
+          if (index < rekapTC.rekapM!.data.length) {
+            return cardItems(
+              index + 1,
+              data[index].namaKaryawan,
+              data[index].nip,
+              data[index].npwp,
+              data[index].ptkp,
+              data[index].bruto,
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: !rekapTC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                      ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget cardItems(index, nama, nip, npwp, ptkp, totalBruto) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: InkWell(
         onTap: () {
-          Get.toNamed(RouteNames.detailLaporanRekapTetap);
+          Get.toNamed(RouteNames.detailLaporanRekapTetap, arguments: {
+            'kantor': valKdCabang,
+            'kategori': dropdownValueKat,
+            'bulan': dropdownValueMonth,
+            'tahun': valueYear.getYear().toString(),
+          });
         },
         child: Container(
           width: Get.width,
@@ -299,7 +362,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                               ),
                               child: Center(
                                 child: Text(
-                                  1.toString(),
+                                  index.toString(),
                                   style: customTextStyle(
                                     FontWeight.w800,
                                     16,
@@ -310,12 +373,12 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                             ),
                             spaceWidth(10),
                             SizedBox(
-                              width: 150,
+                              width: 200,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    shortenLastName("nama"),
+                                    shortenLastName(nama),
                                     style: customTextStyle(
                                       FontWeight.w700,
                                       14,
@@ -324,7 +387,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    "nip",
+                                    nip,
                                     style: customTextStyle(
                                       FontWeight.w600,
                                       12,
@@ -366,7 +429,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                               ),
                             ),
                             Text(
-                              "641310503644000",
+                              npwp,
                               style: customTextStyle(
                                 FontWeight.w800,
                                 13,
@@ -393,7 +456,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                               ),
                             ),
                             Text(
-                              "K/1",
+                              ptkp,
                               style: customTextStyle(
                                 FontWeight.w800,
                                 13,
@@ -412,7 +475,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Gaji",
+                              "Total Bruto",
                               style: customTextStyle(
                                 FontWeight.w600,
                                 12,
@@ -420,7 +483,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                               ),
                             ),
                             Text(
-                              "5.593.423",
+                              FormatCurrency.convertToIdr(totalBruto, 0),
                               style: customTextStyle(
                                 FontWeight.w800,
                                 13,
@@ -605,6 +668,9 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValueKantor = newValue!;
+                  dropdownValueKantor == "Pusat"
+                      ? valKdCabang = "000"
+                      : valKdCabang = "";
                 });
               },
               items: ['Pusat', 'Cabang'].map<DropdownMenuItem<String>>((value) {
@@ -661,6 +727,7 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
             onChanged: (String? newValue) {
               setState(() {
                 kdCabang = newValue!;
+                valKdCabang = newValue;
               });
             },
             items: cabangC.cabangM?.data.map<DropdownMenuItem<String>>((item) {
