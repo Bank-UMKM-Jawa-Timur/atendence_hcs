@@ -15,7 +15,7 @@ class RincianPenghasilan extends StatefulWidget {
 }
 
 class _RincianPenghasilanState extends State<RincianPenghasilan> {
-  bool isShow = false;
+  bool isShow = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

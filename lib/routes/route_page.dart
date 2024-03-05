@@ -24,7 +24,9 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.da
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/detail_penghasilan_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/payroll_penghasilan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/penghasilan_binding.dart';
+import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/rincian_penghasilan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/detail.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/views/payroll.dart';
@@ -183,12 +185,12 @@ class RoutePages {
     GetPage(
       name: RouteNames.rincianPenghasilan,
       page: () => const RincianPenghasilan(),
-      // binding: SuratPeringatanBinding(),
+      binding: RincianPenghasilanBinding(),
     ),
     GetPage(
       name: RouteNames.payrollPenghasilan,
       page: () => const PayrollPenghasilan(),
-      // binding: SuratPeringatanBinding(),
+      binding: PayrollPenghasilanBinding(),
     ),
 
     // Histori

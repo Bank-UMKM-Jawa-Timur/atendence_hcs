@@ -34,7 +34,7 @@ class PayrollPenghasilanModel {
 class Data {
   String namaKaryawan;
   int gaji;
-  String noRekening;
+  String? noRekening;
   int bpjsTk;
   int dpp;
   int kreditKoperasi;
