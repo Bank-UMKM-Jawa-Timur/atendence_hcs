@@ -1,5 +1,6 @@
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,24 +51,55 @@ Widget cardPayment(String value) {
             right: 20,
             bottom: 20,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Total",
-                style: customTextStyle(
-                  FontWeight.w700,
-                  13,
-                  cPrimary_300,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Total",
+                    style: customTextStyle(
+                      FontWeight.w600,
+                      15,
+                      cPrimary_300,
+                    ),
+                  ),
+                  Text(
+                    "Rp $value",
+                    style: customTextStyle(
+                      FontWeight.w800,
+                      24,
+                      Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "Rp $value",
-                style: customTextStyle(
-                  FontWeight.w800,
-                  24,
-                  Colors.white,
-                ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: 80,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Center(
+                          child: Text(
+                            "Detail",
+                            style: customTextStyle(
+                                FontWeight.w500, 12, Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  spaceHeight(5),
+                ],
               ),
             ],
           ),
