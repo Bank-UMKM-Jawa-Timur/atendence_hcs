@@ -75,6 +75,7 @@ class DetailLaporanRekapTetap extends StatelessWidget {
                             data[index].nip,
                             data[index].namaKaryawan,
                             data[index].npwp,
+                            data[index].totalGaji,
                           ),
                           spaceHeight(10),
                           cardTeratur(
