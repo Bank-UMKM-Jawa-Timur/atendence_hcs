@@ -51,85 +51,91 @@ class DetailPayments extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 15,
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(width: 1, color: cGrey_400),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 15,
+          ),
+          child: ListView.builder(
+            itemCount: 5,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Container(
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 1, color: cGrey_400),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: cPrimary,
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "1",
-                              style: customTextStyle(
-                                  FontWeight.w600, 16, Colors.white),
-                            ),
-                          ),
-                        ),
-                        spaceWidth(10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
                           children: [
-                            Text(
-                              "Pusat",
-                              style: customTextStyle(
-                                  FontWeight.w600, 16, Colors.black),
-                            ),
-                            Text(
-                              "0000",
-                              style: customTextStyle(
-                                FontWeight.w500,
-                                14,
-                                cGrey_900,
+                            Container(
+                              width: 45,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                color: cPrimary,
+                                borderRadius: BorderRadius.circular(40),
                               ),
+                              child: Center(
+                                child: Text(
+                                  "${index + 1}",
+                                  style: customTextStyle(
+                                      FontWeight.w600, 16, Colors.white),
+                                ),
+                              ),
+                            ),
+                            spaceWidth(10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Pusat",
+                                  style: customTextStyle(
+                                      FontWeight.w600, 16, Colors.black),
+                                ),
+                                Text(
+                                  "0000",
+                                  style: customTextStyle(
+                                    FontWeight.w500,
+                                    14,
+                                    cGrey_900,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              CommunityMaterialIcons
+                                  .currency_usd_circle_outline,
+                              size: 23,
+                              color: cGrey_700,
+                            ),
+                            Text(
+                              "Rp 20.000.000",
+                              style: customTextStyle(
+                                  FontWeight.w700, 15, cPrimary),
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Icon(
-                          CommunityMaterialIcons.currency_usd_circle_outline,
-                          size: 23,
-                          color: cGrey_700,
-                        ),
-                        Text(
-                          "Rp 20.000.000",
-                          style: customTextStyle(FontWeight.w700, 15, cPrimary),
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
+              );
+            },
+          )),
     );
   }
 }
