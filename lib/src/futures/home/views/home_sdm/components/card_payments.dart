@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
@@ -79,7 +80,9 @@ Widget cardPayment(String value) {
               Column(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(RouteNames.detailPayements);
+                    },
                     child: Container(
                       width: 80,
                       decoration: BoxDecoration(

@@ -46,6 +46,7 @@ import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/bindings/sur
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/detail_surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/home/bindings/home_sdm_binding.dart';
+import 'package:atendence_hcs/src/futures/home/views/home_sdm/detail_payments.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/karyawan/bindings/list_karyawan_binding.dart';
@@ -170,6 +171,11 @@ class RoutePages {
       name: RouteNames.detailSuratPeringatan,
       page: () => const DetailSuratPeringatan(),
       binding: SuratPeringatanBinding(),
+    ),
+    GetPage(
+      name: RouteNames.detailPayements,
+      page: () => const DetailPayments(),
+      // binding: SuratPeringatanBinding(),
     ),
 
     // Penghasilan

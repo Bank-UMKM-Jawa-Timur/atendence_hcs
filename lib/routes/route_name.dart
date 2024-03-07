@@ -8,6 +8,7 @@ abstract class RouteNames {
   static const slipGaji = '/slip-gaji';
   static const rincianSlipGaji = '/rincian-slip-gaji';
   static const homeSdm = '/home-sdm';
+  static const detailPayements = '/detail-payments';
   static const profile = '/profile';
   // SDM
   static const karyawanList = '/karyawan-list';
