@@ -45,6 +45,7 @@ import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/views/promosi.dar
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/bindings/surat_peringatan_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/detail_surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/surat_peringatan.dart';
+import 'package:atendence_hcs/src/futures/home/bindings/detail_payment_binding.dart';
 import 'package:atendence_hcs/src/futures/home/bindings/home_sdm_binding.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/detail_payments.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
@@ -175,7 +176,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.detailPayements,
       page: () => const DetailPayments(),
-      // binding: SuratPeringatanBinding(),
+      binding: DetailPaymentBinding(),
     ),
 
     // Penghasilan

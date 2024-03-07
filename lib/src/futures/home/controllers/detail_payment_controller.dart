@@ -10,6 +10,7 @@ class DetailPaymentController extends GetxController {
   RincianGajiModel? rincianGajiM;
   var isLoading = false.obs;
   var dataIsEmpty = true.obs;
+  var total = 0.obs;
 
   Future<void> getGaji() async {
     var headers = {'Content-Type': 'application/json'};
@@ -27,11 +28,14 @@ class DetailPaymentController extends GetxController {
         } else {
           dataIsEmpty(false);
           rincianGajiM = RincianGajiModel.fromJson(json);
+          total.value = 0;
+          for (var i = 0; i < rincianGajiM!.data.length; i++) {
+            total.value += rincianGajiM!.data[i].totalGaji;
+          }
         }
       } else {
         debugPrint(response.statusCode.toString());
       }
-      print(json);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
