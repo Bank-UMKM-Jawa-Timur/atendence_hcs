@@ -70,11 +70,14 @@ class _HistoriMenuState extends State<HistoriMenu> {
                           children: [
                             Icon(
                               ListMenuItems.menuHistoriList[index]['icon'],
-                              size: 17,
+                              size: 20,
+                              color: cPrimary,
                             ),
                             spaceWidth(10),
                             Text(
                               ListMenuItems.menuHistoriList[index]['name'],
+                              style: customTextStyle(
+                                  FontWeight.w400, 15, Colors.black),
                             ),
                           ],
                         ),
