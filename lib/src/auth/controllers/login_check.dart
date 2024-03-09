@@ -15,7 +15,7 @@ class LoginCheck extends GetxController {
         if (tipe == "Karyawan") {
           Get.offAllNamed(RouteNames.navigationBar);
         } else {
-          Get.offAllNamed(RouteNames.homeSdm);
+          Get.offAllNamed(RouteNames.navigationBarSdm);
         }
       } else {
         Get.offAllNamed(RouteNames.login);

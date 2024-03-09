@@ -11,6 +11,7 @@ abstract class RouteNames {
   static const detailPayements = '/detail-payments';
   static const profile = '/profile';
   // SDM
+  static const navigationBarSdm = '/navigation-bar-sdm';
   static const karyawanList = '/karyawan-list';
   static const searchKaryawan = '/search-karyawan';
   static const dataMasaPensiun = '/data-masa-pensiun';
