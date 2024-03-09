@@ -1,3 +1,4 @@
+import 'package:atendence_hcs/src/futures/SDM/menu/manajement.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -15,7 +16,7 @@ class _NavigationBarSdmState extends State<NavigationBarSdm> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     HomeSdm(),
-    Text("data"),
+    ManajementMenu(),
     Text("data"),
     Text("data"),
     Text("data"),

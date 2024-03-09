@@ -17,3 +17,20 @@ appBarPrimary(title) {
     foregroundColor: Colors.white,
   );
 }
+
+appBarPrimaryCustom(title, Color colorTitle, bool ceneterTitle, Color bgColor) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(
+        color: colorTitle,
+        fontSize: 17,
+        fontWeight: FontWeight.w700,
+      ),
+    ),
+    centerTitle: ceneterTitle,
+    backgroundColor: bgColor,
+    elevation: 0,
+    foregroundColor: colorTitle,
+  );
+}
