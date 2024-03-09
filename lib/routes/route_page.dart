@@ -22,6 +22,7 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/bindings/detai
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/bindings/laporan_rekap_tetap_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/detail.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/navigation_bar_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/bindings/detail_penghasilan_binding.dart';
@@ -128,6 +129,11 @@ class RoutePages {
     ),
 
     // SDM
+    GetPage(
+      name: RouteNames.navigationBarSdm,
+      page: () => const NavigationBarSdm(),
+      binding: HomeSdmBinding(),
+    ),
     GetPage(
       name: RouteNames.dataMasaPensiun,
       page: () => const DataMasaPensiunPage(),
