@@ -79,19 +79,21 @@ class _NavigationBarSdmState extends State<NavigationBarSdm> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(CommunityMaterialIcons.alarm),
+                icon:
+                    Icon(CommunityMaterialIcons.account_box_multiple, size: 23),
                 label: 'Manajement',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month_outlined),
+                icon: Icon(Icons.wallet_giftcard_sharp),
                 label: 'Penghasilan',
               ),
               BottomNavigationBarItem(
-                icon: Icon(CommunityMaterialIcons.file_document_outline),
+                icon: Icon(Icons.history, size: 27),
                 label: 'Histori',
               ),
               BottomNavigationBarItem(
-                icon: Icon(CommunityMaterialIcons.account_outline, size: 25),
+                icon: Icon(CommunityMaterialIcons.file_document_outline,
+                    size: 25),
                 label: 'Laporan',
               ),
             ],
