@@ -1,42 +1,42 @@
 import 'package:atendence_hcs/routes/route_name.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ListMenuItems {
   // Manajemen Karyawan
   static List menuManagementList = [
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.account_cog_outline,
       'name': "Karyawan",
       'route': RouteNames.karyawanList,
       'arguments': ''
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_chart_outline,
       'name': "Data Masa Pensiun",
       'route': RouteNames.dataMasaPensiun,
       'arguments': '',
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_document_edit_outline,
       'name': "Pengkinian Data",
       'route': RouteNames.pengkinianData,
       'arguments': '',
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.menu_open,
       'name': "Pergerakan Karir",
       'route': 'null',
       'arguments': '',
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_account_outline,
       'name': "Pejabat Sementara",
       'route': RouteNames.pejabatSementara,
       'arguments': '',
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.menu_open,
       'name': "Reward & Punishment",
       'route': 'null',
       'arguments': '',
@@ -46,12 +46,12 @@ class ListMenuItems {
   // Penghasilan
   static List menuPenghasilanList = [
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_certificate_outline,
       'name': "Proses Penghasilan",
       'route': RouteNames.penghasilan,
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': Icons.account_balance_wallet_rounded,
       'name': "Gaji",
       'route': 'null',
     },
@@ -60,17 +60,17 @@ class ListMenuItems {
   // Histori
   static List menuHistoriList = [
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_document_edit_outline,
       'name': "Jabatan",
       'route': RouteNames.jabatan,
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_account_outline,
       'name': "Pejabat Sementara",
       'route': RouteNames.historiPejabatSementara,
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_remove_outline,
       'name': "Surat Peringatan",
       'route': RouteNames.historiSuratPeringatan,
     },
@@ -79,22 +79,22 @@ class ListMenuItems {
   // Laporan
   static List menuLaporanList = [
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_eye_outline,
       'name': "Laporan Pergerakan Karir",
       'route': 'null',
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_document_edit_outline,
       'name': "Laporan Data Jamsostek",
       'route': RouteNames.laporanDataJamsostek,
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_certificate_outline,
       'name': "Laporan Data DPP",
       'route': RouteNames.laporanDataDpp,
     },
     {
-      'icon': Icons.line_style_sharp,
+      'icon': CommunityMaterialIcons.file_chart_outline,
       'name': "Laporan Rekap Tetap",
       'route': RouteNames.laporanRekapTetap,
     },
