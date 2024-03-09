@@ -1,4 +1,7 @@
+import 'package:atendence_hcs/src/futures/SDM/menu/histori.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/laporan.dart';
 import 'package:atendence_hcs/src/futures/SDM/menu/manajement.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/penghasilan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:community_material_icon/community_material_icon.dart';
@@ -17,9 +20,9 @@ class _NavigationBarSdmState extends State<NavigationBarSdm> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeSdm(),
     ManajementMenu(),
-    Text("data"),
-    Text("data"),
-    Text("data"),
+    PenghasilanMenu(),
+    HistoriMenu(),
+    LaporanMenu(),
   ];
 
   void _onItemTapped(int index) {
