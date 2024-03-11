@@ -135,14 +135,14 @@ class HomeSdm extends StatelessWidget {
                           homeSdmC.isLoading.value
                               ? shimmerCardPayment()
                               : cardPayment(homeSdmC.homeSdmM!.data.totalGaji),
-                          spaceHeight(25),
-                          listCardItems(listIcon),
-                          spaceHeight(25),
-                          Container(
-                            width: Get.width,
-                            height: 1,
-                            color: cGrey_400,
-                          ),
+                          // spaceHeight(25),
+                          // listCardItems(listIcon),
+                          spaceHeight(10),
+                          // Container(
+                          //   width: Get.width,
+                          //   height: 1,
+                          //   color: cGrey_400,
+                          // ),
                           spaceHeight(20),
                           Text(
                             "Rincian Data",
