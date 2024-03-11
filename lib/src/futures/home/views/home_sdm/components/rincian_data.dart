@@ -86,20 +86,20 @@ Widget listRincianData(
                 Text(
                   listRician[index]['total'],
                   style: customTextStyle(
-                    FontWeight.w600,
-                    15,
-                    Colors.black,
+                    FontWeight.w800,
+                    17,
+                    cPrimary,
                   ),
                 ),
-                spaceHeight(4),
-                Text(
-                  listRician[index]['date'],
-                  style: customTextStyle(
-                    FontWeight.w500,
-                    11,
-                    cGrey_700,
-                  ),
-                ),
+                // spaceHeight(4),
+                // Text(
+                //   listRician[index]['date'],
+                //   style: customTextStyle(
+                //     FontWeight.w500,
+                //     11,
+                //     cGrey_700,
+                //   ),
+                // ),
               ],
             )
           ],
