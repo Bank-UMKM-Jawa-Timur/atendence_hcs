@@ -89,7 +89,7 @@ Widget cardPotongan(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              "Kredit Koprasi",
+                              "Kredit Koperasi",
                               style: textGreyMedium,
                             ),
                             Text(
@@ -110,7 +110,7 @@ Widget cardPotongan(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              "Iuran Koprasi",
+                              "Iuran Koperasi",
                               style: textGreyMedium,
                             ),
                             Text(

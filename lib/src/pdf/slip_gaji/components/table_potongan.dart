@@ -22,10 +22,13 @@ pw.Widget tablePotongan(
             : [],
         dpp > 0 ? ['DPP 5%', FormatCurrency.convertToIdr(dpp, 0)] : [],
         kreditKoperasi > 0
-            ? ['KREDIT KOPRASI', FormatCurrency.convertToIdr(kreditKoperasi, 0)]
+            ? [
+                'KREDIT KOPERASI',
+                FormatCurrency.convertToIdr(kreditKoperasi, 0)
+              ]
             : [],
         iuranKoperasi > 0
-            ? ['IURAN KOPRASI', FormatCurrency.convertToIdr(iuranKoperasi, 0)]
+            ? ['IURAN KOPERASI', FormatCurrency.convertToIdr(iuranKoperasi, 0)]
             : [],
         kreditKoperasi > 0
             ? ['KREDIT PEGAWAI', FormatCurrency.convertToIdr(kreditKoperasi, 0)]

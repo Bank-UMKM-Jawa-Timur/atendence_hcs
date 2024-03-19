@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:atendence_hcs/src/futures/slip_gaji/controllers/slip_gaji_controller.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import '../../../src/pdf/slip_gaji/components/build_header.dart';
 import '../../../src/pdf/slip_gaji/components/card_rincian_user.dart';
 import '../../../src/pdf/slip_gaji/components/table_pendapatan.dart';
@@ -125,7 +126,8 @@ class SlipGajiPdf extends GetxController {
     );
 
     final output = await getTemporaryDirectory();
-    final filePath1 = '${output.path}/${slipGajiC.rincianSlipGaji!.data.file}';
+    final filePath1 =
+        '${output.path}/${slipGajiC.rincianSlipGaji!.data.file ?? "Slip Gaji ${slipGajiC.rincianSlipGaji!.data.tanggalCetak.fullDateAll()}"}';
     final file = File(filePath1);
     await file.writeAsBytes(await pdf.save());
     await OpenFile.open(file.path);
