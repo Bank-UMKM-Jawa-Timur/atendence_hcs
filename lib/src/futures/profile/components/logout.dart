@@ -24,9 +24,12 @@ Widget logout(context) {
               onPressed: () {
                 LoginController().logout();
               },
-              child: const Text("Yes"),
+              child: const Text(
+                "Yes",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-            "Warning!",
+            "Peringatan",
             "Apakah Kamu ingin logout?",
           );
         } else if (GetPlatform.isIOS) {
@@ -39,7 +42,7 @@ Widget logout(context) {
               },
               child: const Text('Yes'),
             ),
-            "Warning!",
+            "Peringatan",
             "Apakah Kamu ingin logout?",
           );
         }

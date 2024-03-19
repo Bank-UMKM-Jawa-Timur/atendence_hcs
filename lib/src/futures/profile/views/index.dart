@@ -37,61 +37,107 @@ class _ProfilePageState extends State<ProfilePage> {
       _isBiomatric = !_isBiomatric;
     });
     if (prefsC.biometric.value) {
-      showCupertinoModalPopup<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: const Text("Waring!"),
-          content: const Text("Apakah anda ingin nonaktifkan Biomatrik?"),
-          actions: <CupertinoDialogAction>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('No'),
+      if (GetPlatform.isAndroid) {
+        showAlertDialogAndroid(
+          context,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: cPrimary,
             ),
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                prefs?.remove("biometric");
-                prefsC.addPrefs();
-                Navigator.pop(context);
-                alertSuccess(context);
-                Timer(const Duration(seconds: 2), () {
-                  Get.back();
-                });
-              },
-              child: const Text('Yes'),
+            onPressed: () {
+              prefs?.remove("biometric");
+              prefsC.addPrefs();
+              Navigator.pop(context);
+              alertSuccess(context);
+              Timer(const Duration(seconds: 2), () {
+                Get.back();
+              });
+            },
+            child: const Text(
+              "Yes",
+              style: TextStyle(color: Colors.white),
             ),
-          ],
-        ),
-      );
+          ),
+          "Informasi",
+          "Apakah anda ingin nonaktifkan Biomatrik?",
+        );
+      } else {
+        showCupertinoModalPopup<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: const Text("Informasi"),
+            content: const Text("Apakah anda ingin nonaktifkan Biomatrik?"),
+            actions: <CupertinoDialogAction>[
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No'),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  prefs?.remove("biometric");
+                  prefsC.addPrefs();
+                  Navigator.pop(context);
+                  alertSuccess(context);
+                  Timer(const Duration(seconds: 2), () {
+                    Get.back();
+                  });
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
-      showCupertinoModalPopup<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: const Text("Waring!"),
-          content: const Text("Apakah anda ingin mengaktifkan Biomatrik?"),
-          actions: <CupertinoDialogAction>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('No'),
+      if (GetPlatform.isAndroid) {
+        showAlertDialogAndroid(
+          context,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: cPrimary,
             ),
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                authenticate();
-              },
-              child: const Text('Yes'),
+            onPressed: () {
+              authenticate();
+            },
+            child: const Text(
+              "Yes",
+              style: TextStyle(color: Colors.white),
             ),
-          ],
-        ),
-      );
+          ),
+          "Informasi",
+          "Apakah anda ingin mengaktifkan Biomatrik?",
+        );
+      } else {
+        showCupertinoModalPopup<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: const Text("Informasi"),
+            content: const Text("Apakah anda ingin mengaktifkan Biomatrik?"),
+            actions: <CupertinoDialogAction>[
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No'),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  authenticate();
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -173,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   spaceHeight(35),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
@@ -208,14 +254,17 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.black,
                             ),
                           ),
-                          Text(
-                            prefsC.displayJabatan.value.trim(),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: cGrey_700,
+                          SizedBox(
+                            width: Get.width / 1.5,
+                            child: Text(
+                              prefsC.displayJabatan.value.trim(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: cGrey_700,
+                              ),
+                              textAlign: TextAlign.start,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       )

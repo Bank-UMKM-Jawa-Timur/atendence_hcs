@@ -33,21 +33,22 @@ void showAlertDialogIos(
 void showAlertDialogAndroid(
   BuildContext context,
   ElevatedButton logout,
-  String title,
+  String? title,
   String msg,
 ) {
   showCupertinoModalPopup<void>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
       title: Text(
-        title,
+        title ?? '',
         style: const TextStyle(fontWeight: FontWeight.w700),
       ),
+      backgroundColor: Colors.white,
       content: Text(msg),
       actions: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: cGrey_500,
+            backgroundColor: cGrey_400,
           ),
           onPressed: () {
             Get.back();
