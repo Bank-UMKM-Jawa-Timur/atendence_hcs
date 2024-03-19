@@ -19,6 +19,7 @@ class UbahPasswordController extends GetxController {
 
   Future<void> changePassword(bool fromLogin) async {
     prefs = await SharedPreferences.getInstance();
+    var nip = prefs?.getString('nip');
     prefsC.addPrefs();
     var headers = {'Content-Type': 'application/json'};
     try {
@@ -27,8 +28,7 @@ class UbahPasswordController extends GetxController {
         "nip": nipC.text,
         "password": newPasswordC.text,
       };
-
-      if (nipC.text != prefsC.nip.value) {
+      if (nipC.text != nip) {
         snackbarfailed("nip tidak cocok");
       } else {
         if (confirmPasswordC.text != newPasswordC.text) {
