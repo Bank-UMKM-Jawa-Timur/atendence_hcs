@@ -38,8 +38,8 @@ class Data {
   DateTime tanggalCetak;
   DateTime tanggalUpload;
   DateTime tanggalFinal;
-  String file;
-  String status;
+  String? file;
+  String? status;
   String? entitasGaji;
   String nip;
   int bulan;

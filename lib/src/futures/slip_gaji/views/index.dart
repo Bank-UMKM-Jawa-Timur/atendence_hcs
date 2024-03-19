@@ -566,8 +566,8 @@ class _SlipGajiState extends State<SlipGaji> {
             snackbarfailed("Cari karyawan, sebelum filter data");
           } else {
             slipGajiC.filter();
+            Get.back();
           }
-          // slipGajiC.filter();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: cPrimary,
