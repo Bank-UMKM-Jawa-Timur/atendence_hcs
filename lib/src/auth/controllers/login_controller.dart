@@ -72,7 +72,7 @@ class LoginController extends GetxController {
               );
             } else {
               if (loginSucsess?.data.tipe == "User") {
-                Get.offAllNamed(RouteNames.homeSdm);
+                Get.offAllNamed(RouteNames.navigationBarSdm);
                 snackbarSuccess("Login Berhasil");
               } else {
                 Get.offAllNamed(RouteNames.navigationBar);
