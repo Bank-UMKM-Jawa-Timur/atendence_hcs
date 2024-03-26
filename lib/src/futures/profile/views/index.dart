@@ -5,7 +5,6 @@ import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import '../../../../http/sharedpreferences/prefs.dart';
 import '../../../../routes/route_name.dart';
 import '../../../futures/profile/components/logout.dart';
-import '../../../futures/profile/components/profile_image.dart';
 import '../../../../utils/components/alert.dart';
 import '../../../../utils/components/colors.dart';
 import '../../../../utils/components/space.dart';
@@ -202,6 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        centerTitle: false,
         title: const Text(
           "Profile",
           style: TextStyle(
