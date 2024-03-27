@@ -75,28 +75,18 @@ class HomeSdm extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  c.isLoading.value
-                                      ? Shimmer.fromColors(
-                                          baseColor: cGrey_200,
-                                          highlightColor: cPrimary_300,
-                                          child: Container(
-                                            width: 140,
-                                            height: 25,
-                                            decoration: const BoxDecoration(
-                                              color: cWhite,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          width: Get.width / 2,
-                                          child: Text(
-                                            "Hi ${c.fullName.value}",
-                                            style: customTextStyle(
-                                                FontWeight.w700, 22, cWhite),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
+                                  SizedBox(
+                                    width: Get.width / 2,
+                                    child: Text(
+                                      c.isLoading.value
+                                          ? "Hi ..."
+                                          : "Hi ${c.fullName.value}",
+                                      style: customTextStyle(
+                                          FontWeight.w700, 22, cWhite),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                   Text(
                                     "Senin, Feb 26, 2024",
                                     style: customTextStyle(
@@ -164,23 +154,12 @@ class HomeSdm extends StatelessWidget {
                             style: customTextStyle(FontWeight.w600, 17, cWhite),
                           ),
                           spaceHeight(7),
-                          c.isLoading.value
-                              ? Shimmer.fromColors(
-                                  baseColor: cGrey_200,
-                                  highlightColor: cPrimary_300,
-                                  child: Container(
-                                    width: Get.width - 90,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      color: cWhite,
-                                    ),
-                                  ),
-                                )
-                              : Text(
-                                  "Rp ${c.homeSdmM!.data.totalGaji}",
-                                  style: customTextStyle(
-                                      FontWeight.w800, 33, cWhite),
-                                ),
+                          Text(
+                            c.isLoading.value
+                                ? "Rp ***"
+                                : "Rp ${c.homeSdmM!.data.totalGaji}",
+                            style: customTextStyle(FontWeight.w800, 33, cWhite),
+                          ),
                           spaceHeight(7),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -260,7 +239,7 @@ class HomeSdm extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: c.isLoading.value
-                            ? const Text("Loading...")
+                            ? shimmerListRincianData()
                             : listRincianData(c.listRincian),
                       ),
                     ),
