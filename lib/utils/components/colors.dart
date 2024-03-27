@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 const cPrimary = Color(0xFF1575FF);
 const cPrimary_100 = Color(0xFFD2EAFF);
+const cPrimary_200 = Color(0xFFF2FAFD);
 const cPrimary_300 = Color(0xFFB6DDFF);
 const cPrimary_400 = Color(0xFFABCDFF);
 const cPrimary_500 = Color(0xFF76BEFD);
+const cPrimary_600 = Color(0xFF4290FF);
 const cPrimary_700 = Color(0xFF359FFD);
 const cGrey_100 = Color(0xFFF8F8F8);
 const cGrey_200 = Color(0xFFE8F2FD);
@@ -21,3 +23,5 @@ const cRed_300 = Color(0xFFFF928C);
 const cRed_500 = Color(0xFFFA726B);
 const cRed_700 = Color(0xFFF14C43);
 const cRed_900 = Color(0xFFDA251D);
+const cWhite = Color(0xFFFFFFFF);
+const cBlack = Color(0xFF000000);

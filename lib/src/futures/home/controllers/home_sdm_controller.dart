@@ -5,11 +5,13 @@ import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeSdmController extends GetxController {
   HomeSdmModel? homeSdmM;
   var isLoading = false.obs;
   List listRincian = [];
+  var fullName = "".obs;
 
   @override
   void onInit() {
@@ -18,6 +20,8 @@ class HomeSdmController extends GetxController {
   }
 
   Future<void> getDataHome() async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    fullName.value = "${sharedPref.getString("nama_karyawan")}";
     var headers = {'Content-Type': 'application/json'};
 
     try {
