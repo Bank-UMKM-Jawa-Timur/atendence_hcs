@@ -12,7 +12,7 @@ class HomeSdmController extends GetxController {
   HomeSdmModel? homeSdmM;
   var isLoading = false.obs;
   List listRincian = [];
-  var fullName = "".obs;
+  var fullName = "oyy".obs;
 
   @override
   void onInit() {

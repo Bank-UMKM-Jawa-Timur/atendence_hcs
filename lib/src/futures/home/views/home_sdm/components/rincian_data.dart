@@ -147,7 +147,7 @@ Widget shimmerListRincianData() {
         highlightColor: cPrimary_300,
         child: Container(
           width: Get.width,
-          height: 65,
+          height: 50,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/card.png'),
