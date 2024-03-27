@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:atendence_hcs/http/models/SDM/home/home_sdm_model.dart';
 import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,28 +37,32 @@ class HomeSdmController extends GetxController {
         homeSdmM = HomeSdmModel.fromJson(json);
         listRincian = [
           {
-            'title': 'Karyawan',
+            'title': 'Aktif',
             'icon': 'assets/icon/karyawan.png',
             'total': homeSdmM!.data.totalKaryawan.toString(),
             'date': 'Sabtu, 12 Feb 2024',
+            'color': Color(0xFFF9F7FF),
           },
           {
-            'title': 'Karyawan Masuk',
+            'title': 'Masuk',
             'icon': 'assets/icon/karyawan_masuk.png',
             'total': homeSdmM!.data.karyawanMasuk.toString(),
             'date': 'Sabtu, 12 Feb 2024',
+            'color': Color(0xFFF2FFF8),
           },
           {
-            'title': 'Karyawan Keluar',
+            'title': 'Keluar',
             'icon': 'assets/icon/karyawan_keluar.png',
             'total': homeSdmM!.data.karyawanKeluar.toString(),
             'date': 'Sabtu, 12 Feb 2024',
+            'color': Color(0xFFFFF1EF),
           },
           {
-            'title': 'Karyawan Pensiun',
+            'title': 'Pensiun',
             'icon': 'assets/icon/karyawan_pensiun.png',
             'total': homeSdmM!.data.karyawanPensiun.toString(),
             'date': 'Sabtu, 12 Feb 2024',
+            'color': Color(0xFFFFF1FF),
           },
         ];
       } else {
