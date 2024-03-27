@@ -200,23 +200,23 @@ class HomeSdm extends StatelessWidget {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Rincian Karyawan",
-                        style: customTextStyle(
-                          FontWeight.w500,
-                          17,
-                          cBlack,
-                        ),
-                      ),
-                      spaceHeight(15),
-                      c.isLoading.value
-                          ? const Text("Loading...")
-                          : listRincianData(c.listRincian)
-                    ],
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text(
+                    "Rincian Karyawan",
+                    style: customTextStyle(
+                      FontWeight.w500,
+                      17,
+                      cBlack,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: c.isLoading.value
+                        ? const Text("Loading...")
+                        : listRincianData(c.listRincian),
                   ),
                 ),
               ],

@@ -17,13 +17,12 @@ Widget listRincianData(
     shrinkWrap: true,
     primary: false,
     padding: const EdgeInsets.all(0),
-    physics: const NeverScrollableScrollPhysics(),
+    physics: const AlwaysScrollableScrollPhysics(),
     itemBuilder: (context, index) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 5),
         child: Container(
           width: Get.width,
-          height: 80,
           decoration: BoxDecoration(
             // border: listRician[index]['title'] == "Karyawan Pensiun"
             //     ? const Border()
@@ -50,13 +49,13 @@ Widget listRincianData(
                     Container(
                       width: 45,
                       height: 45,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         // border: Border.all(
                         //   width: 1,
                         //   color: cGrey_400,
                         // ),
-                        color: Color(0xFFF9F7FF),
-                        borderRadius: BorderRadius.all(
+                        color: listRician[index]['color'],
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(50),
                         ),
                       ),
