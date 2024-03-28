@@ -17,7 +17,7 @@ class _HistoriMenuState extends State<HistoriMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: appBarPrimaryCustom("Histori", Colors.white, false, cPrimary),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -34,7 +34,7 @@ class _HistoriMenuState extends State<HistoriMenu> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   child: InkWell(
                     onTap: () {
                       Get.back();
@@ -52,19 +52,23 @@ class _HistoriMenuState extends State<HistoriMenu> {
                     },
                     child: Container(
                       width: Get.width,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: cGrey_500,
-                          width: 1,
+                      decoration: const BoxDecoration(
+                        color: cWhite,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
                         ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(7),
-                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: cGrey_300,
+                            blurRadius: 2,
+                            offset: Offset(0, 2), // Shadow position
+                          ),
+                        ],
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 15,
-                          vertical: 10,
+                          vertical: 15,
                         ),
                         child: Row(
                           children: [

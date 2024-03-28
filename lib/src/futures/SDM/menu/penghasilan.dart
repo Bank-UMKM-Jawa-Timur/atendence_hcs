@@ -20,7 +20,7 @@ class _PenghasilanMenuState extends State<PenghasilanMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: appBarPrimaryCustom("Penghasilan", Colors.white, false, cPrimary),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -37,7 +37,7 @@ class _PenghasilanMenuState extends State<PenghasilanMenu> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   child: index == 1
                       ? menuDropdown(index)
                       : InkWell(
@@ -58,14 +58,18 @@ class _PenghasilanMenuState extends State<PenghasilanMenu> {
                           },
                           child: Container(
                             width: Get.width,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: cGrey_500,
-                                width: 1,
+                            decoration: const BoxDecoration(
+                              color: cWhite,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(7),
-                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: cGrey_300,
+                                  blurRadius: 2,
+                                  offset: Offset(0, 2), // Shadow position
+                                ),
+                              ],
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -104,14 +108,18 @@ class _PenghasilanMenuState extends State<PenghasilanMenu> {
   Container menuDropdown(int index) {
     return Container(
       width: Get.width,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: cGrey_500,
-          width: 1,
+      decoration: const BoxDecoration(
+        color: cWhite,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
         ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(7),
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: cGrey_300,
+            blurRadius: 2,
+            offset: Offset(0, 2), // Shadow position
+          ),
+        ],
       ),
       child: AnimatedSize(
         curve: Curves.linear,
