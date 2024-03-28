@@ -6,6 +6,7 @@ import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/rincian
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
+import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,7 @@ class HomeSdm extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Senin, Feb 26, 2024",
+                                    "${DateTime.now().getDayAndDate()}",
                                     style: customTextStyle(
                                       FontWeight.w400,
                                       12,
@@ -157,7 +158,7 @@ class HomeSdm extends StatelessWidget {
                           Text(
                             c.isLoading.value
                                 ? "Rp ***"
-                                : "Rp ${c.homeSdmM!.data.totalGaji}",
+                                : "Rp ${c.homeSdmM?.data.totalGaji}",
                             style: customTextStyle(FontWeight.w800, 33, cWhite),
                           ),
                           spaceHeight(7),

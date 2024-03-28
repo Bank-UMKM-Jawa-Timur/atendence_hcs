@@ -16,4 +16,6 @@ extension DateTimeExtension on DateTime {
   String getHour() => DateFormat('HH', locale).format(this);
   String getMinute() => DateFormat('mm', locale).format(this);
   String getYear() => DateFormat('yyyy', locale).format(this);
+  String getDayAndDate() =>
+      DateFormat('EEEE, MMM dd, yyyy', locale).format(this);
 }
