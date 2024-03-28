@@ -68,47 +68,98 @@ class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
           body: Center(
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
-          bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: cGrey_300,
-                  blurRadius: 5,
-                  offset: Offset(0, 0), // Shadow position
+          // bottomNavigationBar: Container(
+          //   decoration: const BoxDecoration(
+          //     boxShadow: [
+          //       BoxShadow(
+          //         color: cGrey_300,
+          //         blurRadius: 5,
+          //         offset: Offset(0, 0), // Shadow position
+          //       ),
+          //     ],
+          //   ),
+          //   child: BottomNavigationBar(
+          //     type: BottomNavigationBarType.fixed,
+          //     iconSize: 24,
+          //     selectedLabelStyle: const TextStyle(fontSize: 12),
+          //     backgroundColor: Colors.white,
+          //     items: const <BottomNavigationBarItem>[
+          //       BottomNavigationBarItem(
+          //         icon: Icon(CommunityMaterialIcons.home),
+          //         label: 'Home',
+          //       ),
+          //       BottomNavigationBarItem(
+          //         icon: Icon(CommunityMaterialIcons.alarm),
+          //         label: 'Jadwal',
+          //       ),
+          //       BottomNavigationBarItem(
+          //         icon: Icon(Icons.calendar_month_outlined),
+          //         label: 'Permohonan',
+          //       ),
+          //       BottomNavigationBarItem(
+          //         icon: Icon(CommunityMaterialIcons.file_document_outline),
+          //         label: 'Slip Gaji',
+          //       ),
+          //       BottomNavigationBarItem(
+          //         icon: Icon(CommunityMaterialIcons.account_outline, size: 25),
+          //         label: 'Profile',
+          //       ),
+          //     ],
+          //     currentIndex: _selectedIndex,
+          //     selectedItemColor: cPrimary,
+          //     onTap: _onItemTapped,
+          //   ),
+          // ),
+          bottomNavigationBar: NavigationBar(
+            height: 75,
+            elevation: 0,
+            selectedIndex: _selectedIndex,
+            indicatorColor: cPrimary,
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+            onDestinationSelected: _onItemTapped,
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(CommunityMaterialIcons.home),
+                label: "Home",
+                selectedIcon: Icon(
+                  CommunityMaterialIcons.home,
+                  color: cWhite,
                 ),
-              ],
-            ),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              iconSize: 24,
-              selectedLabelStyle: const TextStyle(fontSize: 12),
-              backgroundColor: Colors.white,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(CommunityMaterialIcons.home),
-                  label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(CommunityMaterialIcons.alarm, size: 27),
+                label: "Jadwal",
+                selectedIcon: Icon(
+                  CommunityMaterialIcons.alarm,
+                  size: 27,
+                  color: cWhite,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(CommunityMaterialIcons.alarm),
-                  label: 'Jadwal',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.calendar_month_outlined),
+                label: "Permhonan",
+                selectedIcon: Icon(
+                  Icons.calendar_month_outlined,
+                  color: cWhite,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_month_outlined),
-                  label: 'Permohonan',
+              ),
+              NavigationDestination(
+                icon: Icon(CommunityMaterialIcons.file_document_outline),
+                label: "Slip Gaji",
+                selectedIcon: Icon(
+                  CommunityMaterialIcons.file_document_outline,
+                  color: cWhite,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(CommunityMaterialIcons.file_document_outline),
-                  label: 'Slip Gaji',
+              ),
+              NavigationDestination(
+                icon: Icon(CommunityMaterialIcons.account_outline),
+                label: "Profile",
+                selectedIcon: Icon(
+                  CommunityMaterialIcons.account_outline,
+                  color: cWhite,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(CommunityMaterialIcons.account_outline, size: 25),
-                  label: 'Profile',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: cPrimary,
-              onTap: _onItemTapped,
-            ),
+              ),
+            ],
           ),
         ),
       );
