@@ -62,49 +62,100 @@ class _NavigationBarSdmState extends State<NavigationBarSdm> {
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: cGrey_300,
-                blurRadius: 5,
-                offset: Offset(0, 0), // Shadow position
+        // bottomNavigationBar: Container(
+        //   decoration: const BoxDecoration(
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: cGrey_300,
+        //         blurRadius: 5,
+        //         offset: Offset(0, 0), // Shadow position
+        //       ),
+        //     ],
+        //   ),
+        //   child: BottomNavigationBar(
+        //     type: BottomNavigationBarType.fixed,
+        //     iconSize: 24,
+        //     selectedLabelStyle: const TextStyle(fontSize: 12),
+        //     backgroundColor: Colors.white,
+        //     items: const <BottomNavigationBarItem>[
+        //       BottomNavigationBarItem(
+        //         icon: Icon(CommunityMaterialIcons.home),
+        //         label: 'Home',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon:
+        //             Icon(CommunityMaterialIcons.account_box_multiple, size: 23),
+        //         label: 'Manajement',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Icon(Icons.wallet_giftcard_sharp),
+        //         label: 'Penghasilan',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Icon(Icons.history, size: 27),
+        //         label: 'Histori',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Icon(CommunityMaterialIcons.file_document_outline,
+        //             size: 25),
+        //         label: 'Laporan',
+        //       ),
+        //     ],
+        //     currentIndex: _selectedIndex,
+        //     selectedItemColor: cPrimary,
+        //     onTap: _onItemTapped,
+        //   ),
+        // ),
+        bottomNavigationBar: NavigationBar(
+          height: 75,
+          elevation: 0,
+          selectedIndex: _selectedIndex,
+          indicatorColor: cPrimary,
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          onDestinationSelected: _onItemTapped,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(CommunityMaterialIcons.home),
+              label: "Home",
+              selectedIcon: Icon(
+                CommunityMaterialIcons.home,
+                color: cWhite,
               ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            iconSize: 24,
-            selectedLabelStyle: const TextStyle(fontSize: 12),
-            backgroundColor: Colors.white,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(CommunityMaterialIcons.home),
-                label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(CommunityMaterialIcons.account_box_multiple),
+              label: "Manajemen",
+              selectedIcon: Icon(
+                CommunityMaterialIcons.account_box_multiple,
+                color: cWhite,
               ),
-              BottomNavigationBarItem(
-                icon:
-                    Icon(CommunityMaterialIcons.account_box_multiple, size: 23),
-                label: 'Manajement',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.wallet_giftcard_sharp),
+              label: "Penghasilan",
+              selectedIcon: Icon(
+                Icons.wallet_giftcard_sharp,
+                color: cWhite,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.wallet_giftcard_sharp),
-                label: 'Penghasilan',
+            ),
+            NavigationDestination(
+              icon: Icon(CommunityMaterialIcons.history, size: 27),
+              label: "Histori",
+              selectedIcon: Icon(
+                CommunityMaterialIcons.history,
+                size: 27,
+                color: cWhite,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.history, size: 27),
-                label: 'Histori',
+            ),
+            NavigationDestination(
+              icon: Icon(CommunityMaterialIcons.file_document_outline),
+              label: "Laporan",
+              selectedIcon: Icon(
+                CommunityMaterialIcons.file_document_outline,
+                color: cWhite,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(CommunityMaterialIcons.file_document_outline,
-                    size: 25),
-                label: 'Laporan',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: cPrimary,
-            onTap: _onItemTapped,
-          ),
+            ),
+          ],
         ),
       ),
     );
