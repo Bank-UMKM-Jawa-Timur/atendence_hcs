@@ -26,7 +26,7 @@ class DetailPayments extends StatelessWidget {
           appBar: appBarPrimary("Detail Perkiraan Gaji"),
           bottomNavigationBar: Container(
             width: Get.width,
-            height: 70,
+            height: 80,
             decoration: const BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -43,7 +43,7 @@ class DetailPayments extends StatelessWidget {
                     "Total :",
                     style: customTextStyle(
                       FontWeight.w600,
-                      16,
+                      17,
                       cGrey_900,
                     ),
                   ),
@@ -51,7 +51,7 @@ class DetailPayments extends StatelessWidget {
                     FormatCurrency.convertToIdr(c.total.value, 0),
                     style: customTextStyle(
                       FontWeight.w800,
-                      17,
+                      20,
                       cPrimary,
                     ),
                   ),
@@ -66,21 +66,20 @@ class DetailPayments extends StatelessWidget {
                   child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15,
-                        vertical: 15,
                       ),
                       child: ListView.builder(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
                         itemCount: c.rincianGajiM!.data.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var data = c.rincianGajiM!.data;
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
+                            padding: const EdgeInsets.only(bottom: 6),
                             child: Container(
                               width: Get.width,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(width: 1, color: cGrey_400),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(17),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -95,7 +94,7 @@ class DetailPayments extends StatelessWidget {
                                           width: 45,
                                           height: 45,
                                           decoration: BoxDecoration(
-                                            color: cPrimary,
+                                            color: cPrimary_600,
                                             borderRadius:
                                                 BorderRadius.circular(40),
                                           ),
