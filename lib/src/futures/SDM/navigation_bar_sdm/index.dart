@@ -109,6 +109,7 @@ class _NavigationBarSdmState extends State<NavigationBarSdm> {
         bottomNavigationBar: NavigationBar(
           height: 75,
           elevation: 0,
+          backgroundColor: cWhite,
           selectedIndex: _selectedIndex,
           indicatorColor: cPrimary,
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,

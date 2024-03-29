@@ -41,4 +41,6 @@ abstract class RouteNames {
   static const laporanDataDpp = '/laporan-data-dpp';
   static const laporanRekapTetap = '/laporan-rekap-tetap';
   static const detailLaporanRekapTetap = '/detail-laporan-rekap-tetap';
+  // Menu
+  // static const detailLaporanRekapTetap = '/detail-laporan-rekap-tetap';
 }

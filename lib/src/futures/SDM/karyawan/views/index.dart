@@ -34,7 +34,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Data Karyawan",
@@ -68,7 +68,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(8),
                     ),
                   ),
                   child: Padding(
@@ -119,7 +119,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
                             )
                           : Column(
                               children: [
-                                spaceHeight(25),
+                                spaceHeight(10),
                                 ListView.builder(
                                   shrinkWrap: true,
                                   physics:
@@ -181,7 +181,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(20),
             ),
           ),
           child: Padding(

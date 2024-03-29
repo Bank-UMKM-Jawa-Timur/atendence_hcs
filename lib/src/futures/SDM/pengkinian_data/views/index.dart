@@ -6,6 +6,7 @@ import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Pengkinian Data",
@@ -69,7 +70,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(7),
                     ),
                   ),
                   child: Padding(
@@ -122,7 +123,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                             )
                           : Column(
                               children: [
-                                spaceHeight(20),
+                                spaceHeight(10),
                                 ListView.builder(
                                   itemCount: listPengkinianC
                                           .listPengkinianDataM?.data.length ??
@@ -169,11 +170,11 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
               BoxShadow(
                 color: cGrey_400,
                 blurRadius: 4,
-                offset: Offset(0, 1),
+                offset: Offset(0, 2),
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(20),
             ),
           ),
           child: Padding(
@@ -216,7 +217,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                nama,
+                                shortenLastName(nama),
                                 style: customTextStyle(
                                   FontWeight.w700,
                                   14,
