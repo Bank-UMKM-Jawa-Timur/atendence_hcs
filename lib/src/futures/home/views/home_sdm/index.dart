@@ -2,11 +2,13 @@ import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/home/controllers/home_sdm_controller.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/card_payments.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/header_profile_sdm.dart';
+import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/line_chart.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/rincian_data.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ class HomeSdm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool showAvg = false;
     DateTime timeBackPresed = DateTime.now();
     double heightStatusBar = MediaQuery.of(context).viewPadding.top;
     Future<bool> onPop() async {
@@ -221,27 +224,33 @@ class HomeSdm extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Text(
-                      "Rincian Karyawan",
-                      style: customTextStyle(
-                        FontWeight.w500,
-                        17,
-                        cBlack,
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () => c.getDataHome(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
-                        child: c.isLoading.value
-                            ? shimmerListRincianData()
-                            : listRincianData(c.listRincian),
+                      child: ListView(
+                        padding: const EdgeInsets.all(0),
+                        children: [
+                          const LineChartSdm(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Text(
+                              "Rincian Karyawan",
+                              style: customTextStyle(
+                                FontWeight.w500,
+                                17,
+                                cBlack,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            child: c.isLoading.value
+                                ? shimmerListRincianData()
+                                : listRincianData(c.listRincian),
+                          ),
+                        ],
                       ),
                     ),
                   ),
