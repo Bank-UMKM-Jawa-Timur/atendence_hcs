@@ -22,6 +22,10 @@ import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/bindings/detai
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/bindings/laporan_rekap_tetap_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/detail.dart';
 import 'package:atendence_hcs/src/futures/SDM/laporan_rekap_tetap/views/index.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/histori.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/laporan.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/manajement.dart';
+import 'package:atendence_hcs/src/futures/SDM/menu/penghasilan.dart';
 import 'package:atendence_hcs/src/futures/SDM/navigation_bar_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/bindings/pejabat_sementara_binding.dart';
 import 'package:atendence_hcs/src/futures/SDM/pejabat_sementara/views/index.dart';
@@ -48,6 +52,7 @@ import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/detail
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/views/surat_peringatan.dart';
 import 'package:atendence_hcs/src/futures/home/bindings/detail_payment_binding.dart';
 import 'package:atendence_hcs/src/futures/home/bindings/home_sdm_binding.dart';
+import 'package:atendence_hcs/src/futures/home/views/home_sdm/components/modalButtomSheet/widgets/menu_penghasilan.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/detail_payments.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_sdm/index.dart';
 import 'package:atendence_hcs/src/futures/home/views/home_user/index.dart';
@@ -266,6 +271,28 @@ class RoutePages {
       name: RouteNames.detailLaporanRekapTetap,
       page: () => const DetailLaporanRekapTetap(),
       binding: DetailRekapTetapBinding(),
+    ),
+
+    // Menu
+    GetPage(
+      name: RouteNames.menuManajement,
+      page: () => const ManajementMenu(),
+      // binding: DetailRekapTetapBinding(),
+    ),
+    GetPage(
+      name: RouteNames.menuPenghasilan,
+      page: () => const PenghasilanMenu(),
+      // binding: DetailRekapTetapBinding(),
+    ),
+    GetPage(
+      name: RouteNames.menuHistory,
+      page: () => const HistoriMenu(),
+      // binding: DetailRekapTetapBinding(),
+    ),
+    GetPage(
+      name: RouteNames.menuLaporan,
+      page: () => const LaporanMenu(),
+      // binding: DetailRekapTetapBinding(),
     ),
   ];
 }

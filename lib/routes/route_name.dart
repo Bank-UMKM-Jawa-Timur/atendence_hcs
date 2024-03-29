@@ -42,5 +42,8 @@ abstract class RouteNames {
   static const laporanRekapTetap = '/laporan-rekap-tetap';
   static const detailLaporanRekapTetap = '/detail-laporan-rekap-tetap';
   // Menu
-  // static const detailLaporanRekapTetap = '/detail-laporan-rekap-tetap';
+  static const menuManajement = '/menu-manajemen';
+  static const menuPenghasilan = '/menu-penghasilan';
+  static const menuHistory = '/menu-history';
+  static const menuLaporan = '/menu-laporan';
 }
