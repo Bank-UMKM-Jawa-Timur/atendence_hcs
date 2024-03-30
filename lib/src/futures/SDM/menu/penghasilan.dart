@@ -42,7 +42,7 @@ class _PenghasilanMenuState extends State<PenghasilanMenu> {
                       ? menuDropdown(index)
                       : InkWell(
                           onTap: () {
-                            Get.offNamed(RouteNames.penghasilan);
+                            Get.toNamed(RouteNames.penghasilan);
                             // Get.back();
                             // Get.toNamed(
                             //   RouteNames.karyawanList,

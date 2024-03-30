@@ -22,7 +22,7 @@ class MenuPenghasilan {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Get.offNamed(RouteNames.slipGaji, arguments: [
+              Get.toNamed(RouteNames.slipGaji, arguments: [
                 {"nip": ""},
                 {"nama": "Cari Karyawan"}
               ]);
