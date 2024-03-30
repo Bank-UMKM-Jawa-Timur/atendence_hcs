@@ -230,7 +230,8 @@ class HomeSdm extends StatelessWidget {
                       child: ListView(
                         padding: const EdgeInsets.all(0),
                         children: [
-                          const LineChartSdm(),
+                          // const LineChartSdm(),
+                          spaceHeight(10),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
