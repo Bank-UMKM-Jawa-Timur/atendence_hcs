@@ -143,7 +143,8 @@ class _SearchKaryawanPageState extends State<SearchKaryawanPage> {
                                 onTap: () {
                                   Get.offNamedUntil(
                                     Get.arguments,
-                                    ModalRoute.withName(RouteNames.homeSdm),
+                                    ModalRoute.withName(
+                                        RouteNames.navigationBarSdm),
                                     arguments: [
                                       {
                                         'nip': searchC.searchKaryawanModel!
