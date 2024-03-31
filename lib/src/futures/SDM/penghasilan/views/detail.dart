@@ -83,7 +83,7 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: Center(
-                child: detailPenghasilanC.isEmptyData.value
+                child: !detailPenghasilanC.isEmptyData.value
                     ? const CircularProgressIndicator()
                     : Text(
                         "Tidak ada data lagi.",

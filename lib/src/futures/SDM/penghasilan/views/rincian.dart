@@ -212,12 +212,27 @@ class _RincianPenghasilanState extends State<RincianPenghasilan> {
                     ? Column(
                         children: [
                           spaceHeight(10),
-                          row1(gajiPokok, tKeluarga, tTeleponListrikDanAir),
-                          row2(tJabatan, tKhusus, tPerumahan),
-                          row3(tPelaksana, tKemahalan, tKesejahteraan),
-                          row4(tTeller, penyesuaian, total),
-                          row5(total),
-                          spaceHeight(20),
+                          rowData(
+                            gajiPokok,
+                            tKeluarga,
+                            tTeleponListrikDanAir,
+                            tJabatan,
+                            tKhusus,
+                            tPerumahan,
+                            tPelaksana,
+                            tKemahalan,
+                            tKesejahteraan,
+                            tTeller,
+                            penyesuaian,
+                            total,
+                            pph21,
+                          ),
+                          // row1(gajiPokok, tKeluarga, tTeleponListrikDanAir),
+                          // row2(tJabatan, tKhusus, tPerumahan),
+                          // row3(tPelaksana, tKemahalan, tKesejahteraan),
+                          // row4(tTeller, penyesuaian, total),
+                          // row5(total),
+                          spaceHeight(10),
                         ],
                       )
                     : Container()
