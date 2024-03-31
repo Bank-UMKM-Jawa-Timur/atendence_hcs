@@ -87,7 +87,7 @@ class Rincian {
   String statusJabatan;
   String namaJabatan;
   String pangkatGolongan;
-  String kantor;
+  String? kantor;
 
   Rincian({
     required this.nip,
