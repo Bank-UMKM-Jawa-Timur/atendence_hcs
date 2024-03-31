@@ -11,12 +11,14 @@ class ListKaryawanController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListKaryawan(nip) async {
+  Future<void> getListKaryawan(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/karyawan?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/karyawan?page=$page"
+            : "$base_url/karyawan?search=$nip"),
         headers: headers,
       );
 
@@ -25,7 +27,16 @@ class ListKaryawanController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          listKaryawanM = ListKaryawanModel.fromJson(json);
+          if (nip == "") {
+            if (listKaryawanM != null) {
+              var newData = ListKaryawanModel.fromJson(json);
+              listKaryawanM!.data.addAll(newData.data);
+            } else {
+              listKaryawanM = ListKaryawanModel.fromJson(json);
+            }
+          } else {
+            listKaryawanM = ListKaryawanModel.fromJson(json);
+          }
         } else {
           isEmptyData(true);
         }

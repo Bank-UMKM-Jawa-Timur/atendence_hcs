@@ -38,16 +38,16 @@ class Datum {
   String? kdBagian;
   String? kdJabatan;
   String? kdEntitas;
-  dynamic tanggalPenonaktifan;
+  String? tanggalPenonaktifan;
   String? statusJabatan;
-  dynamic ketJabatan;
-  String jk;
-  DateTime tanggalPengangkat;
-  DateTime tglMulai;
+  String? ketJabatan;
+  String? jk;
+  String? tanggalPengangkat;
+  String? tglMulai;
   String? noRekening;
   String? namaJabatan;
   String? namaBagian;
-  dynamic namaCabang;
+  String? namaCabang;
   String? displayJabatan;
 
   Datum({
@@ -81,8 +81,8 @@ class Datum {
         statusJabatan: json["status_jabatan"],
         ketJabatan: json["ket_jabatan"],
         jk: json["jk"],
-        tanggalPengangkat: DateTime.parse(json["tanggal_pengangkat"]),
-        tglMulai: DateTime.parse(json["tgl_mulai"]),
+        tanggalPengangkat: json["tanggal_pengangkat"],
+        tglMulai: json["tgl_mulai"],
         noRekening: json["no_rekening"],
         namaJabatan: json["nama_jabatan"],
         namaBagian: json["nama_bagian"],
@@ -101,10 +101,8 @@ class Datum {
         "status_jabatan": statusJabatan,
         "ket_jabatan": ketJabatan,
         "jk": jk,
-        "tanggal_pengangkat":
-            "${tanggalPengangkat.year.toString().padLeft(4, '0')}-${tanggalPengangkat.month.toString().padLeft(2, '0')}-${tanggalPengangkat.day.toString().padLeft(2, '0')}",
-        "tgl_mulai":
-            "${tglMulai.year.toString().padLeft(4, '0')}-${tglMulai.month.toString().padLeft(2, '0')}-${tglMulai.day.toString().padLeft(2, '0')}",
+        "tanggal_pengangkat": tanggalPengangkat,
+        "tgl_mulai": tglMulai,
         "no_rekening": noRekening,
         "nama_jabatan": namaJabatan,
         "nama_bagian": namaBagian,

@@ -22,13 +22,31 @@ class _KaryawanPageState extends State<KaryawanPage> {
   ListKaryawanController listKaryawanC = Get.find<ListKaryawanController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  int page = 1;
+  final controller = ScrollController();
   @override
   void initState() {
     super.initState();
-    print("refresh");
-    if (nip != "") {
-      listKaryawanC.getListKaryawan(nip);
-    }
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+    clearData();
+    listKaryawanC.getListKaryawan(nip, page);
+  }
+
+  clearData() {
+    page = 1;
+    listKaryawanC.listKaryawanM?.data.clear();
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    listKaryawanC.getListKaryawan(nip, page);
+    setState(() {});
   }
 
   @override
@@ -88,7 +106,9 @@ class _KaryawanPageState extends State<KaryawanPage> {
                         Expanded(
                           flex: 10,
                           child: Text(
-                            nip == "" ? nama : "$nip - $nama",
+                            nip == ""
+                                ? nama
+                                : "$nip - ${shortenLastName(nama)}",
                             style: const TextStyle(
                               color: cGrey_900,
                               fontSize: 15,
@@ -107,49 +127,54 @@ class _KaryawanPageState extends State<KaryawanPage> {
               ),
             ),
           ),
-          nip == ""
-              ? emptyData()
-              : Obx(
-                  () => listKaryawanC.isLoading.value
-                      ? loadingPage()
-                      : listKaryawanC.isEmptyData.value
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 100),
-                              child: emtyPage("Data untuk $nama kosong!"),
-                            )
-                          : Column(
-                              children: [
-                                spaceHeight(10),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemCount: listKaryawanC
-                                          .listKaryawanM?.data.length ??
-                                      0,
-                                  itemBuilder: (context, index) {
-                                    return cardListData(
-                                      listKaryawanC.listKaryawanM?.data[index]
-                                              .namaKaryawan ??
-                                          '-',
-                                      listKaryawanC.listKaryawanM?.data[index]
-                                              .displayJabatan
-                                              .toString()
-                                              .trim() ??
-                                          '-',
-                                      listKaryawanC
-                                              .listKaryawanM?.data[index].nik ??
-                                          '-',
-                                      listKaryawanC.listKaryawanM?.data[index]
-                                              .namaCabang ??
-                                          '-',
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                )
+          Obx(() => page == 1
+              ? listKaryawanC.isLoading.value
+                  ? loadingPage()
+                  : listKaryawanC.isEmptyData.value
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: emtyPage("Data untuk $nama kosong!"),
+                        )
+                      : cardDataItems()
+              : cardDataItems())
         ],
+      ),
+    );
+  }
+
+  Expanded cardDataItems() {
+    return Expanded(
+      child: ListView.builder(
+        controller: controller,
+        padding: const EdgeInsets.only(top: 10),
+        shrinkWrap: true,
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: listKaryawanC.listKaryawanM?.data.length ?? 0,
+        itemBuilder: (context, index) {
+          if (index < listKaryawanC.listKaryawanM!.data.length) {
+            return cardListData(
+              listKaryawanC.listKaryawanM?.data[index].namaKaryawan ?? '-',
+              listKaryawanC.listKaryawanM?.data[index].displayJabatan
+                      .toString()
+                      .trim() ??
+                  '-',
+              listKaryawanC.listKaryawanM?.data[index].nik ?? '-',
+              listKaryawanC.listKaryawanM?.data[index].namaCabang ?? '-',
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: !listKaryawanC.isEmptyData.value
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Tidak ada data lagi.",
+                        style: customTextStyle(FontWeight.w400, 15, cGrey_900),
+                      ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -192,63 +217,53 @@ class _KaryawanPageState extends State<KaryawanPage> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 42,
-                          height: 42,
-                          decoration: const BoxDecoration(
-                            color: cPrimary_300,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              shortTwoCaracterName(nama),
-                              style: customTextStyle(
-                                FontWeight.w800,
-                                15,
-                                cPrimary,
-                              ),
-                            ),
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: const BoxDecoration(
+                        color: cPrimary_300,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(50),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          shortTwoCaracterName(nama),
+                          style: customTextStyle(
+                            FontWeight.w800,
+                            15,
+                            cPrimary,
                           ),
                         ),
-                        spaceWidth(10),
-                        SizedBox(
-                          width: 200,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                shortenLastName(nama),
-                                style: customTextStyle(
-                                  FontWeight.w700,
-                                  14,
-                                  Colors.black,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                jabatan,
-                                style: customTextStyle(
-                                  FontWeight.w600,
-                                  12,
-                                  cGrey_700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                    const Icon(
-                      CommunityMaterialIcons.card_account_details_outline,
-                      color: cGrey_700,
-                    )
+                    spaceWidth(10),
+                    SizedBox(
+                      width: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            shortenLastName(nama),
+                            style: customTextStyle(
+                              FontWeight.w700,
+                              14,
+                              Colors.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            jabatan,
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 spaceHeight(15),
