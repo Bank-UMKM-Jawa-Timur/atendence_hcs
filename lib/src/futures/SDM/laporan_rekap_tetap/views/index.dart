@@ -413,91 +413,122 @@ class _LaporanRekapTetapState extends State<LaporanRekapTetap> {
                 spaceHeight(10),
                 spaceHeight(10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "NPWP",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
+                    SizedBox(
+                      width: Get.width / 2.4,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "NPWP",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
                             ),
-                            Text(
-                              npwp,
-                              style: customTextStyle(
-                                FontWeight.w800,
-                                13,
-                                cGrey_600,
-                              ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    spaceWidth(5),
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "PTKP",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
-                            ),
-                            Text(
-                              ptkp,
-                              style: customTextStyle(
-                                FontWeight.w800,
-                                13,
-                                cGrey_600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    spaceWidth(5),
-                    Expanded(
-                      flex: 2,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Total Bruto",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
-                            ),
-                            Text(
-                              FormatCurrency.convertToIdr(totalBruto, 0),
-                              style: customTextStyle(
-                                FontWeight.w800,
-                                13,
-                                cGrey_600,
-                              ),
-                            ),
-                          ],
-                        ),
+                    Text(
+                      npwp,
+                      style: customTextStyle(
+                        FontWeight.w800,
+                        12,
+                        cGrey_600,
                       ),
                     ),
                   ],
                 ),
-                spaceHeight(5)
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: Get.width / 2.4,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "PTKP",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
+                            ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      ptkp,
+                      style: customTextStyle(
+                        FontWeight.w800,
+                        12,
+                        cGrey_600,
+                      ),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: Get.width / 2.4,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Total Bruto",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
+                            ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      FormatCurrency.convertToIdr(totalBruto, 0),
+                      style: customTextStyle(
+                        FontWeight.w800,
+                        12,
+                        cGrey_600,
+                      ),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
               ],
             ),
           ),
