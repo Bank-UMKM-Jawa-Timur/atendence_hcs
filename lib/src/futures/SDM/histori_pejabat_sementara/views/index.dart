@@ -144,7 +144,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
                 ),
               ),
             ),
-            spaceHeight(10),
+            spaceHeight(2),
             Obx(
               () => page == 1
                   ? historiPjsC.isLoading.value
@@ -187,6 +187,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
           historiPjsC.getHistoriPjs(nip, page);
         },
         child: ListView.builder(
+          padding: const EdgeInsets.only(top: 10),
           controller: controller,
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -232,7 +233,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.all(
-            Radius.circular(5),
+            Radius.circular(7),
           ),
           border: Border.all(color: cGrey_700, width: 1),
         ),
@@ -338,7 +339,7 @@ class _HistoriPejabatSementaraState extends State<HistoriPejabatSementara> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
