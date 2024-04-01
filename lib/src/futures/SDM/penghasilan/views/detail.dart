@@ -47,17 +47,14 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
       backgroundColor: cGrey_200,
       appBar: appBarPrimary("Detail Penghasilan"),
       body: Obx(
-        () => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              page == 1
-                  ? detailPenghasilanC.isLoading.value
-                      ? loadingPage()
-                      : itemsDynamis()
-                  : itemsDynamis()
-            ],
-          ),
+        () => Column(
+          children: [
+            page == 1
+                ? detailPenghasilanC.isLoading.value
+                    ? loadingPage()
+                    : itemsDynamis()
+                : itemsDynamis()
+          ],
         ),
       ),
     );
@@ -66,6 +63,7 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
   Expanded itemsDynamis() {
     return Expanded(
       child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         controller: controller,
         itemCount: detailPenghasilanC.detailPenghasilanM!.data.length + 1,
         shrinkWrap: true,
@@ -84,7 +82,13 @@ class _DetailPenghasilanState extends State<DetailPenghasilan> {
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: Center(
                 child: !detailPenghasilanC.isEmptyData.value
-                    ? const CircularProgressIndicator()
+                    ? detailPenghasilanC.detailPenghasilanM!.data.length >= 10
+                        ? const CircularProgressIndicator()
+                        : Text(
+                            "Tidak ada data lagi.",
+                            style:
+                                customTextStyle(FontWeight.w400, 15, cGrey_900),
+                          )
                     : Text(
                         "Tidak ada data lagi.",
                         style: customTextStyle(FontWeight.w400, 15, cGrey_900),

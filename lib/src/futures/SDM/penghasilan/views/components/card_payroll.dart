@@ -34,6 +34,7 @@ Widget cardItemsPayroll(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,286 +127,686 @@ Widget cardItemsPayroll(
               color: cGrey_400,
             ),
             spaceHeight(10),
-            InkWell(
-              onTap: () {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: Text(
-                      'Potongan - ${shortenLastName(nama)}',
-                      style: customTextStyle(FontWeight.w600, 14, Colors.black),
-                    ),
-                    content: SizedBox(
-                      width: Get.width,
-                      height: 165,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'JP BPJS TK 1%',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        jpBpjsTK1,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                spaceWidth(5),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'DPP 5%',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        dpp5,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            spaceHeight(15),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Kredit Koperasi',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        kreditKoperasi,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                spaceWidth(5),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Luaran Koperasi',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        luaranKoperasi,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            spaceHeight(15),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Kredit Pegawai',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        kreditPegawai,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                spaceWidth(5),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Iuran IK',
-                                        style: customTextStyle(
-                                            FontWeight.w400, 12, Colors.black),
-                                      ),
-                                      Text(
-                                        iuranIk,
-                                        style: customTextStyle(
-                                            FontWeight.w700, 13, Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Gaji",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
                         ),
                       ),
-                    ),
-                    actions: <Widget>[
-                      InkWell(
-                        splashColor: cPrimary,
-                        onTap: () => Get.back(),
-                        child: Container(
-                          width: Get.width,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: cPrimary, width: 1.5),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "OK",
-                                style: TextStyle(color: cPrimary),
-                              ),
-                            ),
-                          ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
                         ),
-                      )
+                      ),
                     ],
                   ),
-                );
-              },
-              child: Container(
-                width: Get.width,
-                decoration: BoxDecoration(
-                  color: cPrimary,
-                  borderRadius: BorderRadius.circular(5),
                 ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Center(
-                    child: Text(
-                      "Detail Jamsostek",
-                      style: customTextStyle(FontWeight.w500, 11, Colors.white),
-                    ),
+                Text(
+                  gaji,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
                   ),
                 ),
-              ),
+              ],
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "No Rek",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  norek,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(7),
+            Text(
+              "Potongan",
+              style: customTextStyle(FontWeight.w700, 14, cPrimary),
+            ),
+            spaceHeight(7),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "JP BPJS TK 1%",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  jpBpjsTK1,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "DPP 5%",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  dpp5,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kredit Koprasi",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  kreditKoperasi,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Iuran Koprasi",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  luaranKoperasi,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kredit Pegawai",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  kreditKoperasi,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Iuran IK",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  iuranIk,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(10),
+            Container(
+              width: Get.width,
+              height: 1,
+              color: cGrey_400,
             ),
             spaceHeight(10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "No Rek",
-                          style: customTextStyle(
-                            FontWeight.w600,
-                            12,
-                            cGrey_700,
-                          ),
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Potongan",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
                         ),
-                        Text(
-                          norek,
-                          style: customTextStyle(
-                            FontWeight.w800,
-                            13,
-                            cGrey_600,
-                          ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                spaceWidth(5),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Total Potongan",
-                          style: customTextStyle(
-                            FontWeight.w600,
-                            12,
-                            cGrey_700,
-                          ),
-                        ),
-                        Text(
-                          totalPotongan,
-                          style: customTextStyle(
-                            FontWeight.w800,
-                            13,
-                            cGrey_600,
-                          ),
-                        ),
-                      ],
-                    ),
+                Text(
+                  totalPotongan,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
                   ),
                 ),
-                spaceWidth(5),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Total Diterima",
-                          style: customTextStyle(
-                            FontWeight.w600,
-                            12,
-                            cGrey_700,
-                          ),
-                        ),
-                        Text(
-                          totalDiterima,
-                          style: customTextStyle(
-                            FontWeight.w800,
-                            13,
-                            cGrey_600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
               ],
-            )
+            ),
+            spaceHeight(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: Get.width / 2.4,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Yang Diterima",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_900,
+                        ),
+                      ),
+                      Text(
+                        ":",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          13,
+                          cBlack,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  totalDiterima,
+                  style: customTextStyle(
+                    FontWeight.w800,
+                    12,
+                    cGrey_600,
+                  ),
+                ),
+              ],
+            ),
+            spaceHeight(10),
+            // InkWell(
+            //   onTap: () {
+            //     showDialog<String>(
+            //       context: context,
+            //       builder: (BuildContext context) => AlertDialog(
+            //         title: Text(
+            //           'Potongan - ${shortenLastName(nama)}',
+            //           style: customTextStyle(FontWeight.w600, 14, Colors.black),
+            //         ),
+            //         content: SizedBox(
+            //           width: Get.width,
+            //           height: 165,
+            //           child: Padding(
+            //             padding: const EdgeInsets.symmetric(vertical: 4),
+            //             child: Column(
+            //               children: [
+            //                 Row(
+            //                   children: [
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'JP BPJS TK 1%',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             jpBpjsTK1,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     spaceWidth(5),
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'DPP 5%',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             dpp5,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 spaceHeight(15),
+            //                 Row(
+            //                   children: [
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'Kredit Koperasi',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             kreditKoperasi,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     spaceWidth(5),
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'Luaran Koperasi',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             luaranKoperasi,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 spaceHeight(15),
+            //                 Row(
+            //                   children: [
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'Kredit Pegawai',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             kreditPegawai,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     spaceWidth(5),
+            //                     Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'Iuran IK',
+            //                             style: customTextStyle(
+            //                                 FontWeight.w400, 12, Colors.black),
+            //                           ),
+            //                           Text(
+            //                             iuranIk,
+            //                             style: customTextStyle(
+            //                                 FontWeight.w700, 13, Colors.black),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //         actions: <Widget>[
+            //           InkWell(
+            //             splashColor: cPrimary,
+            //             onTap: () => Get.back(),
+            //             child: Container(
+            //               width: Get.width,
+            //               decoration: BoxDecoration(
+            //                 border: Border.all(color: cPrimary, width: 1.5),
+            //                 borderRadius: BorderRadius.circular(5),
+            //               ),
+            //               child: const Center(
+            //                 child: Padding(
+            //                   padding: EdgeInsets.all(5),
+            //                   child: Text(
+            //                     "OK",
+            //                     style: TextStyle(color: cPrimary),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //     );
+            //   },
+            //   child: Container(
+            //     width: Get.width,
+            //     decoration: BoxDecoration(
+            //       color: cPrimary,
+            //       borderRadius: BorderRadius.circular(5),
+            //     ),
+            //     child: Padding(
+            //       padding:
+            //           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            //       child: Center(
+            //         child: Text(
+            //           "Detail Jamsostek",
+            //           style: customTextStyle(FontWeight.w500, 11, Colors.white),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // spaceHeight(10),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Expanded(
+            //       flex: 1,
+            //       child: SizedBox(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               "No Rek",
+            //               style: customTextStyle(
+            //                 FontWeight.w600,
+            //                 12,
+            //                 cGrey_700,
+            //               ),
+            //             ),
+            //             Text(
+            //               norek,
+            //               style: customTextStyle(
+            //                 FontWeight.w800,
+            //                 13,
+            //                 cGrey_600,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //     spaceWidth(5),
+            //     Expanded(
+            //       flex: 1,
+            //       child: SizedBox(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               "Total Potongan",
+            //               style: customTextStyle(
+            //                 FontWeight.w600,
+            //                 12,
+            //                 cGrey_700,
+            //               ),
+            //             ),
+            //             Text(
+            //               totalPotongan,
+            //               style: customTextStyle(
+            //                 FontWeight.w800,
+            //                 13,
+            //                 cGrey_600,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //     spaceWidth(5),
+            //     Expanded(
+            //       flex: 1,
+            //       child: SizedBox(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               "Total Diterima",
+            //               style: customTextStyle(
+            //                 FontWeight.w600,
+            //                 12,
+            //                 cGrey_700,
+            //               ),
+            //             ),
+            //             Text(
+            //               totalDiterima,
+            //               style: customTextStyle(
+            //                 FontWeight.w800,
+            //                 13,
+            //                 cGrey_600,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // )
           ],
         ),
       ),
