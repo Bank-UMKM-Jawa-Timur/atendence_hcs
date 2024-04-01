@@ -1,14 +1,18 @@
+import 'package:atendence_hcs/http/models/SDM/masa_pensiun/cabang_model.dart';
 import 'package:atendence_hcs/routes/route_name.dart';
 import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
+import 'package:atendence_hcs/src/futures/SDM/data_masa_pensiun/controllers/cabang_controller.dart';
 import 'package:atendence_hcs/src/futures/SDM/penghasilan/controllers/list_penghasilan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
+import 'package:atendence_hcs/utils/components/list_bulan.dart';
 import 'package:atendence_hcs/utils/components/my_appbar.dart';
 import 'package:atendence_hcs/utils/components/my_border.dart';
 import 'package:atendence_hcs/utils/components/my_format_currency.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,17 +24,22 @@ class ProsesPenghasilan extends StatefulWidget {
 }
 
 class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
+  ListBulan listBulan = Get.put(ListBulan());
   ListPenghasilanController penghasilanC =
       Get.find<ListPenghasilanController>();
+  CabangController cabangC = Get.find<CabangController>();
   String valueKategori = "Proses";
   final controller = ScrollController();
   int page = 1;
+  String? cabang;
+  DateTime valueYear = DateTime.now();
+  String? dropdownValueMonth;
 
   @override
   void initState() {
     super.initState();
-
-    penghasilanC.getListPenghasilan(valueKategori, page);
+    cabangC.getCabang();
+    penghasilanC.getListPenghasilan(valueKategori, page, cabang, valueYear);
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
         _fetchPage();
@@ -42,7 +51,7 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
     setState(() {
       page++;
     });
-    penghasilanC.getListPenghasilan(valueKategori, page);
+    penghasilanC.getListPenghasilan(valueKategori, page, cabang, valueYear);
     setState(() {});
   }
 
@@ -136,7 +145,9 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: Center(
                 child: !penghasilanC.isEmptyData.value
-                    ? const CircularProgressIndicator()
+                    ? penghasilanC.penghasilanM!.data.length >= 10
+                        ? const CircularProgressIndicator()
+                        : Container()
                     : Text(
                         "Tidak ada data lagi.",
                         style: customTextStyle(FontWeight.w400, 15, cGrey_900),
@@ -569,9 +580,11 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
               onChanged: (String? newValue) {
                 setState(() {
                   valueKategori = newValue!;
+                  page = 1;
                 });
                 penghasilanC.penghasilanM?.data.clear();
-                penghasilanC.getListPenghasilan(valueKategori, page);
+                penghasilanC.getListPenghasilan(
+                    valueKategori, page, cabang, valueYear);
               },
               items: ['Proses', 'Final'].map<DropdownMenuItem<String>>((value) {
                 return DropdownMenuItem<String>(
@@ -588,6 +601,299 @@ class _ProsesPenghasilanState extends State<ProsesPenghasilan> {
               }).toList(),
             ),
           ),
+        ),
+        cabangC.isLoading.value
+            ? const CircularProgressIndicator()
+            : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 7),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Cabang",
+                      style: customTextStyle(
+                        FontWeight.w600,
+                        12,
+                        cGrey_700,
+                      ),
+                    ),
+                    spaceHeight(4),
+                    DropdownButtonFormField<String>(
+                      hint: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("Pilih Cabang"),
+                      ),
+                      isDense: true,
+                      isExpanded: true,
+                      value: cabang,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(8),
+                        focusedBorder: focusedBorder,
+                        enabledBorder: enabledBorder,
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          cabang = newValue!;
+                        });
+                      },
+                      items: cabangC.cabangM?.data
+                          .map<DropdownMenuItem<String>>((item) {
+                        return DropdownMenuItem<String>(
+                          value: item.kdCabang,
+                          child: Text(
+                            "${item.kdCabang} - ${item.namaCabang}",
+                            style: customTextStyle(
+                              FontWeight.w500,
+                              15,
+                              cGrey_900,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+        spaceHeight(5),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0, bottom: 5),
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              "Pilih Tahun",
+                              style: customTextStyle(
+                                  FontWeight.w500, 17, cPrimary),
+                            ),
+                            surfaceTintColor: Colors.white,
+                            content: SizedBox(
+                              width: 300,
+                              height: 300,
+                              child: YearPicker(
+                                firstDate: DateTime(2023),
+                                lastDate: DateTime.now(),
+                                selectedDate: valueYear,
+                                initialDate: DateTime.now(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    valueYear = value;
+                                    // jamsostekC.tahun.value = value.getYear();
+                                  });
+                                  Get.back();
+                                },
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tahun",
+                        style: customTextStyle(
+                          FontWeight.w600,
+                          12,
+                          cGrey_700,
+                        ),
+                      ),
+                      spaceHeight(7),
+                      Container(
+                        width: Get.width,
+                        height: 47,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(width: 1, color: cGrey_700),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 10),
+                          child: Text(
+                            valueYear?.year.toString() ??
+                                DateTime.now().year.toString(),
+                            style:
+                                const TextStyle(fontSize: 16, color: cGrey_900),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            spaceWidth(5),
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Bulan",
+                      style: customTextStyle(
+                        FontWeight.w600,
+                        12,
+                        cGrey_700,
+                      )),
+                  spaceHeight(4),
+                  Container(
+                    width: Get.width,
+                    height: 65,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: DropdownButtonFormField<String>(
+                        hint: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text("Pilih Bulan"),
+                        ),
+                        isDense: true,
+                        isExpanded: true,
+                        value: dropdownValueMonth,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          focusedBorder: focusedBorder,
+                          enabledBorder: enabledBorder,
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValueMonth = newValue!;
+                            penghasilanC.bulan.value = newValue;
+                          });
+                        },
+                        items: listBulan.bulan
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value['type'],
+                            child: Text(
+                              value['nama'],
+                              style: customTextStyle(
+                                FontWeight.w500,
+                                15,
+                                cGrey_900,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        spaceHeight(5),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: cPrimary,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                width: Get.width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      page = 1;
+                    });
+                    penghasilanC.penghasilanM?.data.clear();
+                    penghasilanC.getListPenghasilan(
+                        valueKategori, page, cabang, valueYear);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: cPrimary,
+                    elevation: 0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        CommunityMaterialIcons.filter_outline,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      spaceWidth(5),
+                      const Text(
+                        "Tampilkan",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            spaceWidth(5),
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: cWhite,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                  border: Border.all(color: cPrimary, width: 2),
+                ),
+                width: Get.width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      page = 1;
+                      cabang = null;
+                      penghasilanC.bulan.value = "";
+                      dropdownValueMonth = null;
+                    });
+                    penghasilanC.penghasilanM?.data.clear();
+                    penghasilanC.getListPenghasilan(
+                      valueKategori,
+                      page,
+                      cabang,
+                      valueYear,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: cWhite,
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    "Reset",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: cPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         )
       ],
     );
