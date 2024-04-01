@@ -79,15 +79,15 @@ Widget listRincianData(
                             Colors.black,
                           ),
                         ),
-                        // spaceHeight(4),
-                        // Text(
-                        //   "Perubahan Terakhir",
-                        //   style: customTextStyle(
-                        //     FontWeight.w500,
-                        //     11,
-                        //     cGrey_700,
-                        //   ),
-                        // ),
+                        spaceHeight(4),
+                        Text(
+                          "Perubahan Terakhir",
+                          style: customTextStyle(
+                            FontWeight.w500,
+                            11,
+                            cGrey_700,
+                          ),
+                        ),
                       ],
                     )
                   ],
@@ -104,15 +104,15 @@ Widget listRincianData(
                         cPrimary,
                       ),
                     ),
-                    // spaceHeight(4),
-                    // Text(
-                    //   listRician[index]['date'],
-                    //   style: customTextStyle(
-                    //     FontWeight.w500,
-                    //     11,
-                    //     cGrey_700,
-                    //   ),
-                    // ),
+                    spaceHeight(4),
+                    Text(
+                      listRician[index]['date'],
+                      style: customTextStyle(
+                        FontWeight.w500,
+                        11,
+                        cGrey_700,
+                      ),
+                    ),
                   ],
                 )
               ],
