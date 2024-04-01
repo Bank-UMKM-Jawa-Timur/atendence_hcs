@@ -11,6 +11,8 @@ class ListPenghasilanController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
+  List<bool>? isActiveList;
+
   Future<void> getListPenghasilan(status, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
@@ -31,6 +33,10 @@ class ListPenghasilanController extends GetxController {
           } else {
             penghasilanM = ListPenghasilanModel.fromJson(json);
           }
+          isActiveList = List.generate(
+            penghasilanM?.data.length ?? 0,
+            (index) => false,
+          );
         } else {
           isEmptyData(true);
         }
