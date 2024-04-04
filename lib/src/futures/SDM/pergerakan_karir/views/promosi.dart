@@ -55,7 +55,7 @@ class _PromosiPageState extends State<PromosiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Promosi",
@@ -128,7 +128,6 @@ class _PromosiPageState extends State<PromosiPage> {
               ),
             ),
           ),
-          spaceHeight(20),
           Obx(
             () => page == 1
                 ? promosiC.isLoading.value
@@ -151,6 +150,7 @@ class _PromosiPageState extends State<PromosiPage> {
         onRefresh: () => clearData(),
         child: ListView.builder(
           controller: controller,
+          padding: const EdgeInsets.symmetric(vertical: 10),
           itemCount: promosiC.promosiM?.data.length ?? 0,
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -222,7 +222,7 @@ class _PromosiPageState extends State<PromosiPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
