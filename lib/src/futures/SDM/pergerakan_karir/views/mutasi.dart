@@ -55,7 +55,7 @@ class _MutasiPageState extends State<MutasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Mutasi",
@@ -222,7 +222,7 @@ class _MutasiPageState extends State<MutasiPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
