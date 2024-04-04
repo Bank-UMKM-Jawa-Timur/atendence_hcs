@@ -17,7 +17,7 @@ Widget listRincianData(
     shrinkWrap: true,
     primary: false,
     padding: const EdgeInsets.all(0),
-    physics: const NeverScrollableScrollPhysics(),
+    physics: const AlwaysScrollableScrollPhysics(),
     itemBuilder: (context, index) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 5),
