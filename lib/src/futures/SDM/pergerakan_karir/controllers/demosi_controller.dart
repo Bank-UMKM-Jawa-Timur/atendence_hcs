@@ -15,7 +15,9 @@ class DemosiController extends GetxController {
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pergerakan-karir/demosi?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/pergerakan-karir/demosi?page=1"
+            : "$base_url/pergerakan-karir/demosi?search=$nip"),
         headers: headers,
       );
 
@@ -24,7 +26,12 @@ class DemosiController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData.value = false;
-          demosiM = ListDemosiModel.fromJson(json);
+          if (demosiM?.data != null) {
+            var newData = ListDemosiModel.fromJson(json);
+            demosiM!.data.addAll(newData.data);
+          } else {
+            demosiM = ListDemosiModel.fromJson(json);
+          }
         } else {
           isEmptyData.value = true;
         }

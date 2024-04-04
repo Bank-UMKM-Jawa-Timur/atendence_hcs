@@ -39,7 +39,6 @@ class MutasiController extends GetxController {
       } else {
         debugPrint(response.statusCode.toString());
       }
-      print(mutasiM!.data.length / page);
     } catch (e) {
       debugPrint(e.toString());
     } finally {

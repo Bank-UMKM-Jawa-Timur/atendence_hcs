@@ -1,5 +1,4 @@
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/controllers/demosi_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -20,6 +19,8 @@ class _DemosiPageState extends State<DemosiPage> {
   DemosiController demosiC = Get.find<DemosiController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
@@ -27,12 +28,33 @@ class _DemosiPageState extends State<DemosiPage> {
     if (nip != "") {
       demosiC.getListDemosi(nip);
     }
+    demosiC.getListDemosi(nip);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    demosiC.getListDemosi(nip);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    demosiC.demosiM?.data.clear();
+    setState(() {});
+    demosiC.getListDemosi(nip);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Demosi",
@@ -106,40 +128,66 @@ class _DemosiPageState extends State<DemosiPage> {
             ),
           ),
           spaceHeight(20),
-          nip == ""
-              ? emptyData("Demosi")
-              : Obx(
-                  () => demosiC.isLoading.value
-                      ? loadingPage()
-                      : demosiC.isEmptyData.value
-                          ? emtyPage("Mutasi $nama Masih Kosong!")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                backgroundColor: cPrimary,
-                                color: Colors.white,
-                                onRefresh: () => demosiC.getListDemosi(nip),
-                                child: ListView.builder(
-                                  itemCount: demosiC.demosiM?.data.length ?? 0,
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      demosiC.demosiM?.data[index]
-                                          .tanggalPengesahan,
-                                      demosiC.demosiM?.data[index].buktiSk,
-                                      demosiC.demosiM?.data[index].jabatanLama,
-                                      demosiC.demosiM?.data[index].jabatanBaru,
-                                      demosiC.demosiM?.data[index].kantorLama,
-                                      demosiC.demosiM?.data[index].kantorBaru,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                )
+          Obx(
+            () => page == 1
+                ? demosiC.isLoading.value
+                    ? loadingPage()
+                    : demosiC.isEmptyData.value
+                        ? emtyPage("Mutasi $nama Masih Kosong!")
+                        : cardDateItems()
+                : cardDateItems(),
+          )
         ],
+      ),
+    );
+  }
+
+  Expanded cardDateItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        backgroundColor: cPrimary,
+        color: Colors.white,
+        onRefresh: () => clearData(),
+        child: ListView.builder(
+          controller: controller,
+          itemCount: demosiC.demosiM!.data.length,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index < demosiC.demosiM!.data.length) {
+              return cardItems(
+                index + 1,
+                demosiC.demosiM?.data[index].tanggalPengesahan,
+                demosiC.demosiM?.data[index].buktiSk,
+                demosiC.demosiM?.data[index].jabatanLama,
+                demosiC.demosiM?.data[index].jabatanBaru,
+                demosiC.demosiM?.data[index].kantorLama,
+                demosiC.demosiM?.data[index].kantorBaru,
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !demosiC.isEmptyData.value
+                      ? (demosiC.demosiM!.data.length / page) >= 10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -174,7 +222,7 @@ class _DemosiPageState extends State<DemosiPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
