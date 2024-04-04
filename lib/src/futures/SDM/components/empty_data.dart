@@ -30,6 +30,7 @@ Widget emptyDataSetTitle(String title) {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        spaceHeight(60),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
           child: Image(

@@ -11,27 +11,35 @@ class MutasiController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListMutasi(nip) async {
+  getListMutasi(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pergerakan-karir/mutasi?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/pergerakan-karir/mutasi?page=$page"
+            : "$base_url/pergerakan-karir/mutasi?search=$nip"),
         headers: headers,
       );
 
+      var json = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
         var data = json['data'];
         if (data.length > 0) {
-          isEmptyData.value = false;
-          mutasiM = ListMutasiModel.fromJson(json);
+          isEmptyData(false);
+          if (mutasiM?.data != null) {
+            var newData = ListMutasiModel.fromJson(json);
+            mutasiM!.data.addAll(newData.data);
+          } else {
+            mutasiM = ListMutasiModel.fromJson(json);
+          }
         } else {
           isEmptyData.value = true;
         }
       } else {
         debugPrint(response.statusCode.toString());
       }
+      print(mutasiM!.data.length / page);
     } catch (e) {
       debugPrint(e.toString());
     } finally {

@@ -149,7 +149,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
         padding: const EdgeInsets.only(top: 10),
         shrinkWrap: true,
         physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: listKaryawanC.listKaryawanM?.data.length ?? 0,
+        itemCount: listKaryawanC.listKaryawanM!.data.length,
         itemBuilder: (context, index) {
           if (index < listKaryawanC.listKaryawanM!.data.length) {
             return cardListData(

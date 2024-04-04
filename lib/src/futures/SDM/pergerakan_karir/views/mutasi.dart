@@ -1,5 +1,4 @@
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/controllers/mutasi_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -21,14 +20,36 @@ class _MutasiPageState extends State<MutasiPage> {
   MutasiController mutasiC = Get.find<MutasiController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    print(nip);
     if (nip != "") {
-      mutasiC.getListMutasi(nip);
+      mutasiC.getListMutasi(nip, page);
     }
+    mutasiC.getListMutasi(nip, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    mutasiC.getListMutasi(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    mutasiC.mutasiM?.data.clear();
+    setState(() {});
+    mutasiC.getListMutasi(nip, page);
   }
 
   @override
@@ -108,46 +129,76 @@ class _MutasiPageState extends State<MutasiPage> {
             ),
           ),
           spaceHeight(20),
-          nip == ""
-              ? emptyData("Mutasi")
-              : Obx(
-                  () => mutasiC.isLoading.value
-                      ? loadingPage()
-                      : mutasiC.isEmptyData.value
-                          ? emtyPage("Mutasi $nama Masih Kosong!")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                backgroundColor: cPrimary,
-                                color: Colors.white,
-                                onRefresh: () => mutasiC.getListMutasi(nip),
-                                child: ListView.builder(
-                                  itemCount: mutasiC.mutasiM?.data.length ?? 0,
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      mutasiC.mutasiM?.data[index]
-                                          .tanggalPengesahan,
-                                      mutasiC.mutasiM?.data[index].buktiSk,
-                                      mutasiC.mutasiM?.data[index].jabatanLama,
-                                      mutasiC.mutasiM?.data[index].jabatanBaru,
-                                      mutasiC.mutasiM?.data[index].kantorLama,
-                                      mutasiC.mutasiM?.data[index].kantorBaru,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                )
+          Obx(
+            () => page == 1
+                ? mutasiC.isLoading.value
+                    ? loadingPage()
+                    : mutasiC.isEmptyData.value
+                        ? emtyPage("Mutasi $nama Masih Kosong!")
+                        : cardDataItems()
+                : cardDataItems(),
+          )
         ],
+      ),
+    );
+  }
+
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        backgroundColor: cPrimary,
+        color: Colors.white,
+        onRefresh: () => clearData(),
+        child: ListView.builder(
+          controller: controller,
+          itemCount: mutasiC.mutasiM!.data.length,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index <= mutasiC.mutasiM!.data.length) {
+              return cardItems(
+                index + 1,
+                mutasiC.mutasiM?.data[index].nip,
+                mutasiC.mutasiM?.data[index].namaKaryawan,
+                mutasiC.mutasiM?.data[index].tanggalPengesahan,
+                mutasiC.mutasiM?.data[index].buktiSk,
+                mutasiC.mutasiM?.data[index].jabatanLama,
+                mutasiC.mutasiM?.data[index].jabatanBaru,
+                mutasiC.mutasiM?.data[index].kantorLama,
+                mutasiC.mutasiM?.data[index].kantorBaru,
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !mutasiC.isEmptyData.value
+                      ? (mutasiC.mutasiM!.data.length / page) >= 10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 
   Padding cardItems(
     int no,
+    nip,
+    nama,
     tglMutasi,
     buktiSK,
     jabatanLama,
