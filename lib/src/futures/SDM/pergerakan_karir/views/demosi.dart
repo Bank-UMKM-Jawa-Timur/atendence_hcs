@@ -147,7 +147,9 @@ class _DemosiPageState extends State<DemosiPage> {
       child: RefreshIndicator(
         backgroundColor: cPrimary,
         color: Colors.white,
-        onRefresh: () => clearData(),
+        onRefresh: () async {
+          clearData();
+        },
         child: ListView.builder(
           controller: controller,
           itemCount: demosiC.demosiM!.data.length,

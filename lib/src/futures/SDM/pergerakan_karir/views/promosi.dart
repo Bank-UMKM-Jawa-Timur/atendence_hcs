@@ -147,7 +147,9 @@ class _PromosiPageState extends State<PromosiPage> {
       child: RefreshIndicator(
         backgroundColor: cPrimary,
         color: Colors.white,
-        onRefresh: () => clearData(),
+        onRefresh: () async {
+          clearData();
+        },
         child: ListView.builder(
           controller: controller,
           padding: const EdgeInsets.symmetric(vertical: 10),

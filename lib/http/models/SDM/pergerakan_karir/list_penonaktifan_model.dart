@@ -33,23 +33,23 @@ class ListPenonaktifanModel {
 
 class Datum {
   String nip;
-  String nik;
-  String namaKaryawan;
-  String kdBagian;
-  String kdJabatan;
-  String kdEntitas;
-  DateTime tanggalPenonaktifan;
-  String statusJabatan;
-  dynamic ketJabatan;
-  String jk;
-  DateTime tanggalPengangkat;
-  DateTime tglMulai;
-  String noRekening;
-  String kategoriPenonaktifan;
-  String namaJabatan;
-  String namaBagian;
-  String namaCabang;
-  String displayJabatan;
+  String? nik;
+  String? namaKaryawan;
+  String? kdBagian;
+  String? kdJabatan;
+  String? kdEntitas;
+  String? tanggalPenonaktifan;
+  String? statusJabatan;
+  String? ketJabatan;
+  String? jk;
+  String? tanggalPengangkat;
+  String? tglMulai;
+  String? noRekening;
+  String? kategoriPenonaktifan;
+  String? namaJabatan;
+  String? namaBagian;
+  String? namaCabang;
+  String? displayJabatan;
 
   Datum({
     required this.nip,
@@ -79,12 +79,12 @@ class Datum {
         kdBagian: json["kd_bagian"],
         kdJabatan: json["kd_jabatan"],
         kdEntitas: json["kd_entitas"],
-        tanggalPenonaktifan: DateTime.parse(json["tanggal_penonaktifan"]),
+        tanggalPenonaktifan: json["tanggal_penonaktifan"],
         statusJabatan: json["status_jabatan"],
         ketJabatan: json["ket_jabatan"],
         jk: json["jk"],
-        tanggalPengangkat: DateTime.parse(json["tanggal_pengangkat"]),
-        tglMulai: DateTime.parse(json["tgl_mulai"]),
+        tanggalPengangkat: json["tanggal_pengangkat"],
+        tglMulai: json["tgl_mulai"],
         noRekening: json["no_rekening"],
         kategoriPenonaktifan: json["kategori_penonaktifan"],
         namaJabatan: json["nama_jabatan"],
@@ -100,15 +100,12 @@ class Datum {
         "kd_bagian": kdBagian,
         "kd_jabatan": kdJabatan,
         "kd_entitas": kdEntitas,
-        "tanggal_penonaktifan":
-            "${tanggalPenonaktifan.year.toString().padLeft(4, '0')}-${tanggalPenonaktifan.month.toString().padLeft(2, '0')}-${tanggalPenonaktifan.day.toString().padLeft(2, '0')}",
+        "tanggal_penonaktifan": tanggalPenonaktifan,
         "status_jabatan": statusJabatan,
         "ket_jabatan": ketJabatan,
         "jk": jk,
-        "tanggal_pengangkat":
-            "${tanggalPengangkat.year.toString().padLeft(4, '0')}-${tanggalPengangkat.month.toString().padLeft(2, '0')}-${tanggalPengangkat.day.toString().padLeft(2, '0')}",
-        "tgl_mulai":
-            "${tglMulai.year.toString().padLeft(4, '0')}-${tglMulai.month.toString().padLeft(2, '0')}-${tglMulai.day.toString().padLeft(2, '0')}",
+        "tanggal_pengangkat": tanggalPengangkat,
+        "tgl_mulai": tglMulai,
         "no_rekening": noRekening,
         "kategori_penonaktifan": kategoriPenonaktifan,
         "nama_jabatan": namaJabatan,

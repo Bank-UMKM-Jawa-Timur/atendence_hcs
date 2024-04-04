@@ -10,12 +10,14 @@ class PenonaktifanController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListPenonaktifan(nip) async {
+  getListPenonaktifan(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pergerakan-karir/penonaktifan?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/pergerakan-karir/penonaktifan?page=$page"
+            : "$base_url/pergerakan-karir/penonaktifan?search=$nip"),
         headers: headers,
       );
 
@@ -24,11 +26,15 @@ class PenonaktifanController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData.value = false;
-          penonaktifanM = ListPenonaktifanModel.fromJson(json);
+          if (penonaktifanM?.data != null) {
+            var newData = ListPenonaktifanModel.fromJson(json);
+            penonaktifanM!.data.addAll(newData.data);
+          } else {
+            penonaktifanM = ListPenonaktifanModel.fromJson(json);
+          }
         } else {
           isEmptyData.value = true;
         }
-        print(json);
       } else {
         debugPrint(response.statusCode.toString());
       }

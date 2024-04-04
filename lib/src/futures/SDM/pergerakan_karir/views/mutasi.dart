@@ -148,7 +148,9 @@ class _MutasiPageState extends State<MutasiPage> {
       child: RefreshIndicator(
         backgroundColor: cPrimary,
         color: Colors.white,
-        onRefresh: () => clearData(),
+        onRefresh: () async {
+          clearData();
+        },
         child: ListView.builder(
           controller: controller,
           itemCount: mutasiC.mutasiM!.data.length,

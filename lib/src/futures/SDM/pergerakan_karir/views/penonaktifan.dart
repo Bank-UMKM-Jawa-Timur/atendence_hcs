@@ -1,12 +1,11 @@
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/controllers/penonaktifan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,19 +20,42 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
   PenonaktifanController penonaktifanC = Get.find<PenonaktifanController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     if (nip != "") {
-      penonaktifanC.getListPenonaktifan(nip);
+      penonaktifanC.getListPenonaktifan(nip, page);
     }
+    penonaktifanC.getListPenonaktifan(nip, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    penonaktifanC.getListPenonaktifan(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    penonaktifanC.penonaktifanM?.data.clear();
+    setState(() {});
+    penonaktifanC.getListPenonaktifan(nip, page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Penonaktifan",
@@ -106,56 +128,83 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
               ),
             ),
           ),
-          spaceHeight(20),
-          nip == ""
-              ? emptyData("Penonaktifan")
-              : Obx(
-                  () => penonaktifanC.isLoading.value
-                      ? loadingPage()
-                      : penonaktifanC.isEmptyData.value
-                          ? emtyPage("Penonaktifan $nama Masih Kosong!")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                backgroundColor: cPrimary,
-                                color: Colors.white,
-                                onRefresh: () =>
-                                    penonaktifanC.getListPenonaktifan(nip),
-                                child: ListView.builder(
-                                  itemCount: penonaktifanC
-                                          .penonaktifanM?.data.length ??
-                                      0,
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      penonaktifanC
-                                          .penonaktifanM?.data[index].nik,
-                                      penonaktifanC.penonaktifanM?.data[index]
-                                          .kategoriPenonaktifan,
-                                      penonaktifanC.penonaktifanM?.data[index]
-                                          .namaCabang,
-                                      penonaktifanC.penonaktifanM?.data[index]
-                                          .displayJabatan
-                                          .trim(),
-                                      penonaktifanC.penonaktifanM?.data[index]
-                                          .tanggalPenonaktifan
-                                          .fullDateAll()
-                                          .toString(),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                )
+          Obx(
+            () => page == 1
+                ? penonaktifanC.isLoading.value
+                    ? loadingPage()
+                    : penonaktifanC.isEmptyData.value
+                        ? emtyPage("Penonaktifan $nama Masih Kosong!")
+                        : cardDataItems()
+                : cardDataItems(),
+          )
         ],
+      ),
+    );
+  }
+
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        backgroundColor: cPrimary,
+        color: Colors.white,
+        onRefresh: () async {
+          clearData();
+        },
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          controller: controller,
+          itemCount: penonaktifanC.penonaktifanM!.data.length,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index < penonaktifanC.penonaktifanM!.data.length) {
+              return cardItems(
+                index + 1,
+                penonaktifanC.penonaktifanM?.data[index].nip,
+                penonaktifanC.penonaktifanM?.data[index].namaKaryawan,
+                penonaktifanC.penonaktifanM?.data[index].nik ?? '-',
+                penonaktifanC.penonaktifanM?.data[index].kategoriPenonaktifan ??
+                    '-',
+                penonaktifanC.penonaktifanM?.data[index].namaCabang ?? '-',
+                penonaktifanC.penonaktifanM?.data[index].displayJabatan
+                        ?.trim() ??
+                    '-',
+                penonaktifanC.penonaktifanM?.data[index].tanggalPenonaktifan
+                        .toString() ??
+                    '-',
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !penonaktifanC.isEmptyData.value
+                      ? (penonaktifanC.penonaktifanM!.data.length / page) >= 10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 
   Padding cardItems(
     int no,
+    nip,
+    nama,
     nik,
     katPenonaktifan,
     kantorTerakhir,
@@ -178,7 +227,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
@@ -222,7 +271,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                nama,
+                                shortenLastName(nama),
                                 style: customTextStyle(
                                   FontWeight.w700,
                                   14,
