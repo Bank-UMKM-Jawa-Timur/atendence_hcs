@@ -10,13 +10,13 @@ class DemosiController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListDemosi(nip) async {
+  Future<void> getListDemosi(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
         Uri.parse(nip == ""
-            ? "$base_url/pergerakan-karir/demosi?page=1"
+            ? "$base_url/pergerakan-karir/demosi?page=$page"
             : "$base_url/pergerakan-karir/demosi?search=$nip"),
         headers: headers,
       );

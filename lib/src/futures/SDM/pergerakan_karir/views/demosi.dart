@@ -26,9 +26,9 @@ class _DemosiPageState extends State<DemosiPage> {
   void initState() {
     super.initState();
     if (nip != "") {
-      demosiC.getListDemosi(nip);
+      demosiC.getListDemosi(nip, page);
     }
-    demosiC.getListDemosi(nip);
+    demosiC.getListDemosi(nip, page);
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
         _fetchPage();
@@ -40,7 +40,7 @@ class _DemosiPageState extends State<DemosiPage> {
     setState(() {
       page++;
     });
-    demosiC.getListDemosi(nip);
+    demosiC.getListDemosi(nip, page);
     setState(() {});
   }
 
@@ -48,7 +48,7 @@ class _DemosiPageState extends State<DemosiPage> {
     page = 1;
     demosiC.demosiM?.data.clear();
     setState(() {});
-    demosiC.getListDemosi(nip);
+    demosiC.getListDemosi(nip, page);
   }
 
   @override
