@@ -10,12 +10,16 @@ class PromosiController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListPromosi(nip) async {
+  Future<void> getListPromosi(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pergerakan-karir/promosi?search=$nip"),
+        Uri.parse(
+          nip == ""
+              ? "$base_url/pergerakan-karir/promosi?page=$page"
+              : "$base_url/pergerakan-karir/promosi?search=$nip",
+        ),
         headers: headers,
       );
 
@@ -24,7 +28,12 @@ class PromosiController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData.value = false;
-          promosiM = ListPromosiModel.fromJson(json);
+          if (promosiM?.data != null) {
+            var newData = ListPromosiModel.fromJson(json);
+            promosiM!.data.addAll(newData.data);
+          } else {
+            promosiM = ListPromosiModel.fromJson(json);
+          }
         } else {
           isEmptyData.value = true;
         }

@@ -20,13 +20,36 @@ class _PromosiPageState extends State<PromosiPage> {
   PromosiController promosiC = Get.find<PromosiController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     if (nip != '') {
-      promosiC.getListPromosi(nip);
+      promosiC.getListPromosi(nip, page);
     }
+    promosiC.getListPromosi(nip, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    promosiC.getListPromosi(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    promosiC.promosiM?.data.clear();
+    setState(() {});
+    promosiC.getListPromosi(nip, page);
   }
 
   @override
@@ -106,49 +129,76 @@ class _PromosiPageState extends State<PromosiPage> {
             ),
           ),
           spaceHeight(20),
-          nip == ""
-              ? emptyData("Mutasi")
-              : Obx(
-                  () => promosiC.isLoading.value
-                      ? loadingPage()
-                      : promosiC.isEmptyData.value
-                          ? emtyPage("Mutasi $nama Masih Kosong!")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                backgroundColor: cPrimary,
-                                color: Colors.white,
-                                onRefresh: () => promosiC.getListPromosi(nip),
-                                child: ListView.builder(
-                                  itemCount:
-                                      promosiC.promosiM?.data.length ?? 0,
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      promosiC.promosiM?.data[index]
-                                          .tanggalPengesahan,
-                                      promosiC.promosiM?.data[index].buktiSk,
-                                      promosiC
-                                          .promosiM?.data[index].jabatanLama,
-                                      promosiC
-                                          .promosiM?.data[index].jabatanBaru,
-                                      promosiC.promosiM?.data[index].kantorLama,
-                                      promosiC.promosiM?.data[index].kantorBaru,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                )
+          Obx(
+            () => page == 1
+                ? promosiC.isLoading.value
+                    ? loadingPage()
+                    : promosiC.isEmptyData.value
+                        ? emtyPage("Mutasi $nama Masih Kosong!")
+                        : cardDataItems()
+                : cardDataItems(),
+          )
         ],
+      ),
+    );
+  }
+
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        backgroundColor: cPrimary,
+        color: Colors.white,
+        onRefresh: () => clearData(),
+        child: ListView.builder(
+          controller: controller,
+          itemCount: promosiC.promosiM?.data.length ?? 0,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index < promosiC.promosiM!.data.length) {
+              return cardItems(
+                index + 1,
+                promosiC.promosiM?.data[index].nip,
+                promosiC.promosiM?.data[index].namaKaryawan,
+                promosiC.promosiM?.data[index].tanggalPengesahan,
+                promosiC.promosiM?.data[index].buktiSk,
+                promosiC.promosiM?.data[index].jabatanLama,
+                promosiC.promosiM?.data[index].jabatanBaru,
+                promosiC.promosiM?.data[index].kantorLama,
+                promosiC.promosiM?.data[index].kantorBaru,
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !promosiC.isEmptyData.value
+                      ? (promosiC.promosiM!.data.length / page) >= 10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 
   Padding cardItems(
     int no,
+    nip,
+    nama,
     tglPromosi,
     buktiSK,
     jabatanLama,
