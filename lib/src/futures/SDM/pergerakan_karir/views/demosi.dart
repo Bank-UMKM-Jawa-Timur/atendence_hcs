@@ -157,6 +157,8 @@ class _DemosiPageState extends State<DemosiPage> {
             if (index < demosiC.demosiM!.data.length) {
               return cardItems(
                 index + 1,
+                demosiC.demosiM?.data[index].nip,
+                demosiC.demosiM?.data[index].namaKaryawan,
                 demosiC.demosiM?.data[index].tanggalPengesahan,
                 demosiC.demosiM?.data[index].buktiSk,
                 demosiC.demosiM?.data[index].jabatanLama,
@@ -194,6 +196,8 @@ class _DemosiPageState extends State<DemosiPage> {
 
   Padding cardItems(
     int no,
+    nip,
+    nama,
     tglMutasi,
     buktiSK,
     jabatanLama,
