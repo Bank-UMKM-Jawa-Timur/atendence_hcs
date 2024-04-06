@@ -11,12 +11,16 @@ class ListPengkinianDataController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = true.obs;
 
-  Future<void> getListPengkinianData(nip) async {
+  Future<void> getListPengkinianData(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pengkinian-data?search=$nip"),
+        Uri.parse(
+          nip == ""
+              ? "$base_url/pengkinian-data?page=$page"
+              : "$base_url/pengkinian-data?search=$nip",
+        ),
         headers: headers,
       );
 
@@ -24,8 +28,13 @@ class ListPengkinianDataController extends GetxController {
       if (response.statusCode == 200) {
         var data = json['data'];
         if (data.length > 0) {
-          listPengkinianDataM = ListPengkinianDataModel.fromJson(json);
           isEmptyData(false);
+          if (listPengkinianDataM?.data != null) {
+            var newData = ListPengkinianDataModel.fromJson(json);
+            listPengkinianDataM!.data.addAll(newData.data);
+          } else {
+            listPengkinianDataM = ListPengkinianDataModel.fromJson(json);
+          }
         } else {
           isEmptyData(true);
         }

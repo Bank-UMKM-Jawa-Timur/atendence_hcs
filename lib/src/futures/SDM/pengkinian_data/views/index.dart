@@ -24,13 +24,33 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
       Get.find<ListPengkinianDataController>();
   String nip = Get.arguments[0]['nip'];
   String nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    if (nip != "") {
-      listPengkinianC.getListPengkinianData(nip);
-    }
+    listPengkinianC.getListPengkinianData(nip, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    listPengkinianC.getListPengkinianData(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    listPengkinianC.listPengkinianDataM?.data.clear();
+    setState(() {});
+    listPengkinianC.getListPengkinianData(nip, page);
   }
 
   @override
@@ -109,51 +129,81 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
               ),
             ),
           ),
-          nip == ""
-              ? emptyData("Pengkinian")
-              : Obx(
-                  () => listPengkinianC.isLoading.value
-                      ? loadingPage()
-                      : listPengkinianC.isEmptyData.value
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 100),
-                              child: emtyPage(
-                                "Pengkinian Data Untuk $nama masih kosong!",
-                              ),
-                            )
-                          : Column(
-                              children: [
-                                spaceHeight(10),
-                                ListView.builder(
-                                  itemCount: listPengkinianC
-                                          .listPengkinianDataM?.data.length ??
-                                      0,
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return cardListData(
-                                      listPengkinianC.listPengkinianDataM
-                                              ?.data[index].namaBagian ??
-                                          '-',
-                                      listPengkinianC.listPengkinianDataM
-                                              ?.data[index].nik ??
-                                          '-',
-                                      listPengkinianC.listPengkinianDataM
-                                              ?.data[index].kantor ??
-                                          '-',
-                                    );
-                                  },
-                                ),
-                              ],
+          Obx(
+            () => page == 1
+                ? listPengkinianC.isLoading.value
+                    ? loadingPage()
+                    : listPengkinianC.isEmptyData.value
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 100),
+                            child: emtyPage(
+                              "Pengkinian Data Untuk $nama masih kosong!",
                             ),
-                )
+                          )
+                        : cardDataItems()
+                : cardDataItems(),
+          )
         ],
       ),
     );
   }
 
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          clearData();
+        },
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          controller: controller,
+          itemCount: listPengkinianC.listPengkinianDataM!.data.length,
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            if (index < listPengkinianC.listPengkinianDataM!.data.length) {
+              return cardListData(
+                listPengkinianC.listPengkinianDataM?.data[index].nip ?? '-',
+                listPengkinianC.listPengkinianDataM?.data[index].namaKaryawan ??
+                    '-',
+                listPengkinianC.listPengkinianDataM?.data[index].namaBagian ??
+                    '-',
+                listPengkinianC.listPengkinianDataM?.data[index].nik ?? '-',
+                listPengkinianC.listPengkinianDataM?.data[index].kantor ?? '-',
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !listPengkinianC.isEmptyData.value
+                      ? (listPengkinianC.listPengkinianDataM!.data.length /
+                                  page) >=
+                              10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
   Padding cardListData(
+    nip,
+    nama,
     String jabatan,
     String nik,
     String kantor,
@@ -238,10 +288,10 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                         ),
                       ],
                     ),
-                    const Icon(
-                      CommunityMaterialIcons.card_account_details_outline,
-                      color: cGrey_700,
-                    )
+                    // const Icon(
+                    //   CommunityMaterialIcons.card_account_details_outline,
+                    //   color: cGrey_700,
+                    // )
                   ],
                 ),
                 spaceHeight(15),

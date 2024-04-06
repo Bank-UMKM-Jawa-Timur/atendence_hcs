@@ -36,18 +36,18 @@ class Datum {
   String nip;
   String nik;
   String namaKaryawan;
-  dynamic kdEntitas;
+  String? kdEntitas;
   String? kdJabatan;
-  String kdBagian;
-  dynamic ketJabatan;
-  String statusKaryawan;
-  String namaJabatan;
-  String statusJabatan;
-  String namaBagian;
+  String? kdBagian;
+  String? ketJabatan;
+  String? statusKaryawan;
+  String? namaJabatan;
+  String? statusJabatan;
+  String? namaBagian;
   int statusKantor;
-  dynamic namaCabang;
-  String displayJabatan;
-  String kantor;
+  String? namaCabang;
+  String? displayJabatan;
+  String? kantor;
 
   Datum({
     required this.id,
