@@ -162,7 +162,6 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
           itemCount: spC.spM!.data.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            print(spC.spM!.data.length);
             if (index + 1 < spC.spM!.data.length) {
               return cardItems(
                 index + 1,

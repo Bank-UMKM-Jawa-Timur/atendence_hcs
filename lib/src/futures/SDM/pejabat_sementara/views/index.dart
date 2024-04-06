@@ -157,7 +157,7 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: pjsC.pjsModel!.data.length,
           itemBuilder: (context, index) {
-            if (index < pjsC.pjsModel!.data.length) {
+            if (index + 1 < pjsC.pjsModel!.data.length) {
               return cardItems(
                 index + 1,
                 pjsC.pjsModel!.data[index].nip,
@@ -174,15 +174,7 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: Center(
                   child: !pjsC.isEmptyData.value
-                      ? (pjsC.pjsModel!.data.length / page) >= 10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
-                          : Container()
+                      ? const CircularProgressIndicator()
                       : Text(
                           "Tidak ada data lagi.",
                           style:
