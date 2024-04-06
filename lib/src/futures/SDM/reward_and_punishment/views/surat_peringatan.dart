@@ -1,5 +1,4 @@
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/reward_and_punishment/controllers/surat_peringatan_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
@@ -28,8 +27,7 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
   @override
   void initState() {
     super.initState();
-    spC.getListSP(nip, page);
-
+    clearData();
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
         _fetchPage();
@@ -162,7 +160,7 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
           itemCount: spC.spM!.data.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            if (index + 1 < spC.spM!.data.length) {
+            if (index < spC.spM!.data.length) {
               return cardItems(
                 index + 1,
                 spC.spM?.data[index].nip ?? '-',
@@ -176,7 +174,9 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: Center(
                   child: !spC.isEmptyData.value
-                      ? const CircularProgressIndicator()
+                      ? spC.spM!.data.length / page >= 10
+                          ? const CircularProgressIndicator()
+                          : Container()
                       : Text(
                           "Tidak ada data lagi.",
                           style:

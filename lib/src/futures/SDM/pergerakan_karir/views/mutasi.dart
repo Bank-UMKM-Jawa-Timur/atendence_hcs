@@ -157,7 +157,7 @@ class _MutasiPageState extends State<MutasiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index + 1 < mutasiC.mutasiM!.data.length) {
+            if (index < mutasiC.mutasiM!.data.length) {
               return cardItems(
                 index + 1,
                 mutasiC.mutasiM?.data[index].nip,

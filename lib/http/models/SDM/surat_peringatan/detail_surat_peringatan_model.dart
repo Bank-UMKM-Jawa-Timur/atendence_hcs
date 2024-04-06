@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final detailSuratPeringatanModel = detailSuratPeringatanModelFromJson(jsonString);
+
 import 'dart:convert';
 
 DetailSuratPeringatanModel detailSuratPeringatanModelFromJson(String str) =>
@@ -9,7 +13,7 @@ String detailSuratPeringatanModelToJson(DetailSuratPeringatanModel data) =>
 class DetailSuratPeringatanModel {
   int status;
   String message;
-  Data data;
+  List<Datum> data;
 
   DetailSuratPeringatanModel({
     required this.status,
@@ -21,34 +25,34 @@ class DetailSuratPeringatanModel {
       DetailSuratPeringatanModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
-class Data {
+class Datum {
   int id;
   String nip;
   DateTime tanggalSp;
-  dynamic noSp;
+  String? noSp;
   String? pelanggaran;
   String? sanksi;
-  dynamic fileSk;
+  String? fileSk;
   String? namaKaryawan;
   String? statusJabatan;
-  dynamic ketJabatan;
+  String? ketJabatan;
   String? namaJabatan;
   String? kdEntitas;
   String? namaCabang;
-  dynamic namaBagian;
+  String? namaBagian;
   String? displayJabatan;
 
-  Data({
+  Datum({
     required this.id,
     required this.nip,
     required this.tanggalSp,
@@ -66,7 +70,7 @@ class Data {
     required this.displayJabatan,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         nip: json["nip"],
         tanggalSp: DateTime.parse(json["tanggal_sp"]),

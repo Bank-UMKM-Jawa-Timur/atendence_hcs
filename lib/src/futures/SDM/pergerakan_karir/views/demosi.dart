@@ -156,7 +156,7 @@ class _DemosiPageState extends State<DemosiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index + 1 < demosiC.demosiM!.data.length) {
+            if (index < demosiC.demosiM!.data.length) {
               return cardItems(
                 index + 1,
                 demosiC.demosiM?.data[index].nip,

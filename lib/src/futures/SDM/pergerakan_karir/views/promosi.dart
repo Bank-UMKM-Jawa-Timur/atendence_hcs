@@ -157,7 +157,7 @@ class _PromosiPageState extends State<PromosiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index + 1 < promosiC.promosiM!.data.length) {
+            if (index < promosiC.promosiM!.data.length) {
               return cardItems(
                 index + 1,
                 promosiC.promosiM?.data[index].nip,

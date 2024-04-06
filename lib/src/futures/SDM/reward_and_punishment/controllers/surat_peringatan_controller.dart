@@ -13,7 +13,7 @@ class SuratPeringatanController extends GetxController {
   var isLoading = false.obs;
   var isLoadingDetail = false.obs;
   var isEmptyData = false.obs;
-  List listDetailSp = [];
+  List<dynamic> listDetailSp = [];
 
   Future<void> getListSP(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
@@ -43,6 +43,7 @@ class SuratPeringatanController extends GetxController {
       } else {
         debugPrint(response.statusCode.toString());
       }
+      print(json);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -65,35 +66,35 @@ class SuratPeringatanController extends GetxController {
         listDetailSp = [
           {
             "title": "NIP",
-            "value": detailSpM?.data.nip,
+            "value": detailSpM?.data[0].nip,
           },
           {
-            "title": "Nama Karywan",
-            "value": detailSpM?.data.namaKaryawan,
+            "title": "Nama Karyawan",
+            "value": detailSpM?.data[0].namaKaryawan ?? '-',
           },
           {
             "title": "No. SP",
-            "value": detailSpM?.data.noSp ?? '-',
+            "value": detailSpM?.data[0].noSp ?? '-',
           },
           {
             "title": "Tanggal SP",
-            "value": detailSpM?.data.tanggalSp.fullDateAll().toString(),
+            "value": detailSpM?.data[0].tanggalSp.getDayAndDate().toString(),
           },
           {
             "title": "Jabatan",
-            "value": detailSpM?.data.displayJabatan?.trim(),
+            "value": detailSpM?.data[0].displayJabatan ?? '-',
           },
           {
             "title": "Kantor",
-            "value": detailSpM?.data.namaCabang ?? '-',
+            "value": detailSpM?.data[0].namaCabang ?? '-',
           },
           {
             "title": "Pelanggan",
-            "value": detailSpM?.data.pelanggaran ?? '-',
+            "value": detailSpM?.data[0].pelanggaran ?? '-',
           },
           {
             "title": "Sanksi",
-            "value": detailSpM?.data.sanksi ?? '-',
+            "value": detailSpM?.data[0].sanksi ?? '-',
           },
         ];
       } else {

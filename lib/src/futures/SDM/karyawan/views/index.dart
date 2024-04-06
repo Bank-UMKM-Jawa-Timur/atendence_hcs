@@ -150,7 +150,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: listKaryawanC.listKaryawanM!.data.length,
         itemBuilder: (context, index) {
-          if (index + 1 < listKaryawanC.listKaryawanM!.data.length) {
+          if (index < listKaryawanC.listKaryawanM!.data.length) {
             return cardListData(
               listKaryawanC.listKaryawanM?.data[index].namaKaryawan ?? '-',
               listKaryawanC.listKaryawanM?.data[index].displayJabatan

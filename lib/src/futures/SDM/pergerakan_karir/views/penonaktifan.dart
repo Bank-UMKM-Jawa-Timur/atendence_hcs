@@ -157,7 +157,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index + 1 < penonaktifanC.penonaktifanM!.data.length) {
+            if (index < penonaktifanC.penonaktifanM!.data.length) {
               return cardItems(
                 index + 1,
                 penonaktifanC.penonaktifanM?.data[index].nip,
