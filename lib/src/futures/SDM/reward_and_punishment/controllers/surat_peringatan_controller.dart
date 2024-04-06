@@ -15,12 +15,14 @@ class SuratPeringatanController extends GetxController {
   var isEmptyData = false.obs;
   List listDetailSp = [];
 
-  Future<void> getListSP(nip) async {
+  Future<void> getListSP(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/surat-peringatan?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/surat-peringatan?page=$page"
+            : "$base_url/surat-peringatan?search=$nip"),
         headers: headers,
       );
 
@@ -29,7 +31,12 @@ class SuratPeringatanController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          spM = SuratPeringatanModel.fromJson(json);
+          if (spM?.data != null) {
+            var newData = SuratPeringatanModel.fromJson(json);
+            spM!.data.addAll(newData.data);
+          } else {
+            spM = SuratPeringatanModel.fromJson(json);
+          }
         } else {
           isEmptyData(true);
         }

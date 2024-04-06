@@ -22,19 +22,40 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
   SuratPeringatanController spC = Get.find<SuratPeringatanController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    if (nip != "") {
-      spC.getListSP(nip);
-    }
+    spC.getListSP(nip, page);
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    spC.getListSP(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    spC.spM?.data.clear();
+    setState(() {});
+    spC.getListSP(nip, page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Surat Peringatan",
@@ -109,44 +130,69 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
               ),
             ),
           ),
-          spaceHeight(20),
-          nip == ""
-              ? emptyData("Surat Peringatan")
-              : Obx(
-                  () => spC.isLoading.value
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 250),
-                          child: loadingPage(),
-                        )
-                      : spC.isEmptyData.value
-                          ? emtyPage(
-                              "Hasil Surat Peringatan untuk/n$nama masih kosong!")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                color: Colors.white,
-                                backgroundColor: cPrimary,
-                                onRefresh: () => spC.getListSP(nip),
-                                child: ListView.builder(
-                                  itemCount: spC.spM?.data.length ?? 0,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      spC.spM?.data[index].noSp ?? '-',
-                                      spC.spM?.data[index].tanggalSp.toString(),
-                                      spC.spM?.data[index].pelanggaran ?? '-',
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                )
+          Obx(
+            () => page == 1
+                ? spC.isLoading.value
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 250),
+                        child: loadingPage(),
+                      )
+                    : spC.isEmptyData.value
+                        ? emtyPage(
+                            "Hasil Surat Peringatan untuk/n$nama masih kosong!")
+                        : cardDataItems()
+                : cardDataItems(),
+          )
         ],
       ),
     );
   }
 
-  Padding cardItems(no, noSp, tglSp, pelanggaran) {
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: cPrimary,
+        onRefresh: () async {
+          clearData();
+        },
+        child: ListView.builder(
+          controller: controller,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          itemCount: spC.spM!.data.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            print(spC.spM!.data.length);
+            if (index + 1 < spC.spM!.data.length) {
+              return cardItems(
+                index + 1,
+                spC.spM?.data[index].nip ?? '-',
+                spC.spM?.data[index].namaKaryawan ?? '-',
+                spC.spM?.data[index].noSp ?? '-',
+                spC.spM?.data[index].tanggalSp.toString(),
+                spC.spM?.data[index].pelanggaran ?? '-',
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !spC.isEmptyData.value
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Padding cardItems(no, nip, nama, noSp, tglSp, pelanggaran) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
@@ -168,7 +214,7 @@ class _SuratPeringatanState extends State<SuratPeringatan> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
