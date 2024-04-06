@@ -5,6 +5,7 @@ import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:atendence_hcs/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,39 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
   PejabatSementaraController pjsC = Get.find<PejabatSementaraController>();
   var nip = Get.arguments[0]['nip'];
   var nama = Get.arguments[1]['nama'];
+  var page = 1;
+  final controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    if (nip != "") {
-      pjsC.getListPjs(nip);
-    }
+    pjsC.getListPjs(nip, page);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        _fetchPage();
+      }
+    });
+  }
+
+  _fetchPage() {
+    setState(() {
+      page++;
+    });
+    pjsC.getListPjs(nip, page);
+    setState(() {});
+  }
+
+  clearData() {
+    page = 1;
+    pjsC.pjsModel?.data.clear();
+    setState(() {});
+    pjsC.getListPjs(nip, page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cPrimary_200,
       appBar: AppBar(
         title: const Text(
           "Pejabat Sementara",
@@ -106,49 +127,85 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
               ),
             ),
           ),
-          spaceHeight(20),
-          nip == ""
-              ? emptyData("Pejabat Sementara")
-              : Obx(
-                  () => pjsC.isLoading.value
-                      ? loadingPage()
-                      : pjsC.isEmptyData.value
-                          ? emtyPage(
-                              "Hasil Pejabat Sementara untuk\n$nama Masih Kosong!.")
-                          : Expanded(
-                              child: RefreshIndicator(
-                                color: Colors.white,
-                                backgroundColor: cPrimary,
-                                onRefresh: () => pjsC.getListPjs(nip),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemCount: pjsC.pjsModel?.data.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return cardItems(
-                                      index + 1,
-                                      pjsC.pjsModel!.data[index].displayJabatan,
-                                      pjsC.pjsModel?.data[index].tanggalMulai
-                                          .fullDateAll()
-                                          .toString(),
-                                      pjsC.pjsModel!.data[index]
-                                              .tanggalBerakhir ??
-                                          '-',
-                                      pjsC.pjsModel!.data[index].statusPjs ??
-                                          '-',
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                ),
+          Obx(
+            () => page == 1
+                ? pjsC.isLoading.value
+                    ? loadingPage()
+                    : pjsC.isEmptyData.value
+                        ? emtyPage(
+                            "Hasil Pejabat Sementara untuk\n$nama Masih Kosong!.")
+                        : cardDataItems()
+                : cardDataItems(),
+          ),
         ],
       ),
     );
   }
 
-  Padding cardItems(int no, pejabatBPJ, mulai, berakhir, type) {
+  Expanded cardDataItems() {
+    return Expanded(
+      child: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: cPrimary,
+        onRefresh: () async {
+          clearData();
+        },
+        child: ListView.builder(
+          controller: controller,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: pjsC.pjsModel!.data.length,
+          itemBuilder: (context, index) {
+            if (index < pjsC.pjsModel!.data.length) {
+              return cardItems(
+                index + 1,
+                pjsC.pjsModel!.data[index].nip,
+                pjsC.pjsModel!.data[index].namaKaryawan,
+                pjsC.pjsModel!.data[index].displayJabatan,
+                pjsC.pjsModel?.data[index].tanggalMulai
+                    .fullDateAll()
+                    .toString(),
+                pjsC.pjsModel!.data[index].tanggalBerakhir ?? '-',
+                pjsC.pjsModel!.data[index].statusPjs ?? '-',
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: !pjsC.isEmptyData.value
+                      ? (pjsC.pjsModel!.data.length / page) >= 10
+                          ? Column(
+                              children: [
+                                spaceHeight(100),
+                                const CircularProgressIndicator(),
+                                spaceHeight(30),
+                              ],
+                            )
+                          : Container()
+                      : Text(
+                          "Tidak ada data lagi.",
+                          style:
+                              customTextStyle(FontWeight.w400, 15, cGrey_900),
+                        ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Padding cardItems(
+    int no,
+    nip,
+    nama,
+    pejabatBPJ,
+    mulai,
+    berakhir,
+    type,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: InkWell(
@@ -170,7 +227,7 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
               )
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(7),
+              Radius.circular(15),
             ),
           ),
           child: Padding(
@@ -214,7 +271,7 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                nama,
+                                shortenLastName(nama),
                                 style: customTextStyle(
                                   FontWeight.w700,
                                   14,
@@ -265,99 +322,139 @@ class _PejabatSementaraPageState extends State<PejabatSementaraPage> {
                 ),
                 spaceHeight(15),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Pejabat BPJ",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
+                    SizedBox(
+                      width: Get.width / 3.5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Pejabat BPJ",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
                             ),
-                            Text(
-                              pejabatBPJ,
-                              style: customTextStyle(
-                                FontWeight.w700,
-                                13,
-                                cGrey_600,
-                              ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     spaceWidth(10),
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mulai",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
-                            ),
-                            Text(
-                              mulai,
-                              style: customTextStyle(
-                                FontWeight.w700,
-                                13,
-                                cGrey_600,
-                              ),
-                            ),
-                          ],
+                    SizedBox(
+                      width: Get.width / 2.25,
+                      child: Text(
+                        pejabatBPJ,
+                        style: customTextStyle(
+                          FontWeight.w800,
+                          12,
+                          cGrey_600,
                         ),
+                        textAlign: TextAlign.start,
                       ),
                     ),
                   ],
                 ),
-                spaceHeight(15),
+                spaceHeight(5),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Berakhir",
-                              style: customTextStyle(
-                                FontWeight.w600,
-                                12,
-                                cGrey_700,
-                              ),
+                    SizedBox(
+                      width: Get.width / 3.5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Mulai",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
                             ),
-                            Text(
-                              berakhir != "-"
-                                  ? DateTime.parse(berakhir)
-                                      .fullDateAll()
-                                      .toString()
-                                  : berakhir,
-                              style: customTextStyle(
-                                FontWeight.w700,
-                                13,
-                                cGrey_600,
-                              ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    )
+                    ),
+                    spaceWidth(10),
+                    SizedBox(
+                      width: Get.width / 2.25,
+                      child: Text(
+                        mulai,
+                        style: customTextStyle(
+                          FontWeight.w800,
+                          12,
+                          cGrey_600,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
                   ],
                 ),
+                spaceHeight(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: Get.width / 3.5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Berakhir",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              12,
+                              cGrey_900,
+                            ),
+                          ),
+                          Text(
+                            ":",
+                            style: customTextStyle(
+                              FontWeight.w600,
+                              13,
+                              cBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    spaceWidth(10),
+                    SizedBox(
+                      width: Get.width / 2.25,
+                      child: Text(
+                        berakhir != "-"
+                            ? DateTime.parse(berakhir).fullDateAll().toString()
+                            : berakhir,
+                        style: customTextStyle(
+                          FontWeight.w800,
+                          12,
+                          cGrey_600,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
+                ),
+                spaceHeight(5),
               ],
             ),
           ),

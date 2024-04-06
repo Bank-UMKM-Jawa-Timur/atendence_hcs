@@ -11,12 +11,14 @@ class PejabatSementaraController extends GetxController {
   var isLoading = false.obs;
   var isEmptyData = false.obs;
 
-  Future<void> getListPjs(nip) async {
+  Future<void> getListPjs(nip, page) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       isLoading(true);
       http.Response response = await http.get(
-        Uri.parse("$base_url/pjs?search=$nip"),
+        Uri.parse(nip == ""
+            ? "$base_url/pjs?page=$page"
+            : "$base_url/pjs?search=$nip"),
         headers: headers,
       );
 
@@ -25,7 +27,12 @@ class PejabatSementaraController extends GetxController {
         var data = json['data'];
         if (data.length > 0) {
           isEmptyData(false);
-          pjsModel = PejabatSementaraModel.fromJson(json);
+          if (pjsModel?.data != null) {
+            var newData = PejabatSementaraModel.fromJson(json);
+            pjsModel!.data.addAll(newData.data);
+          } else {
+            pjsModel = PejabatSementaraModel.fromJson(json);
+          }
         } else {
           isEmptyData(true);
         }
