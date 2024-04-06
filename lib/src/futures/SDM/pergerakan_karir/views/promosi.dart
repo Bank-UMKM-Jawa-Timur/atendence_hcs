@@ -1,10 +1,10 @@
 import 'package:atendence_hcs/routes/route_name.dart';
-import 'package:atendence_hcs/src/futures/SDM/components/empty_data.dart';
 import 'package:atendence_hcs/src/futures/SDM/pergerakan_karir/controllers/promosi_controller.dart';
 import 'package:atendence_hcs/utils/components/all_widget.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
 import 'package:atendence_hcs/utils/components/empty_page.dart';
 import 'package:atendence_hcs/utils/components/my_loading.dart';
+import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -157,7 +157,7 @@ class _PromosiPageState extends State<PromosiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index < promosiC.promosiM!.data.length) {
+            if (index + 1 < promosiC.promosiM!.data.length) {
               return cardItems(
                 index + 1,
                 promosiC.promosiM?.data[index].nip,
@@ -175,13 +175,7 @@ class _PromosiPageState extends State<PromosiPage> {
                 child: Center(
                   child: !promosiC.isEmptyData.value
                       ? (promosiC.promosiM!.data.length / page) >= 10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
+                          ? const CircularProgressIndicator()
                           : Container()
                       : Text(
                           "Tidak ada data lagi.",
@@ -268,7 +262,7 @@ class _PromosiPageState extends State<PromosiPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                nama,
+                                shortenLastName(nama),
                                 style: customTextStyle(
                                   FontWeight.w700,
                                   14,

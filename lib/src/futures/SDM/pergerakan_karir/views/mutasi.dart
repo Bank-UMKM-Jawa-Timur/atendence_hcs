@@ -157,7 +157,7 @@ class _MutasiPageState extends State<MutasiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index <= mutasiC.mutasiM!.data.length) {
+            if (index + 1 < mutasiC.mutasiM!.data.length) {
               return cardItems(
                 index + 1,
                 mutasiC.mutasiM?.data[index].nip,
@@ -175,13 +175,7 @@ class _MutasiPageState extends State<MutasiPage> {
                 child: Center(
                   child: !mutasiC.isEmptyData.value
                       ? (mutasiC.mutasiM!.data.length / page) >= 10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
+                          ? const CircularProgressIndicator()
                           : Container()
                       : Text(
                           "Tidak ada data lagi.",

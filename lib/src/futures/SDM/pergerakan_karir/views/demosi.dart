@@ -156,7 +156,7 @@ class _DemosiPageState extends State<DemosiPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index < demosiC.demosiM!.data.length) {
+            if (index + 1 < demosiC.demosiM!.data.length) {
               return cardItems(
                 index + 1,
                 demosiC.demosiM?.data[index].nip,
@@ -174,13 +174,7 @@ class _DemosiPageState extends State<DemosiPage> {
                 child: Center(
                   child: !demosiC.isEmptyData.value
                       ? (demosiC.demosiM!.data.length / page) >= 10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
+                          ? const CircularProgressIndicator()
                           : Container()
                       : Text(
                           "Tidak ada data lagi.",

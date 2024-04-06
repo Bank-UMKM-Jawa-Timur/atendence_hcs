@@ -157,7 +157,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index < penonaktifanC.penonaktifanM!.data.length) {
+            if (index + 1 < penonaktifanC.penonaktifanM!.data.length) {
               return cardItems(
                 index + 1,
                 penonaktifanC.penonaktifanM?.data[index].nip,
@@ -179,13 +179,7 @@ class _PenonaktifanPageState extends State<PenonaktifanPage> {
                 child: Center(
                   child: !penonaktifanC.isEmptyData.value
                       ? (penonaktifanC.penonaktifanM!.data.length / page) >= 10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
+                          ? const CircularProgressIndicator()
                           : Container()
                       : Text(
                           "Tidak ada data lagi.",
