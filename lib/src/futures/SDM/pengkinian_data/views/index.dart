@@ -135,7 +135,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                     ? loadingPage()
                     : listPengkinianC.isEmptyData.value
                         ? Padding(
-                            padding: const EdgeInsets.only(top: 100),
+                            padding: const EdgeInsets.only(top: 30),
                             child: emtyPage(
                               "Pengkinian Data Untuk $nama masih kosong!",
                             ),
@@ -161,7 +161,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            if (index < listPengkinianC.listPengkinianDataM!.data.length) {
+            if (index + 1 < listPengkinianC.listPengkinianDataM!.data.length) {
               return cardListData(
                 listPengkinianC.listPengkinianDataM?.data[index].nip ?? '-',
                 listPengkinianC.listPengkinianDataM?.data[index].namaKaryawan ??
@@ -176,17 +176,7 @@ class _PengkinianDataPageState extends State<PengkinianDataPage> {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: Center(
                   child: !listPengkinianC.isEmptyData.value
-                      ? (listPengkinianC.listPengkinianDataM!.data.length /
-                                  page) >=
-                              10
-                          ? Column(
-                              children: [
-                                spaceHeight(100),
-                                const CircularProgressIndicator(),
-                                spaceHeight(30),
-                              ],
-                            )
-                          : Container()
+                      ? const CircularProgressIndicator()
                       : Text(
                           "Tidak ada data lagi.",
                           style:
