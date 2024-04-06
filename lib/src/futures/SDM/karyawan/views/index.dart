@@ -7,7 +7,6 @@ import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/my_short_two_caracter_name.dart';
 import 'package:atendence_hcs/utils/components/my_shoten_last_name.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -151,7 +150,7 @@ class _KaryawanPageState extends State<KaryawanPage> {
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: listKaryawanC.listKaryawanM!.data.length,
         itemBuilder: (context, index) {
-          if (index < listKaryawanC.listKaryawanM!.data.length) {
+          if (index + 1 < listKaryawanC.listKaryawanM!.data.length) {
             return cardListData(
               listKaryawanC.listKaryawanM?.data[index].namaKaryawan ?? '-',
               listKaryawanC.listKaryawanM?.data[index].displayJabatan
