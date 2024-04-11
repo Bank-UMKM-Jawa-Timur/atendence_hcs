@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:atendence_hcs/http/models/profile/biodata_model.dart';
 import 'package:atendence_hcs/utils/base_url.dart';
 import 'package:atendence_hcs/utils/components/my_snacbar.dart';
-import 'package:atendence_hcs/utils/constant.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -65,6 +64,7 @@ class BiodataController extends GetxController {
         Uri.parse('$base_url/biodata/$nip'),
         headers: headers,
       );
+      print("object");
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
         biodataC = BiodataModel.fromJson(result);
@@ -96,9 +96,7 @@ class BiodataController extends GetxController {
           biodataC?.data.dataJabatan.pendidikanTerakhir,
           biodataC?.data.dataJabatan.pendidikanMajor,
           biodataC?.data.dataJabatan.skPengangkatan,
-          biodataC?.data.dataJabatan.tanggalPengangkatan
-              .fullDateAll()
-              .toString(),
+          biodataC?.data.dataJabatan.tanggalPengangkatan,
           biodataC?.data.dataJabatan.lamaKerja,
         ];
       } else {

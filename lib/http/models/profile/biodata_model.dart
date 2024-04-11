@@ -121,7 +121,7 @@ class DataJabatan {
   String? pendidikanTerakhir;
   String? pendidikanMajor;
   String? skPengangkatan;
-  DateTime tanggalPengangkatan;
+  String? tanggalPengangkatan;
   String? displayJabatan;
 
   DataJabatan({
@@ -152,7 +152,7 @@ class DataJabatan {
         pendidikanTerakhir: json["pendidikan_terakhir"],
         pendidikanMajor: json["pendidikan_major"],
         skPengangkatan: json["sk_pengangkatan"],
-        tanggalPengangkatan: DateTime.parse(json["tanggal_pengangkatan"]),
+        tanggalPengangkatan: json["tanggal_pengangkatan"],
         displayJabatan: json["display_jabatan"],
       );
 
@@ -168,8 +168,7 @@ class DataJabatan {
         "pendidikan_terakhir": pendidikanTerakhir,
         "pendidikan_major": pendidikanMajor,
         "sk_pengangkatan": skPengangkatan,
-        "tanggal_pengangkatan":
-            "${tanggalPengangkatan.year.toString().padLeft(4, '0')}-${tanggalPengangkatan.month.toString().padLeft(2, '0')}-${tanggalPengangkatan.day.toString().padLeft(2, '0')}",
+        "tanggal_pengangkatan": tanggalPengangkatan,
         "display_jabatan": displayJabatan,
       };
 }
