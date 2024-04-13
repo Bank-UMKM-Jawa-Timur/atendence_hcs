@@ -120,9 +120,11 @@ class _ProfileSayaState extends State<ProfileSaya> {
               ),
             ),
             if (biodataC.isActive.value == 0)
-              biodataKaryawan(biodataC.dataBiodataKaryawan)
+              biodataC.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : biodataKaryawan(biodataC.dataBiodataKaryawan)
             else if (biodataC.isActive.value == 1)
-              dataKaryawan()
+              dataKaryawan(biodataC.dataKaryawanValue)
             else if (biodataC.isActive.value == 2)
               norekAndNpwp()
             else if (biodataC.isActive.value == 3)
