@@ -32,6 +32,7 @@ class BiodataController extends GetxController {
   // NEW
   List dataBiodataKaryawan = [].obs;
   List dataKaryawanValue = [].obs;
+  List dataNorekAndNpwp = [].obs;
 
   // Norek & NPWP
   List<dynamic> titleNorekAndNpwp = [
@@ -68,8 +69,8 @@ class BiodataController extends GetxController {
         Uri.parse('$base_url/biodata/$nip'),
         headers: headers,
       );
+      var result = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        var result = jsonDecode(response.body);
         biodataC = BiodataModel.fromJson(result);
 
         // New
@@ -103,56 +104,62 @@ class BiodataController extends GetxController {
           biodataC?.data.dataJabatan.lamaKerja,
         ];
 
-        // -------------
-
-        dataTitleBioDataDiri = [
-          biodataC?.data.biodata.nip,
-          biodataC?.data.biodata.nik,
-          biodataC?.data.biodata.namaKaryawan,
-          biodataC?.data.biodata.ttl,
-          biodataC?.data.biodata.umur,
-          biodataC?.data.biodata.agama,
-          biodataC?.data.biodata.jenisKelamin,
-          biodataC?.data.biodata.statusPernikahan,
-          biodataC?.data.biodata.kewarganegaraan,
-          biodataC?.data.biodata.alamatKtp,
-          biodataC?.data.biodata.alamatSek,
-        ];
-        dataTitleNorekAndNpwp = [
+        dataNorekAndNpwp = [
           biodataC?.data.norekNpwp.noRek,
           biodataC?.data.norekNpwp.npwp,
+          '-',
         ];
-        dataTitleDataJabatan = [
-          biodataC?.data.dataJabatan.displayJabatan,
-          biodataC?.data.dataJabatan.pangkat,
-          biodataC?.data.dataJabatan.golongan,
-          biodataC?.data.dataJabatan.statusKaryawan,
-          biodataC?.data.dataJabatan.statusJabatan,
-          biodataC?.data.dataJabatan.keteranganJabatan,
-          biodataC?.data.dataJabatan.tanggalMulai,
-          biodataC?.data.dataJabatan.pendidikanTerakhir,
-          biodataC?.data.dataJabatan.pendidikanMajor,
-          biodataC?.data.dataJabatan.skPengangkatan,
-          biodataC?.data.dataJabatan.tanggalPengangkatan,
-          biodataC?.data.dataJabatan.lamaKerja,
-        ];
+
+        // -------------
+
+        // dataTitleBioDataDiri = [
+        //   biodataC?.data.biodata.nip,
+        //   biodataC?.data.biodata.nik,
+        //   biodataC?.data.biodata.namaKaryawan,
+        //   biodataC?.data.biodata.ttl,
+        //   biodataC?.data.biodata.umur,
+        //   biodataC?.data.biodata.agama,
+        //   biodataC?.data.biodata.jenisKelamin,
+        //   biodataC?.data.biodata.statusPernikahan,
+        //   biodataC?.data.biodata.kewarganegaraan,
+        //   biodataC?.data.biodata.alamatKtp,
+        //   biodataC?.data.biodata.alamatSek,
+        // ];
+        // dataTitleNorekAndNpwp = [
+        //   biodataC?.data.norekNpwp.noRek,
+        //   biodataC?.data.norekNpwp.npwp,
+        // ];
+        // dataTitleDataJabatan = [
+        //   biodataC?.data.dataJabatan.displayJabatan,
+        //   biodataC?.data.dataJabatan.pangkat,
+        //   biodataC?.data.dataJabatan.golongan,
+        //   biodataC?.data.dataJabatan.statusKaryawan,
+        //   biodataC?.data.dataJabatan.statusJabatan,
+        //   biodataC?.data.dataJabatan.keteranganJabatan,
+        //   biodataC?.data.dataJabatan.tanggalMulai,
+        //   biodataC?.data.dataJabatan.pendidikanTerakhir,
+        //   biodataC?.data.dataJabatan.pendidikanMajor,
+        //   biodataC?.data.dataJabatan.skPengangkatan,
+        //   biodataC?.data.dataJabatan.tanggalPengangkatan,
+        //   biodataC?.data.dataJabatan.lamaKerja,
+        // ];
       } else {
         snackbarfailed("error fetching data ${response.statusCode}");
       }
 
-      if (isActive.value == 0) {
-        itemCountData.value = titleBioDataDiri.length;
-        dataListTitle = titleBioDataDiri;
-        dataListValue = dataTitleBioDataDiri;
-      } else if (isActive.value == 1) {
-        itemCountData.value = titleNorekAndNpwp.length;
-        dataListTitle = titleNorekAndNpwp;
-        dataListValue = dataTitleNorekAndNpwp;
-      } else {
-        itemCountData.value = titleDataJabatan.length;
-        dataListTitle = titleDataJabatan;
-        dataListValue = dataTitleDataJabatan;
-      }
+      // if (isActive.value == 0) {
+      //   itemCountData.value = titleBioDataDiri.length;
+      //   dataListTitle = titleBioDataDiri;
+      //   dataListValue = dataTitleBioDataDiri;
+      // } else if (isActive.value == 1) {
+      //   itemCountData.value = titleNorekAndNpwp.length;
+      //   dataListTitle = titleNorekAndNpwp;
+      //   dataListValue = dataTitleNorekAndNpwp;
+      // } else {
+      //   itemCountData.value = titleDataJabatan.length;
+      //   dataListTitle = titleDataJabatan;
+      //   dataListValue = dataTitleDataJabatan;
+      // }
     } catch (e) {
       snackbarfailed(e.toString());
     } finally {
