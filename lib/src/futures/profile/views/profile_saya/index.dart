@@ -1,6 +1,12 @@
 import 'package:atendence_hcs/src/futures/profile/controllers/biodata_controller.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/biodata_karyawan.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/bpjs.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/data_gaji.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/data_karyawan.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/data_potongan.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/histori.dart';
+import 'package:atendence_hcs/src/futures/profile/views/profile_saya/components/norek_npwp.dart';
 import 'package:atendence_hcs/utils/components/colors.dart';
-import 'package:atendence_hcs/utils/components/my_loading.dart';
 import 'package:atendence_hcs/utils/components/space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,14 +21,22 @@ class ProfileSaya extends StatefulWidget {
 class _ProfileSayaState extends State<ProfileSaya> {
   BiodataController biodataC = Get.find<BiodataController>();
   List<String> _tabs = [
-    'Bio Data Diri',
+    'Biodata\nKaryawan',
+    'Data Karyawan',
     'No Rek\n& NPWP',
-    'Data',
+    'BPJS &\n Ketenaga Kerjaan',
+    'Data Gaji\n&Tunjangan',
+    'Data Potongan',
+    'Histori',
   ];
   List<String> _bodyTabs = [
-    'Bio Data Diri',
-    'No Rek NPWP',
-    'Data',
+    'Biodata Karyawan',
+    'Data Karyawan',
+    'No Rek\n& NPWP',
+    'BPJS &\n Ketenaga Kerjaan',
+    'Data Gaji\n&Tunjangan',
+    'Data Potongan',
+    'Histori',
   ];
   @override
   void initState() {
@@ -35,7 +49,7 @@ class _ProfileSayaState extends State<ProfileSaya> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: cPrimary_200,
         appBar: AppBar(
           centerTitle: true,
           foregroundColor: Colors.white,
@@ -50,142 +64,76 @@ class _ProfileSayaState extends State<ProfileSaya> {
           backgroundColor: cPrimary,
           elevation: 1,
         ),
-        body: Obx(
-          () => biodataC.isLoading.value
-              ? loadingPage()
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Column(
-                    children: [
-                      spaceHeight(25),
-                      Container(
-                        height: 50,
-                        width: Get.width,
-                        decoration: const BoxDecoration(
-                          color: cGrey_300,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+        body: Column(
+          children: [
+            spaceHeight(10),
+            SizedBox(
+              height: 55,
+              child: Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                  ),
+                  itemCount: _tabs.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            biodataC.isActive.value = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: biodataC.isActive.value == index
+                                ? cPrimary
+                                : cWhite,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: ListView.builder(
-                          itemCount: _tabs.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  biodataC.isActive.value = index;
-                                });
-
-                                if (biodataC.isActive.value == 0) {
-                                  biodataC.itemCountData.value =
-                                      biodataC.titleBioDataDiri.length;
-                                  biodataC.dataListTitle =
-                                      biodataC.titleBioDataDiri;
-                                  biodataC.dataListValue =
-                                      biodataC.dataTitleBioDataDiri;
-                                } else if (biodataC.isActive.value == 1) {
-                                  biodataC.itemCountData.value =
-                                      biodataC.titleNorekAndNpwp.length;
-                                  biodataC.dataListTitle =
-                                      biodataC.titleNorekAndNpwp;
-                                  biodataC.dataListValue =
-                                      biodataC.dataTitleNorekAndNpwp;
-                                } else {
-                                  biodataC.itemCountData.value =
-                                      biodataC.titleDataJabatan.length;
-                                  biodataC.dataListTitle =
-                                      biodataC.titleDataJabatan;
-                                  biodataC.dataListValue =
-                                      biodataC.dataTitleDataJabatan;
-                                }
-                              },
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 500),
-                                width: (Get.width - 50) / 3,
-                                height: 50,
-                                decoration: BoxDecoration(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Center(
+                              child: Text(
+                                _tabs[index],
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                   color: biodataC.isActive.value == index
-                                      ? cPrimary
-                                      : cGrey_300,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    _tabs[index],
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: biodataC.isActive.value == index
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                  ),
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ),
-                      spaceHeight(30),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        child: Expanded(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: biodataC.itemCountData.value,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: Container(
-                                  width: Get.width,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  decoration: const BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: cGrey_400,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        biodataC.dataListTitle[index],
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: cGrey_700,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      spaceHeight(5),
-                                      Text(
-                                        biodataC.dataListValue?[index] ?? '-',
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
+              ),
+            ),
+            if (biodataC.isActive.value == 0)
+              biodataKaryawan(biodataC.dataBiodataKaryawan)
+            else if (biodataC.isActive.value == 1)
+              dataKaryawan()
+            else if (biodataC.isActive.value == 2)
+              norekAndNpwp()
+            else if (biodataC.isActive.value == 3)
+              bpjsKetenagaKerjaan()
+            else if (biodataC.isActive.value == 4)
+              dataGaji()
+            else if (biodataC.isActive.value == 5)
+              dataPotongan()
+            else if (biodataC.isActive.value == 6)
+              history()
+          ],
         ),
       ),
     );

@@ -28,6 +28,7 @@ class BiodataController extends GetxController {
     'Alamat Sekarang',
   ].obs;
   List dataTitleBioDataDiri = [].obs;
+  List dataBiodataKaryawan = [].obs;
 
   // Norek & NPWP
   List<dynamic> titleNorekAndNpwp = [
@@ -68,6 +69,18 @@ class BiodataController extends GetxController {
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
         biodataC = BiodataModel.fromJson(result);
+        dataBiodataKaryawan = [
+          biodataC?.data.biodata.nik,
+          biodataC?.data.biodata.namaKaryawan,
+          biodataC?.data.biodata.ttl,
+          biodataC?.data.biodata.umur,
+          biodataC?.data.biodata.agama,
+          biodataC?.data.biodata.jenisKelamin,
+          biodataC?.data.biodata.statusPernikahan,
+          biodataC?.data.biodata.kewarganegaraan,
+          biodataC?.data.biodata.alamatKtp,
+          biodataC?.data.biodata.alamatSek,
+        ];
         dataTitleBioDataDiri = [
           biodataC?.data.biodata.nip,
           biodataC?.data.biodata.nik,
