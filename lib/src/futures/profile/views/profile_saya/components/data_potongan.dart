@@ -51,9 +51,9 @@ Widget dataPotongan() {
                           ),
                         ),
                         spaceHeight(7),
-                        Text(
+                        const Text(
                           '-',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
